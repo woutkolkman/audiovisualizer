@@ -1,3 +1,7 @@
+# Toegevoegd
+*.qsf
+*.qpf
+
 # Need to keep all HDL files
 # *.vhd
 # *.v
