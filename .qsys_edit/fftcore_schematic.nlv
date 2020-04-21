@@ -1,0 +1,11 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst fftcore -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst fftcore.fft_module_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>fftcore</net_container>(SLAVE)fftcore.control_slave,(SLAVE)fft_module_0.control_slave) 1 0 1 NJ
+preplace netloc EXPORT<net_container>fftcore</net_container>(SLAVE)fft_module_0.clock_sink,(SLAVE)fftcore.clock_sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>fftcore</net_container>(MASTER)fftcore.avalon_master,(MASTER)fft_module_0.avalon_master) 1 1 1 N
+preplace netloc EXPORT<net_container>fftcore</net_container>(SLAVE)fft_module_0.reset_sink,(SLAVE)fftcore.reset_sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>fftcore</net_container>(SLAVE)fft_module_0.interrupt_sender,(SLAVE)fftcore.interrupt_sender) 1 0 1 NJ
+levelinfo -pg 1 0 110 460
+levelinfo -hier fftcore 120 150 350

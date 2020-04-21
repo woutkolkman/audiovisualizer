@@ -1,6 +1,7 @@
 # Toegevoegd
 *.qsf
 *.qpf
+output_files/
 
 # Need to keep all HDL files
 # *.vhd
