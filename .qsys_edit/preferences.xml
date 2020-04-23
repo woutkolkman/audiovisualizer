@@ -3,11 +3,11 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="31" />
+   <connections preferredWidth="159" />
    <irq preferredWidth="34" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
- <window width="1100" height="802" x="168" y="78" />
- <generation synthesis="VERILOG" simulation="VERILOG" path="_PROJECT_NAME_" />
+ <library expandedCategories="Library,Project" />
+ <window width="1695" height="1030" x="21" y="6" />
+ <generation synthesis="VHDL" simulation="VHDL" path="_PROJECT_NAME_" />
 </preferences>
