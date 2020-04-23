@@ -85,7 +85,7 @@
    {
       datum _lockedAddress
       {
-         value = "1";
+         value = "0";
          type = "boolean";
       }
       datum _tags
@@ -117,6 +117,11 @@
    }
    element onchip_memory2_0.s1
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "0";
