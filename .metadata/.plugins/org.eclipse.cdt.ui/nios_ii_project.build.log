@@ -1,0 +1,13 @@
+16:13:26 **** Build of configuration Nios II for project nios_ii_project ****
+make all 
+Info: Building ../nios_ii_project_bsp/
+C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../nios_ii_project_bsp/
+[BSP build complete]
+Info: Compiling Source/croutine.c to obj/default/Source/croutine.o
+nios2-elf-gcc -xc -MP -MMD -c -I../nios_ii_project_bsp//UCOSII/inc -I../nios_ii_project_bsp//HAL/inc -I../nios_ii_project_bsp/ -I../nios_ii_project_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -D__ucosii__    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/Source/croutine.o Source/croutine.c
+Source/croutine.c:28:22: fatal error: FreeRTOS.h: No such file or directory
+compilation terminated.
+make: *** [obj/default/Source/croutine.o] Error 1
+
+16:13:30 Build Finished (took 3s.954ms)
+
