@@ -1,0 +1,6 @@
+16:47:56 **** Clean-only build of configuration Nios II for project audiovisualizer ****
+make clean 
+[audiovisualizer clean complete]
+
+16:47:57 Build Finished (took 568ms)
+

@@ -1,0 +1,15 @@
+16:44:23 **** Incremental Build of configuration Nios II for project audiovisualizer ****
+make all 
+Building file: ../hello_ucosii.c
+Invoking: Nios II GCC C Compiler
+nios2-elf-gcc -I"C:\Users\simon\Documents\Git\audiovisualizer\software\audiovisualizer_bsp\HAL\inc" -I"C:\Users\simon\Documents\Git\audiovisualizer\software\audiovisualizer_bsp" -O2 -g -Wall -c -fmessage-length=0 -MMD -MP -MF"hello_ucosii.d" -MT"hello_ucosii.d" -o "hello_ucosii.o" "../hello_ucosii.c"
+In file included from ../hello_ucosii.c:32:0:
+C:\Users\simon\Documents\Git\audiovisualizer\software\audiovisualizer_bsp\HAL\inc/includes.h:22:23: fatal error: os_cfg.h: No such file or directory
+compilation terminated.
+make: *** [hello_ucosii.o] Error 1
+16:47:49 **** Clean-only build of configuration Nios II for project audiovisualizer_bsp ****
+make clean 
+[BSP clean complete]
+16:47:56 **** Clean-only build of configuration Nios II for project audiovisualizer ****
+make clean 
+[audiovisualizer clean complete]
