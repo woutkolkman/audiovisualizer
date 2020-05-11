@@ -22,14 +22,16 @@ package rgbmatrix is
     constant IMG_WIDTH_LOG2 : positive := positive(log2(real(IMG_WIDTH)));
 	 
 	 -- colors
-	 constant OFF				 : std_logic_vector(23 downto 0) := "000000000000000000000000";	--led off
-	 constant BLUE				 : std_logic_vector(23 downto 0) := "000000000000000011111111";	--led shows blue
-	 constant GREEN			 : std_logic_vector(23 downto 0) := "000000001111111100000000";	--led shows green
-	 constant CYAN				 : std_logic_vector(23 downto 0) := "000000001111111111111111";	--led shows cyan
-	 constant RED				 : std_logic_vector(23 downto 0) := "111111110000000000000000";	--led shows red
-	 constant PINK				 : std_logic_vector(23 downto 0) := "111111110000000011111111";	--led shows pink
-	 constant YELLOW			 : std_logic_vector(23 downto 0) := "111111111111111100000000";	--led shows yellow
-	 constant WHITE		 	 : std_logic_vector(23 downto 0) := "111111111111111111111111";	--led shows white
+	 constant OFF				 : std_logic_vector(23 downto 0) := "000000000000000000000000";	--led off / black
+	 constant BLUE				 : std_logic_vector(23 downto 0) := "000000000000000011111111";	
+	 constant LIME			 	 : std_logic_vector(23 downto 0) := "000000001111111100000000";	
+	 constant CYAN				 : std_logic_vector(23 downto 0) := "000000001111111111111111";	
+	 constant RED				 : std_logic_vector(23 downto 0) := "111111110000000000000000";	
+	 constant MAGENTA			 : std_logic_vector(23 downto 0) := "111111110000000011111111";	
+	 constant YELLOW			 : std_logic_vector(23 downto 0) := "111111111111111100000000";	
+	 constant WHITE		 	 	 : std_logic_vector(23 downto 0) := "111111111111111111111111";	--led shows white
 	 
-    
+     
+	 
+	 
 end rgbmatrix;

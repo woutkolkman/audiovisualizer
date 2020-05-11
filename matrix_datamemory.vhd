@@ -25,11 +25,13 @@ end matrix_datamemory;
 
 architecture behaviour of matrix_datamemory is
 
-	signal s_address_write : std_logic_vector(ADDR_WIDTH-1 downto 0);			
+	signal s_address_write : std_logic_vector(ADDR_WIDTH-1 downto 0);
+signal tempaddr : std_logic_vector(ADDR_WIDTH-1 downto 0);	
 
 	type ram is array(2**ADDR_WIDTH-1 downto 0) of std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal ramblck : ram;
 	begin
+	tempaddr <= "0000000000";
 	process(reset, data_ready_in, s_address_write, readready)
 	begin
 		if(reset = '1') then
@@ -39,7 +41,7 @@ architecture behaviour of matrix_datamemory is
 			ramblck(conv_integer(s_address_write)) <= data_in;
 		end if;
 		if(rising_edge(readready)) then
-			data_out <= ramblck(conv_integer(address_read));
+			data_out <= ramblck(conv_integer(tempaddr));
 		end if;
 	end process;
 	

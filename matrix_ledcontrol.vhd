@@ -150,7 +150,7 @@ architecture behaviour of matrix_ledcontrol is
 			if(column < IMG_WIDTH) then
 				next_state <= SRAMADDR;		--lees volgende adres, nog niet alle leds gehad
 			else
-				next_state <= SLEDADDR;		--volgende regel
+				next_state <= SLEDADDR;		--volgende lijn
 			end if;
 			
 		when SRAMADDR =>
