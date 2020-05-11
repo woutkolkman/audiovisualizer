@@ -3,7 +3,7 @@
 
 library ieee;
 USE ieee.std_logic_1164.ALL;
-use work.rgbmatrix.all;
+use work.rgbmatrix.all;	--config bestand: bevat standaardwaarden en definities voor kleuren voor de matrix.
 
 entity matrix_driver_top is
 	port(
@@ -40,7 +40,7 @@ architecture behaviour of matrix_driver_top is
         );
 	end component;
 	
-	component matrix_datamemory is												--bevat geheugenblokje om data in op te slaan
+	component matrix_datamemory is												--bevat geheugenblok om data in op te slaan
 		port (
 		reset : in std_logic;
 		data_ready_in : in std_logic;
@@ -59,7 +59,7 @@ architecture behaviour of matrix_driver_top is
 		
 	memory : matrix_datamemory port map(
 		reset => reset,
-		data_ready_in => READYTOWRITE,
+		data_ready_in => CLOCK,
 		data_in => data_incoming,
 		address_read => s_addr,
 		address_in => ADDR,

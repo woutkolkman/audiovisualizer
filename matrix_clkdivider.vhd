@@ -1,3 +1,6 @@
+--De matrix_clkdevider is een component wat zich binnen de matrix_ledcontrol bevindt.
+--Deze deelt een klok op in een kleinere klok. De matrix functioneert namelijk niet op de frequentie van de FPGA (50 MHz)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -30,7 +33,7 @@ begin
 			else	
 				count := count+1;
 			end if;
-			if(count > maxvalue/2) then
+			if(count > maxvalue/2) then		--helft van de tijd 0, andere helft van de tijd 1.
 				clk_out <= '1';
 			else
 				clk_out <= '0';

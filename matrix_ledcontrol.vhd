@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.rgbmatrix.all;
+use work.rgbmatrix.all;		--config bestand: bevat standaardwaarden en definities voor kleuren voor de matrix.
 
 entity matrix_ledcontrol is
     port (
@@ -51,7 +51,7 @@ architecture behaviour of matrix_ledcontrol is
 	clock : matrix_clkdivider
 		generic map (
 			in_freq => 50000000,		--50 MHz
-			out_freq => 10000000		--10MHz
+			out_freq => 10000000		--10 MHz
 		)
 		port map (
 			reset => reset,
@@ -59,6 +59,7 @@ architecture behaviour of matrix_ledcontrol is
 			clk_out => devidedclk
 		);
 	
+	--signals worden aan ports verbonden
 	clk_out <= s_clk;
 	rgb1_out <= rgb1;
 	rgb2_out <= rgb2;
@@ -75,7 +76,7 @@ architecture behaviour of matrix_ledcontrol is
 			state <= INIT;
 			column <= (others => '0');
 			bpp <= (others => '0');
-			ledaddr <= (others => '1');		
+			ledaddr <= (others => '1');	--Ledaddr wordt pas gebruikt nadat de waarde is gelatcht. Zodra deze gebruikt wordt, is deze dus 0.
 			ramaddr <= (others => '0');
 			rgb1 <= (others => '0');
 			rgb2 <= (others => '0');
@@ -125,17 +126,14 @@ architecture behaviour of matrix_ledcontrol is
 			next_state <= READ_DATA;
 		when READ_DATA =>
 			oe <=  '0';
-			if(upper_r > bpp) then
+			if(upper_r > bpp) then	-- als de data een 1 bevat, wordt de desbetreffende bit voor de leds ook 1 gemaakt. Dit herhaalt zich voor alle 6 de bits
 				r1 := '1';
-				
 			end if;
 			if(upper_g > bpp) then
 				g1 := '1';
-				
 			end if;
 			if(upper_b > bpp) then
 				b1 := '1';
-				
 			end if;
 			if(lower_r > bpp) then
 				r2 := '1';
@@ -161,7 +159,7 @@ architecture behaviour of matrix_ledcontrol is
 			next_state <= READ_DATA;
 			
 		when SLEDADDR =>
-			next_ledaddr <= std_logic_vector(unsigned(ledaddr)+1);
+			next_ledaddr <= std_logic_vector(unsigned(ledaddr)+1);	--ga naar volgende lijn, latch de waarden
 			next_column <= (others => '0');
 			next_state <= LATCH;
 			
@@ -178,14 +176,14 @@ architecture behaviour of matrix_ledcontrol is
 		-- a PIXEL_DEPTH of 3 results in a 18-bit word arranged RRRGGGBBBrrrgggbbb.
 		-- The following assignments break up this encoding into the human-readable
 		-- signals used above, or reconstruct it into LED data signals.
-		upper := unsigned(data(DATA_WIDTH-1 downto DATA_WIDTH/2));
-      lower := unsigned(data(DATA_WIDTH/2-1 downto 0));
-      upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);		 
-      upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);		
-      upper_b := upper(  PIXEL_DEPTH-1 downto 0);
-      lower_r := lower(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
-      lower_g := lower(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);
-      lower_b := lower(  PIXEL_DEPTH-1 downto 0);
+		upper := unsigned(data(DATA_WIDTH-1 downto DATA_WIDTH/2));--bovenste helft data (47 downto 24)
+      lower := unsigned(data(DATA_WIDTH/2-1 downto 0));			--onderste helft data (23 downto 0)
+      upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);	--47 downto 40	 
+      upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);	--39 downto 32	
+      upper_b := upper(  PIXEL_DEPTH-1 downto 0);					--31 downto 24
+      lower_r := lower(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH); 	--23 downto 16
+      lower_g := lower(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH); 	--15 downto 8
+      lower_b := lower(  PIXEL_DEPTH-1 downto 0);					-- 7 downto 0
       next_rgb1 <= r1 & g1 & b1;
       next_rgb2 <= r2 & g2 & b2;
 	end process;

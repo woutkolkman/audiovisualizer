@@ -20,7 +20,7 @@
 ## PROGRAM "Quartus Prime"
 ## VERSION "Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition"
 
-## DATE    "Mon May 11 12:41:10 2020"
+## DATE    "Mon May 11 16:13:06 2020"
 
 ##
 ## DEVICE  "EP4CE115F29C7"
@@ -39,10 +39,9 @@ set_time_format -unit ns -decimal_places 3
 # Create Clock
 #**************************************************************
 
-create_clock -name {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out} -period 1.000 -waveform { 0.000 0.500 } [get_registers {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]
-create_clock -name {CLOCK_50} -period 1.000 -waveform { 0.000 0.500 } [get_ports {CLOCK_50}]
-create_clock -name {matrix_frame:justexample|ready} -period 1.000 -waveform { 0.000 0.500 } [get_registers {matrix_frame:justexample|ready}]
-create_clock -name {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR} -period 1.000 -waveform { 0.000 0.500 } [get_registers {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]
+create_clock -name {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out} -period 100.000 -waveform { 0.000 50.000 } [get_registers { matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out }]
+create_clock -name {CLOCK_50} -period 20.000 -waveform { 0.000 10.000 } [get_ports { CLOCK_50 }]
+create_clock -name {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR} -period 100.000 -waveform { 0.000 50.000 } [get_registers { matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR }]
 
 
 #**************************************************************
@@ -63,32 +62,24 @@ create_clock -name {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|stat
 
 set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {CLOCK_50}]  0.020  
 set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {CLOCK_50}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {matrix_frame:justexample|ready}]  0.030  
-set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {matrix_frame:justexample|ready}]  0.030  
 set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.030  
 set_clock_uncertainty -rise_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.030  
 set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {CLOCK_50}]  0.020  
 set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {CLOCK_50}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {matrix_frame:justexample|ready}]  0.030  
-set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {matrix_frame:justexample|ready}]  0.030  
 set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.030  
 set_clock_uncertainty -fall_from [get_clocks {CLOCK_50}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.030  
-set_clock_uncertainty -rise_from [get_clocks {matrix_frame:justexample|ready}] -rise_to [get_clocks {matrix_frame:justexample|ready}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {matrix_frame:justexample|ready}] -fall_to [get_clocks {matrix_frame:justexample|ready}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_frame:justexample|ready}] -rise_to [get_clocks {matrix_frame:justexample|ready}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_frame:justexample|ready}] -fall_to [get_clocks {matrix_frame:justexample|ready}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
+set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
+set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
 set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
 set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
 set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
 set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
-set_clock_uncertainty -rise_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|state.SRAMADDR}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -rise_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
-set_clock_uncertainty -fall_from [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}] -fall_to [get_clocks {matrix_driver_top:matrixdriver|matrix_ledcontrol:matrix|matrix_clkdivider:clock|clk_out}]  0.020  
 
 
 #**************************************************************
