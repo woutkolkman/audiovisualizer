@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Mon May 11 10:09:39 CEST 2020
+ * Generated: Mon May 11 11:02:46 CEST 2020
  */
 
 /*
@@ -198,7 +198,7 @@
 
 #define ALT_MODULE_CLASS_bel_fft_project_0 bel_fft_project
 #define BEL_FFT_PROJECT_0_BASE 0x20000
-#define BEL_FFT_PROJECT_0_IRQ 0
+#define BEL_FFT_PROJECT_0_IRQ 9
 #define BEL_FFT_PROJECT_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define BEL_FFT_PROJECT_0_NAME "/dev/bel_fft_project_0"
 #define BEL_FFT_PROJECT_0_SPAN 4096

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nios_processor" kind="system" version="16.1" fabric="QSYS">
  <!-- Format version 16.1 203 (Future versions may contain additional information.) -->
- <!-- 2020.05.08.16:35:14 -->
+ <!-- 2020.05.11.11:00:03 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1588948468</value>
+  <value>1589187575</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -4513,7 +4513,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="internalIrqMaskSystemInfo">
    <type>long</type>
-   <value>1281</value>
+   <value>1792</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -10971,7 +10971,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="IRQ_MAP">
    <type>java.lang.String</type>
-   <value>0:0,1:8,2:10</value>
+   <value>0:9,1:8,2:10</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -13912,5 +13912,5 @@ parameters are a RESULT of the module parameters. -->
   <version>16.1</version>
  </plugin>
  <reportVersion>16.1 203</reportVersion>
- <uniqueIdentifier>0A002700000600000171F4B59C4A</uniqueIdentifier>
+ <uniqueIdentifier>94B86DF9BB170000017202F60DA9</uniqueIdentifier>
 </EnsembleReport>

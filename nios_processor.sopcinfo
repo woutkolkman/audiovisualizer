@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 16.1 203 (Future versions may contain additional information.) -->
- <!-- 2020.05.08.16:34:28 -->
+ <!-- 2020.05.11.10:59:35 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1588948468</value>
+  <value>1589187575</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -4435,7 +4435,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="internalIrqMaskSystemInfo">
    <type>long</type>
-   <value>1281</value>
+   <value>1792</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -5413,7 +5413,7 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>bel_fft_project_0</moduleName>
     <slaveName>interrupt_sender</slaveName>
     <name>bel_fft_project_0.interrupt_sender</name>
-    <interruptNumber>0</interruptNumber>
+    <interruptNumber>9</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
@@ -8336,7 +8336,7 @@ parameters are a RESULT of the module parameters. -->
    end="bel_fft_project_0.interrupt_sender">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>0</value>
+   <value>9</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>

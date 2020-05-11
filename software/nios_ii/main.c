@@ -1,3 +1,7 @@
+// poorten, te vinden in nios_processor.qsys
+#define adc 				(volatile int *) 0x00022050
+#define bel_fft_project				 (int *) 0x00020000
+
 #include <stdio.h>
 #include "includes.h"
 
