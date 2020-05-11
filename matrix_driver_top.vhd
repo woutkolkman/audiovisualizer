@@ -1,45 +1,33 @@
+--Matrix_driver_top is de toplevel van de driver.
+--Deze verbind een paar componenten (ledcontrol en memory) aan elkaar, zodat de matrix kan worden aangestuurd
+
 library ieee;
 USE ieee.std_logic_1164.ALL;
 use work.rgbmatrix.all;
 
 entity matrix_driver_top is
 	port(
-		CLOCK_50	:IN STD_LOGIC;
-		KEY	: in std_logic_vector(1 downto 0);
-		SW		: in std_logic_vector(17 downto 0);
-		LEDR : out std_logic_vector(17 downto 0);
-		LEDG : out std_logic_vector(0 downto 0);
-		GPIO		: OUT STD_LOGIC_VECTOR(12 downto 0)
+		CLOCK	:IN STD_LOGIC;			
+		RESET	: in std_logic;
+		DATA : in std_logic_vector(DATA_WIDTH-1 downto 0);
+		ADDR : in std_logic_vector(ADDR_WIDTH-1 downto 0);
+		READYTOWRITE : in std_logic;							--flag wanneer data klaar is om te schrijven
+		RESETLED : out std_logic;								--led om te tonen dat de reset 1 is
+		PINSOUT		: OUT STD_LOGIC_VECTOR(12 downto 0)
 		);
 end entity;
 
 architecture behaviour of matrix_driver_top is
 
-	signal addr : std_logic_vector(ADDR_WIDTH-1 downto 0);
-   signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);
-   signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal reset : std_logic;
-	signal devidedclk25 : std_logic;
+	signal s_addr : std_logic_vector(ADDR_WIDTH-1 downto 0);
+   signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);	--ingaande data
+   signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);	--uitgaande data
+	signal readready : std_logic;													--flag wanneer klaar om te lezen
 	
-	component matrix_clkdivider is
-		generic (
-			in_freq : natural;			
-			out_freq : natural			
-		);
-		
-		port (
-			clk_in : in std_logic;
-			reset : in std_logic;
-			clk_out : out std_logic
-		);
-	end component;
-	
-	
-	component matrix_ledcontrol is
+	component matrix_ledcontrol is												--leest data uit en geeft deze weer op de matrix
 		port (
 		clk_in 			: in std_logic;
 		reset 			: in std_logic;
-		
 		clk_out 			: out std_logic;
 		rgb1_out			: out std_logic_vector(2 downto 0);
 		rgb2_out			: out std_logic_vector(2 downto 0);
@@ -47,47 +35,56 @@ architecture behaviour of matrix_driver_top is
 		lat_out 			: out std_logic;
 		oe_out 			: out std_logic;
 		addr     		: out std_logic_vector(ADDR_WIDTH-1 downto 0);
-      data     		: in  std_logic_vector(DATA_WIDTH-1 downto 0)
+      data     		: in  std_logic_vector(DATA_WIDTH-1 downto 0);
+		readready		: out std_logic
         );
 	end component;
 	
-	begin
-	ledr <= sw;
+	component matrix_datamemory is												--bevat geheugenblokje om data in op te slaan
+		port (
+		reset : in std_logic;
+		data_ready_in : in std_logic;
+		data_in : in std_logic_vector(DATA_WIDTH - 1 downto 0);
+		address_read : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
+		address_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
+		data_out : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+		readready	: in std_logic
+	);
+	end component;
 	
-	reset <= not KEY(0);
-	ledg(0) <= reset;																	--
-	data_outgoing(DATA_WIDTH - 1 downto 18) <= (others => '1');
-	data_outgoing(17 downto 0) <= sw;
-	clk : matrix_clkdivider 
-		generic map (
-			in_freq => 50000000,
-			out_freq => 25000000
-		)
-		port map (
-			clk_in => CLOCK_50,
-			reset => reset,
-			clk_out => devidedclk25
-		);
+	begin
+	
+	RESETLED <= reset;
+	data_incoming <= DATA;					--ingaande data wordt op data_incloming gezet
+		
+	memory : matrix_datamemory port map(
+		reset => reset,
+		data_ready_in => READYTOWRITE,
+		data_in => data_incoming,
+		address_read => s_addr,
+		address_in => ADDR,
+		data_out => data_outgoing,
+		readready => readready
+		);		
 	
 	matrix : matrix_ledcontrol port map(
-		clk_in => devidedclk25,
+		clk_in => CLOCK,
 		reset => reset,
-		clk_out => GPIO(10),			--clk
-		rgb1_out(0) => GPIO(2),		--b1
-		rgb1_out(1) => GPIO(0),		--g1
-		rgb1_out(2) => GPIO(1),		--r1
-		rgb2_out(0) => GPIO(5),		--b2
-		rgb2_out(1) => GPIO(4),		--g2
-		rgb2_out(2) => GPIO(3),		--r2
-		ledaddr_out(0) => GPIO(6),	--a
-		ledaddr_out(1) => GPIO(7),	--b
-		ledaddr_out(2) => GPIO(8),	--c
-		ledaddr_out(3) => GPIO(9),	--d
-		lat_out => GPIO(11),			--lat
-		oe_out => GPIO(12),			--oe
-		
-		addr => addr,
-		data => data_outgoing
+		clk_out => PINSOUT(10),			--clk
+		rgb1_out(0) => PINSOUT(2),		--b1
+		rgb1_out(1) => PINSOUT(0),		--g1
+		rgb1_out(2) => PINSOUT(1),		--r1
+		rgb2_out(0) => PINSOUT(5),		--b2
+		rgb2_out(1) => PINSOUT(4),		--g2
+		rgb2_out(2) => PINSOUT(3),		--r2
+		ledaddr_out(0) => PINSOUT(6),	--a
+		ledaddr_out(1) => PINSOUT(7),	--b
+		ledaddr_out(2) => PINSOUT(8),	--c
+		ledaddr_out(3) => PINSOUT(9),	--d
+		lat_out => PINSOUT(11),			--lat
+		oe_out => PINSOUT(12),			--oe
+		addr => s_addr,
+		data => data_outgoing,
+		readready => readready
 		);
-			
 end architecture;

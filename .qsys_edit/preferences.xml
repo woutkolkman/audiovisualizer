@@ -3,12 +3,11 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="143" />
+   <connections preferredWidth="47" />
    <irq preferredWidth="34" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Basic Functions/Bridges and Adaptors/Streaming,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Library/Processors and Peripherals,Library/Interface Protocols/Transceiver PHY,Library/Interface Protocols/Ethernet,Library/University Program/Audio &amp; Video,Library/DSP/Video and Image Processing,Library/Memory Interfaces and Controllers,Library/Processors and Peripherals/Co-Processors,Library/Basic Functions/Configuration and Programming,Library/Basic Functions/Bridges and Adaptors,Library/DSP/Transforms,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Library/Processors and Peripherals/Co-Processors/Nios II Custom Instructions,Library/University Program/Generic IO,Library/University Program,Library/Basic Functions/Simulation; Debug and Verification/Verification,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Basic Functions/DMA,Library/Basic Functions/Simulation; Debug and Verification,Library/Basic Functions,Project,Library/Interface Protocols/PCI Express,Library/DSP,Library/Qsys Interconnect,Library,Library/Basic Functions/Simulation; Debug and Verification/Simulation,Library/Basic Functions/Arithmetic,Library/University Program/Clock,Library/Qsys Interconnect/Interrupt,Library/Processors and Peripherals/Peripherals,Library/University Program/Memory,Library/Interface Protocols,Library/Interface Protocols/PCI Express/Example Design Components,Library/Interface Protocols/Ethernet/Reference Design Components,Library/Interface Protocols/Transceiver PLL,Library/Basic Functions/On Chip Memory,Library/DSP/Filters,Library/DSP/Primitive DSP,Library/Memory Interfaces and Controllers/Flash,Library/Processors and Peripherals/Hard Processor Components,Library/Interface Protocols/Serial,Library/University Program/Audio &amp; Video/Video,Library/Qsys Interconnect/Memory-Mapped,Library/Basic Functions/Clocks; PLLs and Resets,Library/Qsys Interconnect/Memory-Mapped Alpha,Library/Basic Functions/DMA/mSGDMA Sub-core,Library/Memory Interfaces and Controllers/Memory Interfaces with UniPHY" />
+ <library expandedCategories="Library,Project" />
  <window width="1920" height="1050" x="0" y="0" />
  <generation synthesis="VERILOG" simulation="VERILOG" path="_PROJECT_NAME_" />
 </preferences>

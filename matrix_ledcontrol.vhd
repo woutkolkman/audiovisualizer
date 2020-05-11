@@ -7,7 +7,6 @@ entity matrix_ledcontrol is
     port (
 		clk_in 		: in std_logic;
 		reset 		: in std_logic;
-		
 		clk_out 		: out std_logic;
 		rgb1_out		: out std_logic_vector(2 downto 0);
 		rgb2_out		: out std_logic_vector(2 downto 0);
@@ -15,15 +14,29 @@ entity matrix_ledcontrol is
 		lat_out 		: out std_logic;
 		oe_out 		: out std_logic;
 		addr     	: out std_logic_vector(ADDR_WIDTH-1 downto 0);
-      data     	: in  std_logic_vector(DATA_WIDTH-1 downto 0)
+      data     	: in  std_logic_vector(DATA_WIDTH-1 downto 0);
+		readready	: out std_logic
       );
 end matrix_ledcontrol;
 
+
 architecture behaviour of matrix_ledcontrol is
-
-
-	signal rgb1, next_rgb1 : std_logic_vector(2 downto 0);
-	signal rgb2, next_rgb2 : std_logic_vector(2 downto 0);
+	component matrix_clkdivider is
+		generic (
+			in_freq : natural;			
+			out_freq : natural			
+		);
+		
+		port (
+			clk_in : in std_logic;
+			reset : in std_logic;
+			clk_out : out std_logic
+		);
+	end component;
+	signal devidedclk : std_logic;												--gesplitste klok
+	signal s_clk : std_logic;														--klok signal voor matrix
+	signal rgb1, next_rgb1 : std_logic_vector(2 downto 0);				--rgb1
+	signal rgb2, next_rgb2 : std_logic_vector(2 downto 0);				--rgb2
 	signal ledaddr, next_ledaddr : std_logic_vector(3 downto 0);
 	signal ramaddr, next_ramaddr :  std_logic_vector(ADDR_WIDTH-1 downto 0);
 	signal column, next_column : unsigned(IMG_WIDTH_LOG2 downto 0);
@@ -35,8 +48,18 @@ architecture behaviour of matrix_ledcontrol is
 	signal state, next_state : state_type;
 
 	begin
+	clock : matrix_clkdivider
+		generic map (
+			in_freq => 50000000,		--50 MHz
+			out_freq => 10000000		--10MHz
+		)
+		port map (
+			reset => reset,
+			clk_in => clk_in,
+			clk_out => devidedclk
+		);
 	
-	clk_out <= clk_in;
+	clk_out <= s_clk;
 	rgb1_out <= rgb1;
 	rgb2_out <= rgb2;
 	ledaddr_out <= ledaddr;
@@ -44,7 +67,7 @@ architecture behaviour of matrix_ledcontrol is
 	lat_out <= lat;
 	oe_out <= oe;
 	
-	process(reset, clk_in)
+	process(reset, devidedclk)
 	
 	
 	begin
@@ -52,11 +75,11 @@ architecture behaviour of matrix_ledcontrol is
 			state <= INIT;
 			column <= (others => '0');
 			bpp <= (others => '0');
-			ledaddr <= (others => '1');		--is used after latch, so will be incremented to 0
+			ledaddr <= (others => '1');		
 			ramaddr <= (others => '0');
 			rgb1 <= (others => '0');
 			rgb2 <= (others => '0');
-		elsif(rising_edge(clk_in)) then
+		elsif(rising_edge(devidedclk)) then
 			state <= next_state;
 			column <= next_column;
 			bpp <= next_bpp;
@@ -69,14 +92,14 @@ architecture behaviour of matrix_ledcontrol is
 	
 	process(state, column, bpp, ledaddr, ramaddr, rgb1, rgb2, data) is
 		variable upper, lower : unsigned(DATA_WIDTH/2-1 downto 0);
-      variable upper_r, upper_g, upper_b : unsigned(PIXEL_DEPTH-1 downto 0);
-      variable lower_r, lower_g, lower_b : unsigned(PIXEL_DEPTH-1 downto 0);
+      variable upper_r, upper_g, upper_b : unsigned(PIXEL_DEPTH-1 downto 0);	--bovenste helft matrix
+      variable lower_r, lower_g, lower_b : unsigned(PIXEL_DEPTH-1 downto 0);	--onderste helft matrix
       variable r1, g1, b1, r2, g2, b2 : std_logic;
 	
 	begin
 	
-		r1 := '0'; g1 := '0'; b1 := '0';
-		r2 := '0'; g2 := '0'; b2 := '0';
+		r1 := '0'; g1 := '0'; b1 := '0';	--startwaarde 0
+		r2 := '0'; g2 := '0'; b2 := '0';	--startwaarde 0
 	
 	next_column <= column;
 	next_bpp <= bpp;
@@ -85,8 +108,10 @@ architecture behaviour of matrix_ledcontrol is
 	next_rgb1 <= rgb1;
 	next_rgb2 <= rgb2;
 	
+	s_clk <= '0';
 	lat <= '0';
 	oe <= '1';		--active low
+	readready <= '0';
 	
 	case state is
 		when INIT =>
@@ -122,16 +147,19 @@ architecture behaviour of matrix_ledcontrol is
 				b2 := '1';
 			end if;
 			next_column <= column + 1;
-			if(column < PANEl_WIDTH) then
-				next_state <= SRAMADDR;
+			if(column < IMG_WIDTH) then
+				next_state <= SRAMADDR;		--lees volgende adres, nog niet alle leds gehad
 			else
-				next_state <= SLEDADDR;
+				next_state <= SLEDADDR;		--volgende regel
 			end if;
 			
 		when SRAMADDR =>
+			s_clk <= '1';
 			oe <= '0';
-			next_ramaddr <= std_logic_vector( unsigned(ramaddr) + 1 );
+			next_ramaddr <= std_logic_vector(unsigned(ramaddr)+1);	--ga naar volgend adres
+			readready <= '1';
 			next_state <= READ_DATA;
+			
 		when SLEDADDR =>
 			next_ledaddr <= std_logic_vector(unsigned(ledaddr)+1);
 			next_column <= (others => '0');
@@ -142,10 +170,18 @@ architecture behaviour of matrix_ledcontrol is
 			next_state <= INIT;
 		when others => NULL;
 	end case;
+	
+		-- Pixel data is given as 2 combined words, with the upper half containing
+		-- the upper pixel and the lower half containing the lower pixel. Inside
+		-- each half the pixel data is encoded in RGB order with multiple repeated
+		-- bits for each subpixel depending on the chosen color depth. For example,
+		-- a PIXEL_DEPTH of 3 results in a 18-bit word arranged RRRGGGBBBrrrgggbbb.
+		-- The following assignments break up this encoding into the human-readable
+		-- signals used above, or reconstruct it into LED data signals.
 		upper := unsigned(data(DATA_WIDTH-1 downto DATA_WIDTH/2));
       lower := unsigned(data(DATA_WIDTH/2-1 downto 0));
-      upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
-      upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);
+      upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);		 
+      upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);		
       upper_b := upper(  PIXEL_DEPTH-1 downto 0);
       lower_r := lower(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);
       lower_g := lower(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);
