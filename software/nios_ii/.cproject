@@ -14,12 +14,16 @@
 							<tool id="altera.tool.gnu.c.compiler.mingw.216392048" name="Nios II GCC C Compiler" superClass="altera.tool.gnu.c.compiler.mingw">
 								<option id="gnu.c.compiler.option.include.paths.630488658" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../..\nios_ii_bsp\HAL\inc&quot;"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp/drivers/inc"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1415451591" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="altera.tool.gnu.cpp.compiler.mingw.1081126037" name="Nios II GCC C++ Compiler" superClass="altera.tool.gnu.cpp.compiler.mingw">
 								<option id="gnu.cpp.compiler.option.include.paths.1369050027" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../..\nios_ii_bsp\HAL\inc&quot;"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp/drivers/inc"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.431163665" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -28,6 +32,8 @@
 							<tool id="altera.tool.gnu.assembler.mingw.1517367532" name="Nios II GCC Assembler" superClass="altera.tool.gnu.assembler.mingw">
 								<option id="gnu.both.asm.option.include.paths.1658183389" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../..\nios_ii_bsp\HAL\inc&quot;"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp"/>
+									<listOptionValue builtIn="false" value="../../nios_ii_bsp/drivers/inc"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.539308280" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
