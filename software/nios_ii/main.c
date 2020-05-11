@@ -6,6 +6,7 @@
 #include <stdio.h>
 //#include <stdlib.h> // voor delay(), mag later weg
 #include "includes.h"
+#include "altera_up_avalon_adc.h" // voor adc?
 
 // stacks
 #define	TASK_STACKSIZE	2048
