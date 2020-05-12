@@ -17,7 +17,7 @@ module nios_processor_mm_interconnect_0 (
 		output wire        bel_fft_project_0_avalon_master_readdatavalid,            //                                                   .readdatavalid
 		input  wire        bel_fft_project_0_avalon_master_write,                    //                                                   .write
 		input  wire [31:0] bel_fft_project_0_avalon_master_writedata,                //                                                   .writedata
-		input  wire [17:0] nios2_gen2_0_data_master_address,                         //                           nios2_gen2_0_data_master.address
+		input  wire [24:0] nios2_gen2_0_data_master_address,                         //                           nios2_gen2_0_data_master.address
 		output wire        nios2_gen2_0_data_master_waitrequest,                     //                                                   .waitrequest
 		input  wire [3:0]  nios2_gen2_0_data_master_byteenable,                      //                                                   .byteenable
 		input  wire        nios2_gen2_0_data_master_read,                            //                                                   .read
@@ -25,7 +25,7 @@ module nios_processor_mm_interconnect_0 (
 		input  wire        nios2_gen2_0_data_master_write,                           //                                                   .write
 		input  wire [31:0] nios2_gen2_0_data_master_writedata,                       //                                                   .writedata
 		input  wire        nios2_gen2_0_data_master_debugaccess,                     //                                                   .debugaccess
-		input  wire [17:0] nios2_gen2_0_instruction_master_address,                  //                    nios2_gen2_0_instruction_master.address
+		input  wire [24:0] nios2_gen2_0_instruction_master_address,                  //                    nios2_gen2_0_instruction_master.address
 		output wire        nios2_gen2_0_instruction_master_waitrequest,              //                                                   .waitrequest
 		input  wire        nios2_gen2_0_instruction_master_read,                     //                                                   .read
 		output wire [31:0] nios2_gen2_0_instruction_master_readdata,                 //                                                   .readdata
@@ -58,7 +58,7 @@ module nios_processor_mm_interconnect_0 (
 		output wire [3:0]  nios2_gen2_0_debug_mem_slave_byteenable,                  //                                                   .byteenable
 		input  wire        nios2_gen2_0_debug_mem_slave_waitrequest,                 //                                                   .waitrequest
 		output wire        nios2_gen2_0_debug_mem_slave_debugaccess,                 //                                                   .debugaccess
-		output wire [14:0] onchip_memory2_0_s1_address,                              //                                onchip_memory2_0_s1.address
+		output wire [15:0] onchip_memory2_0_s1_address,                              //                                onchip_memory2_0_s1.address
 		output wire        onchip_memory2_0_s1_write,                                //                                                   .write
 		input  wire [31:0] onchip_memory2_0_s1_readdata,                             //                                                   .readdata
 		output wire [31:0] onchip_memory2_0_s1_writedata,                            //                                                   .writedata
@@ -620,7 +620,7 @@ module nios_processor_mm_interconnect_0 (
 	);
 
 	altera_merlin_master_translator #(
-		.AV_ADDRESS_W                (18),
+		.AV_ADDRESS_W                (25),
 		.AV_DATA_W                   (32),
 		.AV_BURSTCOUNT_W             (1),
 		.AV_BYTEENABLE_W             (4),
@@ -680,7 +680,7 @@ module nios_processor_mm_interconnect_0 (
 	);
 
 	altera_merlin_master_translator #(
-		.AV_ADDRESS_W                (18),
+		.AV_ADDRESS_W                (25),
 		.AV_DATA_W                   (32),
 		.AV_BURSTCOUNT_W             (1),
 		.AV_BYTEENABLE_W             (4),
@@ -932,7 +932,7 @@ module nios_processor_mm_interconnect_0 (
 	);
 
 	altera_merlin_slave_translator #(
-		.AV_ADDRESS_W                   (15),
+		.AV_ADDRESS_W                   (16),
 		.AV_DATA_W                      (32),
 		.UAV_DATA_W                     (32),
 		.AV_BURSTCOUNT_W                (1),

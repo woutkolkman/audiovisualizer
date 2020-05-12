@@ -1,6 +1,8 @@
 // base addressen, te vinden in nios_processor.qsys
-#define ADC 				(volatile int *) 0x00022040
-#define BEL_FFT_PROJECT				 (int *) 0x00020000
+#define ADC 				(volatile int *) 0x00042040
+#define BEL_FFT_PROJECT				 (int *) 0x01005000
+#define TIMER_0				(volatile int *) 0x00042020
+#define ADC_ADDR 			ADC							/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
 // includes
 #include <stdio.h>
@@ -20,7 +22,6 @@ void TaskADCToFFT(void *pdata);
 
 // function prototypes
 int Bel_FFT_Init(void);
-int ADC_Init(void);
 
 // variables
 int ADC_value;
@@ -96,9 +97,8 @@ int main(void) {
 }
 
 void TaskStart(void *pdata) {
-//	printf("g"); // debug
+	printf("g");
 //	Bel_FFT_Init();
-//	ADC_Init();
 
     OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
 
@@ -108,45 +108,36 @@ void TaskStart(void *pdata) {
 }
 
 void TaskADCToFFT(void* pdata) {
-	while (1) {
-		//ADC_value = *ADC;
-		//*BEL_FFT_PROJECT = ADC_value;
-		printf("y"); // test
-		OSTimeDlyHMSM(0,0,1,0);
-	}
-}
-
-int ADC_Init(void) {
-	/* Replace these addresses with the base addresses of the ADC and LEDs in
-	* your Platform Designer project */
-	/*#define ADC_ADDR 0x00005000
-	#define LED_ADDR 0x00005020
-	int main (void){
 	volatile int * adc = (int*)(ADC_ADDR);
-	volatile int * led = (int*)(LED_ADDR);
+//	volatile int * led = (int*)(LED_ADDR);
 	unsigned int data;
 	int count;
 	int channel;
 	data = 0;
 	count = 0;
 	channel = 0;
-	while (1){
-	*(adc) = 0; //Start the ADC read
-	count += 1;
-	data = *(adc+channel); //Get the value of the selected channel
-	data = data/16; //Ignore the lowest 4 bits
-	*(led) = data; //Display the value on the LEDs
-	if (count==500000){
-	count = 0;
-	channel = !channel;
+
+	while (1) {
+//		printf("y"); // debug
+		OSTimeDlyHMSM(0,0,1,0);
+#if 1
+		*(adc) = 0; //Start the ADC read
+		count += 1;
+		data = *(adc+channel); //Get the value of the selected channel
+		data = data/16; //Ignore the lowest 4 bits
+//		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
+		printf("%d\n", data);
+		if (count==5){
+			count = 0;
+			channel = !channel;
+		}
+#endif
 	}
-	}*/
-	return 0;
 }
 
 int Bel_FFT_Init(void) {
 	// FFT_BASE is the base address of the FFT co-processor. Set bit 31 to bypass the cache on the NIOSII.
-/*
+
 	volatile struct bel_fft * belFftPtr = (struct bel_fft *) (FFT_BASE + 0x80000000);
 
 	int fin[FFT_LEN * 2] = {
@@ -160,23 +151,22 @@ int Bel_FFT_Init(void) {
 
 	belFftPtr->Foutadr = fout;
 
-	belFftPtr->Factors[0].M = 64;
-	belFftPtr->Factors[0].P = 4;
-	belFftPtr->Factors[1].M = 16;
-	belFftPtr->Factors[1].P = 4;
-	belFftPtr->Factors[2].M = 4;
-	belFftPtr->Factors[2].P = 4;
-	belFftPtr->Factors[3].M = 1;
-	belFftPtr->Factors[3].P = 4;
+	belFftPtr->Factors[0].M = 64;	// geen idee
+	belFftPtr->Factors[0].P = 4;	// geen idee
+	belFftPtr->Factors[1].M = 16;	// geen idee
+	belFftPtr->Factors[1].P = 4;	// geen idee
+	belFftPtr->Factors[2].M = 4;	// geen idee
+	belFftPtr->Factors[2].P = 4;	// geen idee
+	belFftPtr->Factors[3].M = 1;	// geen idee
+	belFftPtr->Factors[3].P = 4;	// geen idee
 
 	belFftPtr->Control.Start = 1;
-*/
 
 #if 0
 	while (! cfg->belFftPtr->Status.Int) {} // wacht totdat FFT is gestart?
 #else
-//	for (int c=1; c<=32767; c++) // korte delay
-//		for (int d=1; d<=32767; d++) {}
+	for (int c=1; c<=32767; c++) // korte delay
+		for (int d=1; d<=32767; d++) {}
 #endif
 	return 0;
 }
