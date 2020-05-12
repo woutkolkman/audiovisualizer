@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 12, 2020 11:20:25 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1589275225046</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>May 12, 2020 2:16:54 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1589285814319</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\intelFPGA_lite\projects\audiovisualizer\software\nios_ii_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\nios_processor.sopcinfo</SopcDesignFile>

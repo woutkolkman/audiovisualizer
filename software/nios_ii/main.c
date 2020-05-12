@@ -20,6 +20,7 @@ void TaskADCToFFT(void *pdata);
 
 // function prototypes
 int Bel_FFT_Init(void);
+int ADC_Init(void);
 
 // variables
 int ADC_value;
@@ -88,8 +89,6 @@ struct bel_fft { // Register structure, must be mapped to base address
 //
 
 int main(void) {
-//	Bel_FFT_Init();
-
 	OSInit(); // initialize ucos-ii
 	OSTaskCreate(TaskStart, (void *) 0, &TaskStartStack[TASK_STACKSIZE - 1], 5); // create new task
 	OSStart(); // start multitasking
@@ -97,10 +96,14 @@ int main(void) {
 }
 
 void TaskStart(void *pdata) {
+//	printf("g"); // debug
+//	Bel_FFT_Init();
+//	ADC_Init();
+
     OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
 
     while (1) {
-        OSTimeDly(10000);
+        OSTimeDly(100);
     }
 }
 
@@ -108,13 +111,42 @@ void TaskADCToFFT(void* pdata) {
 	while (1) {
 		//ADC_value = *ADC;
 		//*BEL_FFT_PROJECT = ADC_value;
+		printf("y"); // test
 		OSTimeDlyHMSM(0,0,1,0);
-		printf("y");
 	}
+}
+
+int ADC_Init(void) {
+	/* Replace these addresses with the base addresses of the ADC and LEDs in
+	* your Platform Designer project */
+	/*#define ADC_ADDR 0x00005000
+	#define LED_ADDR 0x00005020
+	int main (void){
+	volatile int * adc = (int*)(ADC_ADDR);
+	volatile int * led = (int*)(LED_ADDR);
+	unsigned int data;
+	int count;
+	int channel;
+	data = 0;
+	count = 0;
+	channel = 0;
+	while (1){
+	*(adc) = 0; //Start the ADC read
+	count += 1;
+	data = *(adc+channel); //Get the value of the selected channel
+	data = data/16; //Ignore the lowest 4 bits
+	*(led) = data; //Display the value on the LEDs
+	if (count==500000){
+	count = 0;
+	channel = !channel;
+	}
+	}*/
+	return 0;
 }
 
 int Bel_FFT_Init(void) {
 	// FFT_BASE is the base address of the FFT co-processor. Set bit 31 to bypass the cache on the NIOSII.
+/*
 	volatile struct bel_fft * belFftPtr = (struct bel_fft *) (FFT_BASE + 0x80000000);
 
 	int fin[FFT_LEN * 2] = {
@@ -138,13 +170,14 @@ int Bel_FFT_Init(void) {
 	belFftPtr->Factors[3].P = 4;
 
 	belFftPtr->Control.Start = 1;
+*/
+
 #if 0
 	while (! cfg->belFftPtr->Status.Int) {} // wacht totdat FFT is gestart?
 #else
-	for (int c=1; c<=32767; c++) // korte delay
-		for (int d=1; d<=32767; d++) {}
+//	for (int c=1; c<=32767; c++) // korte delay
+//		for (int d=1; d<=32767; d++) {}
 #endif
-
 	return 0;
 }
 

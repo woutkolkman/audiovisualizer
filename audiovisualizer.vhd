@@ -52,7 +52,7 @@ begin
 		
 	nios_ii : nios_processor port map (clk_clk => CLOCK_50, reset_reset_n => reset_pin, adc_0_external_interface_sclk => AUD_BCLK,
 												  adc_0_external_interface_cs_n => chip_selection, adc_0_external_interface_dout
-												  => AUD_DACDAT, adc_0_external_interface_din => AUD_ADCDAT);  
+												  => AUD_DACDAT, adc_0_external_interface_din => AUD_ADCDAT);
 	
 	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
 														 done => is_done, clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);

@@ -1,12 +1,12 @@
-# system info nios_processor on 2020.05.12.11:17:16
+# system info nios_processor on 2020.05.12.14:12:57
 system_info:
 name,value
 DEVICE,EP4CE115F29C7
 DEVICE_FAMILY,Cyclone IV E
-GENERATION_ID,1589275006
+GENERATION_ID,1589285548
 #
 #
-# Files generated for nios_processor on 2020.05.12.11:17:16
+# Files generated for nios_processor on 2020.05.12.14:12:57
 files:
 filepath,kind,attributes,module,is_top
 simulation/nios_processor.vhd,VHDL,,nios_processor,true
