@@ -88,7 +88,7 @@ struct bel_fft { // Register structure, must be mapped to base address
 //
 
 int main(void) {
-	Bel_FFT_Init();
+//	Bel_FFT_Init();
 
 	OSInit(); // initialize ucos-ii
 	OSTaskCreate(TaskStart, (void *) 0, &TaskStartStack[TASK_STACKSIZE - 1], 5); // create new task
@@ -119,7 +119,7 @@ int Bel_FFT_Init(void) {
 
 	int fin[FFT_LEN * 2] = {
 		0x00000000, 0x00000000, 0x00002BD1, 0x00000000,
-		0x000040E8, 0x00000000, 0x000035CE, 0x00000000
+		0x000040E8, 0x00000000, 0x000035CE, 0x00000000 // ...
 	};
 
 	int fout[FFT_LEN * 2];
