@@ -14,7 +14,7 @@ use work.rgbmatrix.all;				--config bestand: bevat standaardwaarden en definitie
 entity matrix_datamemory is
 	port (
 		reset : in std_logic;
-		data_ready_in : in std_logic;
+		clock : in std_logic;
 		data_in : in std_logic_vector(DATA_WIDTH - 1 downto 0);
 		address_read : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
 		address_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
@@ -30,11 +30,11 @@ architecture behaviour of matrix_datamemory is
 	type ram is array(2**ADDR_WIDTH-1 downto 0) of std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal ramblck : ram;
 	begin
-	process(reset, data_ready_in, s_address_write, readready)
+	process(reset, clock, s_address_write, readready)
 	begin
 		if(reset = '1') then
 			s_address_write <= (others => '0');
-		elsif(rising_edge(data_ready_in)) then
+		elsif(rising_edge(clock)) then
 			s_address_write <= address_in;
 			ramblck(conv_integer(s_address_write)) <= data_in;			--op het adres in het ramblok wordt de data geschreven.
 		end if;

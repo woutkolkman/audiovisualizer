@@ -28,8 +28,9 @@ package rgbmatrix is
 	 constant CYAN				 : std_logic_vector(23 downto 0) := "000000001111111111111111";	
 	 constant RED				 : std_logic_vector(23 downto 0) := "111111110000000000000000";	
 	 constant MAGENTA			 : std_logic_vector(23 downto 0) := "111111110000000011111111";	
-	 constant YELLOW			 : std_logic_vector(23 downto 0) := "111111111111111100000000";	
-	 constant WHITE		 	 	 : std_logic_vector(23 downto 0) := "111111111111111111111111";	--led shows white
+	 constant YELLOW			 : std_logic_vector(23 downto 0) := "111111111111111100000000";
+	 constant GREEN				 : std_logic_vector(23 downto 0) := "000000001000000000000000";
+	 constant WHITE		 	 : std_logic_vector(23 downto 0) := "111111111111111111111111";	--led shows white
 	 
      
 	 

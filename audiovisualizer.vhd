@@ -24,14 +24,12 @@ architecture behaviour of audiovisualizer is
 		);
 	end component;
 	
-	component matrix_frame is
+	component frame_generator is
 	port(
-		clk : in std_logic;
+		clock : in std_logic;
 		reset : in std_logic;
-		--data_in : in std_logic_vector(DATA_WIDTH-1 downto 0);
-		--address_in : in std_logic_vector(ADDR_WIDTH-1 downto 0);
-		data_out : out std_logic_vector(DATA_WIDTH-1 downto 0);
-		Address_out : out std_logic_vector(ADDR_WIDTH-1 downto 0)
+		data_matrix : out std_logic_vector(DATA_WIDTH-1 downto 0);
+		Address_matrix : out std_logic_vector(ADDR_WIDTH-1 downto 0)
 		);
 	end component;
 		
@@ -51,11 +49,11 @@ architecture behaviour of audiovisualizer is
 		ADDR => tempAddr
 		);
 		
-		justexample : matrix_frame port map (
-			clk => CLOCK_50,
+		justexample : frame_generator port map (
+			clock => CLOCK_50,
 			reset => reset,
-			data_out => tempData,
-			Address_out => tempAddr
+			data_matrix => tempData,
+			Address_matrix => tempAddr
 		);
 	end architecture;
 			

@@ -11,7 +11,6 @@ entity matrix_driver_top is
 		RESET	: in std_logic;
 		DATA : in std_logic_vector(DATA_WIDTH-1 downto 0);
 		ADDR : in std_logic_vector(ADDR_WIDTH-1 downto 0);
-		READYTOWRITE : in std_logic;							--flag wanneer data klaar is om te schrijven
 		RESETLED : out std_logic;								--led om te tonen dat de reset 1 is
 		PINSOUT		: OUT STD_LOGIC_VECTOR(12 downto 0)
 		);
@@ -43,7 +42,7 @@ architecture behaviour of matrix_driver_top is
 	component matrix_datamemory is												--bevat geheugenblok om data in op te slaan
 		port (
 		reset : in std_logic;
-		data_ready_in : in std_logic;
+		clock : in std_logic;
 		data_in : in std_logic_vector(DATA_WIDTH - 1 downto 0);
 		address_read : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
 		address_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
@@ -55,11 +54,11 @@ architecture behaviour of matrix_driver_top is
 	begin
 	
 	RESETLED <= reset;
-	data_incoming <= DATA;					--ingaande data wordt op data_incloming gezet
+	data_incoming <= DATA;					--ingaande data wordt op data_incoming gezet
 		
 	memory : matrix_datamemory port map(
 		reset => reset,
-		data_ready_in => CLOCK,
+		clock => CLOCK,
 		data_in => data_incoming,
 		address_read => s_addr,
 		address_in => ADDR,

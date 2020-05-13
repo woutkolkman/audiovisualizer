@@ -51,7 +51,7 @@ architecture behaviour of matrix_ledcontrol is
 	clock : matrix_clkdivider
 		generic map (
 			in_freq => 50000000,		--50 MHz
-			out_freq => 10000000		--10 MHz
+			out_freq => 25000000		--25 MHz
 		)
 		port map (
 			reset => reset,
@@ -146,7 +146,7 @@ architecture behaviour of matrix_ledcontrol is
 			end if;
 			next_column <= column + 1;
 			if(column < IMG_WIDTH) then
-				next_state <= SRAMADDR;		--lees volgende adres, nog niet alle leds gehad
+				next_state <= SRAMADDR;		--lees volgende adres, nog niet alle leds in de rij gehad
 			else
 				next_state <= SLEDADDR;		--volgende lijn
 			end if;
