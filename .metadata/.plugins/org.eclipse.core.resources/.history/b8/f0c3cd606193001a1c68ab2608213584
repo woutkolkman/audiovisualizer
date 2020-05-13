@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include "includes.h"
+
+// stacks
+#define   TASK_STACKSIZE       2048
+
+OS_STK    task_adc_to_fft_stack[TASK_STACKSIZE];
+
+// tasks
+void task_adc_to_fft(void *pdata);
+
+int main(void) {
+
+  OSInit(); // initialize ucos-ii
+
+  OSTaskCreateExt(task_adc_to_fft, (void *) 0, &task_adc_to_fft_stack[TASK_STACKSIZE - 1], 4); // create new task
+
+  OSStart(); // start multitasking
+
+  return 0; // never executed
+}
+
+void task_adc_to_fft(void* pdata) {
+
+  while (1) {
+
+  }
+}
+
+
