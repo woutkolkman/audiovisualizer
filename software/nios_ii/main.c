@@ -7,8 +7,9 @@
 // includes
 #include <stdio.h>
 //#include <stdlib.h> // voor delay(), mag later weg
-#include "includes.h"
+#include "includes.h" // ucosii
 #include "altera_up_avalon_adc.h" // voor adc?
+//#include "altera_up_avalon_parallel_port.h"
 
 // stacks
 #define	TASK_STACKSIZE	2048
@@ -119,17 +120,18 @@ void TaskADCToFFT(void* pdata) {
 
 	while (1) {
 //		printf("y"); // debug
-		OSTimeDlyHMSM(0,0,1,0);
+		OSTimeDlyHMSM(0,0,0,100);
 #if 1
 		*(adc) = 0; //Start the ADC read
 		count += 1;
 		data = *(adc+channel); //Get the value of the selected channel
-		data = data/16; //Ignore the lowest 4 bits
+		data = data/16; //Ignore the lowest 4 bits (origineel 12 bits)
 //		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
-		printf("%d\n", data);
-		if (count==5){
+		printf("%d ", data);
+		if (count==50000){
 			count = 0;
 			channel = !channel;
+			printf("\n");
 		}
 #endif
 	}
