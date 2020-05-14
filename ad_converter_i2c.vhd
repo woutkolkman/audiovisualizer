@@ -1,4 +1,4 @@
--- <<<<<<< HEAD
+ -- <<<<<<< HEAD
 -- i2c configuration: om de FPGA te laten communiceren met de audio chip (WM8731) wordt er gebruikgemaakt van het I2C protocol
 -- er wordt gebruikgemaakt van een statemachine die kijkt naar de statussen van de start- en stopcondities, de data transmissies van het adres en data frames en ACK/NACK bits
 
@@ -11,7 +11,6 @@ entity ad_converter_i2c is
 		  SDA_line   : inout std_logic; -- inout: deze port is bi-directioneel; je kunt zowel lezen als schrijven
 		  flag       : in    std_logic;
 		  busy       : out   std_logic;
-		  done       : out   std_logic;
 		  clock_50   : in    std_logic; -- i2c met zijn eigen clock van 50 MHz
 		  address    : in    std_logic_vector(7 downto 0);   -- het adres bedraagt 8 bits 
 		  data_frame : in    std_logic_vector(15 downto 0)); -- data frame bestaat uit 16 bits 
@@ -103,7 +102,6 @@ begin
 				when stand_by =>
 					SDA_line <= '1'; -- na stop_condition/detecteren van ACK/NACK bitjes --> data_line wordt weer van laag naar hoog getrokken 
 					busy <= '0';
-					done <= '0';
 					if (flag = '1') then 
 						state <= start_condition; -- start conditie --> data_line gaat van hoog naar laag 
 						busy <= '1';
@@ -145,7 +143,7 @@ begin
 						SDA_line <= data_frame(index); -- begin bij versturen van tweede frame bij MSB
 					else 
 					    SDA_line <= data_frame(index);
-						get_ack <= '1'; -- zet een ACK/NACK bitje om te verzekeren dat data goed verzonden is 
+						 get_ack <= '1'; -- zet een ACK/NACK bitje om te verzekeren dat data goed verzonden is 
 					end if; 
 						if (get_ack = '1') then 
 							get_ack <= '0'; -- zet bitje weer op 0 zodat hij later weer 1 kan worden 
@@ -156,7 +154,6 @@ begin
 					i2c_clock_enable <= '0'; -- clock_line laag zetten
 					SDA_line <= 'Z'; 
 					state <= stand_by;
-					done <= '1';
 				when others => null;
 			end case;
 		end if; 
