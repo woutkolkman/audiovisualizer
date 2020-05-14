@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include "includes.h"
+
+// stacks
+#define   TASK_STACKSIZE       2048
+
+OS_STK	  TaskStartStack[TASK_STACKSIZE];
+OS_STK    TaskADCToFFTStack[TASK_STACKSIZE];
+
+// tasks
+void TaskStart(void *pdata);
+void TaskADCToFFT(void *pdata);
+
+int main(void) {
+
+  OSInit(); // initialize ucos-ii
+
+  OSTaskCreate(TaskStart, (void *) 0, &TaskStartStack[TASK_STACKSIZE - 1], 5); // create new task
+
+  OSStart(); // start multitasking
+
+  return 0; // never executed
+}
+
+void TaskStart(void *pdata) {
+
+	OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
+
+	while (1) {
+
+		OSTimeDly(10);
+	}
+}
+
+void TaskADCToFFT(void* pdata) {
+
+  while (1) {
+
+	  printf("This is TaskADCToFFT.\n");
+
+  }
+}
+
+

@@ -55,5 +55,5 @@ architecture behaviour of audiovisualizer is
 			data_matrix => tempData,
 			Address_matrix => tempAddr
 		);
-	end architecture;
+end architecture;
 			
