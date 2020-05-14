@@ -1706,7 +1706,7 @@ void TaskFFT(void* pdata) {
 	for (i = 0; i < FFT_LEN; i++) {
      7a8:	e03bfd15 	stw	zero,-4108(fp)
      7ac:	00001406 	br	800 <TaskFFT+0x138>
-		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imagi
+		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imaginary (met pythagoras?)
      7b0:	e0bbfd17 	ldw	r2,-4108(fp)
      7b4:	100490fa 	slli	r2,r2,3
      7b8:	e0fbfd04 	addi	r3,fp,-4108
@@ -1736,7 +1736,7 @@ void TaskFFT(void* pdata) {
      800:	e0bbfd17 	ldw	r2,-4108(fp)
      804:	10804010 	cmplti	r2,r2,256
      808:	103fe91e 	bne	r2,zero,7b0 <__alt_data_end+0xfffcfa70>
-		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imagi
+		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imaginary (met pythagoras?)
 	}
 
 	while (1) {

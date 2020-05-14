@@ -1,4 +1,3 @@
- -- <<<<<<< HEAD
 -- i2c configuration: om de FPGA te laten communiceren met de audio chip (WM8731) wordt er gebruikgemaakt van het I2C protocol
 -- er wordt gebruikgemaakt van een statemachine die kijkt naar de statussen van de start- en stopcondities, de data transmissies van het adres en data frames en ACK/NACK bits
 
