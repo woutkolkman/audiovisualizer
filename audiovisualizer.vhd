@@ -29,14 +29,13 @@ end component nios_processor;
 
 	-- signals nios_processor
 	signal chip_selection : std_logic; -- chip selection signal 
-	signal reset_pin	  : std_logic; -- reset signal
+	signal reset_pin	    : std_logic; -- reset signal
 
 component ad_converter_i2c is
 	port(SCL_line   : out   std_logic;
 		  SDA_line   : inout std_logic; -- inout: deze port is bi-directioneel; je kunt zowel lezen als schrijven
 		  flag       : in    std_logic;
 		  busy       : out   std_logic;
-		  done       : out   std_logic;
 		  clock_50   : in    std_logic; -- i2c met clock van 50 MHz
 		  address    : in    std_logic_vector(7 downto 0);   -- het adres bedraagt 8 bits (volgens datasheet)
 		  data_frame : in    std_logic_vector(15 downto 0)); -- data frame bestaat uit 16 bits 
@@ -45,7 +44,6 @@ end component ad_converter_i2c;
 	-- signals i2c component
 	signal send_flag      : std_logic;
 	signal is_busy        : std_logic;
-	signal is_done        : std_logic;
 	signal framed_data    : std_logic_vector(15 downto 0);
 
 begin
@@ -55,7 +53,7 @@ begin
 												  => AUD_DACDAT, adc_0_external_interface_din => AUD_ADCDAT);
 	
 	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
-														 done => is_done, clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
+														 clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
 	
 	reset_pin <= KEY(0); -- reset_pin verbinden met KEY 0 
 	chip_selection <= '0'; -- (?)
