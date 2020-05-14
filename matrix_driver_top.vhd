@@ -19,35 +19,35 @@ end entity;
 architecture behaviour of matrix_driver_top is
 
 	signal s_addr : std_logic_vector(ADDR_WIDTH-1 downto 0);
-   signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);	--ingaande data
-   signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);	--uitgaande data
+	signal data_incoming : std_logic_vector(DATA_WIDTH-1 downto 0);	--ingaande data
+	signal data_outgoing : std_logic_vector(DATA_WIDTH-1 downto 0);	--uitgaande data
 	signal readready : std_logic;													--flag wanneer klaar om te lezen
 	
 	component matrix_ledcontrol is												--leest data uit en geeft deze weer op de matrix
 		port (
-		clk_in 			: in std_logic;
-		reset 			: in std_logic;
-		clk_out 			: out std_logic;
-		rgb1_out			: out std_logic_vector(2 downto 0);
-		rgb2_out			: out std_logic_vector(2 downto 0);
-		ledaddr_out 	: out std_logic_vector(3 downto 0);
-		lat_out 			: out std_logic;
-		oe_out 			: out std_logic;
-		addr     		: out std_logic_vector(ADDR_WIDTH-1 downto 0);
-      data     		: in  std_logic_vector(DATA_WIDTH-1 downto 0);
-		readready		: out std_logic
+			clk_in 			: in std_logic;
+			reset 			: in std_logic;
+			clk_out 		: out std_logic;
+			rgb1_out		: out std_logic_vector(2 downto 0);
+			rgb2_out		: out std_logic_vector(2 downto 0);
+			ledaddr_out 	: out std_logic_vector(3 downto 0);
+			lat_out 		: out std_logic;
+			oe_out 			: out std_logic;
+			addr     		: out std_logic_vector(ADDR_WIDTH-1 downto 0);
+			data     		: in  std_logic_vector(DATA_WIDTH-1 downto 0);
+			readready		: out std_logic
         );
 	end component;
 	
 	component matrix_datamemory is												--bevat geheugenblok om data in op te slaan
 		port (
-		reset : in std_logic;
-		clock : in std_logic;
-		data_in : in std_logic_vector(DATA_WIDTH - 1 downto 0);
-		address_read : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
-		address_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
-		data_out : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-		readready	: in std_logic
+			reset : in std_logic;
+			clock : in std_logic;
+			data_in : in std_logic_vector(DATA_WIDTH - 1 downto 0);
+			address_read : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
+			address_in : in std_logic_vector(ADDR_WIDTH - 1 downto 0);
+			data_out : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+			readready	: in std_logic
 	);
 	end component;
 	
@@ -64,7 +64,7 @@ architecture behaviour of matrix_driver_top is
 		address_in => ADDR,
 		data_out => data_outgoing,
 		readready => readready
-		);		
+	);		
 	
 	matrix : matrix_ledcontrol port map(
 		clk_in => CLOCK,

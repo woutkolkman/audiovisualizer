@@ -7,14 +7,14 @@ entity matrix_ledcontrol is
     port (
 		clk_in 		: in std_logic;
 		reset 		: in std_logic;
-		clk_out 		: out std_logic;
-		rgb1_out		: out std_logic_vector(2 downto 0);
-		rgb2_out		: out std_logic_vector(2 downto 0);
+		clk_out 	: out std_logic;
+		rgb1_out	: out std_logic_vector(2 downto 0);
+		rgb2_out	: out std_logic_vector(2 downto 0);
 		ledaddr_out : out std_logic_vector(3 downto 0);
-		lat_out 		: out std_logic;
+		lat_out 	: out std_logic;
 		oe_out 		: out std_logic;
 		addr     	: out std_logic_vector(ADDR_WIDTH-1 downto 0);
-      data     	: in  std_logic_vector(DATA_WIDTH-1 downto 0);
+		data     	: in  std_logic_vector(DATA_WIDTH-1 downto 0);
 		readready	: out std_logic
       );
 end matrix_ledcontrol;
@@ -33,6 +33,7 @@ architecture behaviour of matrix_ledcontrol is
 			clk_out : out std_logic
 		);
 	end component;
+	
 	signal devidedclk : std_logic;												--gesplitste klok
 	signal s_clk : std_logic;														--klok signal voor matrix
 	signal rgb1, next_rgb1 : std_logic_vector(2 downto 0);				--rgb1
@@ -47,7 +48,7 @@ architecture behaviour of matrix_ledcontrol is
 	type state_type is (INIT, READ_DATA, SRAMADDR, SLEDADDR, LATCH);
 	signal state, next_state : state_type;
 
-	begin
+begin
 	clock : matrix_clkdivider
 		generic map (
 			in_freq => 50000000,		--50 MHz
@@ -58,7 +59,6 @@ architecture behaviour of matrix_ledcontrol is
 			clk_in => clk_in,
 			clk_out => devidedclk
 		);
-	
 	--signals worden aan ports verbonden
 	clk_out <= s_clk;
 	rgb1_out <= rgb1;
@@ -93,14 +93,14 @@ architecture behaviour of matrix_ledcontrol is
 	
 	process(state, column, bpp, ledaddr, ramaddr, rgb1, rgb2, data) is
 		variable upper, lower : unsigned(DATA_WIDTH/2-1 downto 0);
-      variable upper_r, upper_g, upper_b : unsigned(PIXEL_DEPTH-1 downto 0);	--bovenste helft matrix
-      variable lower_r, lower_g, lower_b : unsigned(PIXEL_DEPTH-1 downto 0);	--onderste helft matrix
-      variable r1, g1, b1, r2, g2, b2 : std_logic;
+		variable upper_r, upper_g, upper_b : unsigned(PIXEL_DEPTH-1 downto 0);	--bovenste helft matrix
+		variable lower_r, lower_g, lower_b : unsigned(PIXEL_DEPTH-1 downto 0);	--onderste helft matrix
+		variable r1, g1, b1, r2, g2, b2 : std_logic;
 	
 	begin
 	
-		r1 := '0'; g1 := '0'; b1 := '0';	--startwaarde 0
-		r2 := '0'; g2 := '0'; b2 := '0';	--startwaarde 0
+	r1 := '0'; g1 := '0'; b1 := '0';	--startwaarde 0
+	r2 := '0'; g2 := '0'; b2 := '0';	--startwaarde 0
 	
 	next_column <= column;
 	next_bpp <= bpp;
@@ -169,24 +169,23 @@ architecture behaviour of matrix_ledcontrol is
 		when others => NULL;
 	end case;
 	
-		-- Pixel data is given as 2 combined words, with the upper half containing
-		-- the upper pixel and the lower half containing the lower pixel. Inside
-		-- each half the pixel data is encoded in RGB order with multiple repeated
-		-- bits for each subpixel depending on the chosen color depth. For example,
-		-- a PIXEL_DEPTH of 3 results in a 18-bit word arranged RRRGGGBBBrrrgggbbb.
-		-- The following assignments break up this encoding into the human-readable
-		-- signals used above, or reconstruct it into LED data signals.
-		upper := unsigned(data(DATA_WIDTH-1 downto DATA_WIDTH/2));--bovenste helft data (47 downto 24)
-      lower := unsigned(data(DATA_WIDTH/2-1 downto 0));			--onderste helft data (23 downto 0)
-      upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);	--47 downto 40	 
-      upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);	--39 downto 32	
-      upper_b := upper(  PIXEL_DEPTH-1 downto 0);					--31 downto 24
-      lower_r := lower(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH); 	--23 downto 16
-      lower_g := lower(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH); 	--15 downto 8
-      lower_b := lower(  PIXEL_DEPTH-1 downto 0);					-- 7 downto 0
-      next_rgb1 <= r1 & g1 & b1;
-      next_rgb2 <= r2 & g2 & b2;
+	-- Pixel data is given as 2 combined words, with the upper half containing
+	-- the upper pixel and the lower half containing the lower pixel. Inside
+	-- each half the pixel data is encoded in RGB order with multiple repeated
+	-- bits for each subpixel depending on the chosen color depth. For example,
+	-- a PIXEL_DEPTH of 3 results in a 18-bit word arranged RRRGGGBBBrrrgggbbb.
+	-- The following assignments break up this encoding into the human-readable
+	-- signals used above, or reconstruct it into LED data signals.
+	upper := unsigned(data(DATA_WIDTH-1 downto DATA_WIDTH/2));--bovenste helft data (47 downto 24)
+    lower := unsigned(data(DATA_WIDTH/2-1 downto 0));			--onderste helft data (23 downto 0)
+    upper_r := upper(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH);	--47 downto 40	 
+    upper_g := upper(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH);	--39 downto 32	
+    upper_b := upper(  PIXEL_DEPTH-1 downto 0);					--31 downto 24
+    lower_r := lower(3*PIXEL_DEPTH-1 downto 2*PIXEL_DEPTH); 	--23 downto 16
+    lower_g := lower(2*PIXEL_DEPTH-1 downto   PIXEL_DEPTH); 	--15 downto 8
+    lower_b := lower(  PIXEL_DEPTH-1 downto 0);					-- 7 downto 0
+    next_rgb1 <= r1 & g1 & b1;
+    next_rgb2 <= r2 & g2 & b2;
 	end process;
-		
 end architecture;
 
