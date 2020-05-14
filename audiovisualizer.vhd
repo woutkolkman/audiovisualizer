@@ -6,11 +6,11 @@ entity audiovisualizer is
 	port(CLOCK_50    : in    std_logic;					        -- voor clock
 		  KEY		     : in    std_logic_vector(0 downto 0);  -- voor reset 
 		  SW			  : in    std_logic_vector(17 downto 0); -- switches voor i2c en FPGA
-		  AUD_ADCLRCK : out   std_logic; -- WM8731 pins (audio-chip)
+		  AUD_ADCLRCK : inout   std_logic; -- WM8731 pins (audio-chip)
 		  AUD_ADCDAT  : out   std_logic; -- output audio 
-		  AUD_DACLRCK : out   std_logic; 
+		  AUD_DACLRCK : inout   std_logic; 
 		  AUD_DACDAT  : in    std_logic; -- input audio 
-	     AUD_BCLK    : out   std_logic; -- clock voor ADC component
+	     AUD_BCLK    : inout   std_logic; -- clock voor ADC component
 		  AUD_XCK     : out   std_logic; 
 		  I2C_SCLK    : out   std_logic; -- clock en data-lijn I2C
 	     I2C_SDAT    : inout std_logic);
@@ -53,7 +53,6 @@ begin
 	nios_ii : nios_processor port map (clk_clk => CLOCK_50, reset_reset_n => reset_pin, adc_0_external_interface_sclk => AUD_BCLK,
 												  adc_0_external_interface_cs_n => chip_selection, adc_0_external_interface_dout
 												  => AUD_DACDAT, adc_0_external_interface_din => AUD_ADCDAT);
---												  => AUD_ADCDAT, adc_0_external_interface_din => AUD_DACDAT);
 	
 	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
 														 done => is_done, clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);

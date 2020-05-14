@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Tue May 12 15:44:10 CEST 2020
+ * Generated: Thu May 14 14:37:53 CEST 2020
  */
 
 /*
@@ -244,7 +244,7 @@
 #define ONCHIP_MEMORY2_0_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
 #define ONCHIP_MEMORY2_0_BASE 0x0
 #define ONCHIP_MEMORY2_0_CONTENTS_INFO ""
-#define ONCHIP_MEMORY2_0_DUAL_PORT 0
+#define ONCHIP_MEMORY2_0_DUAL_PORT 1
 #define ONCHIP_MEMORY2_0_GUI_RAM_BLOCK_TYPE "AUTO"
 #define ONCHIP_MEMORY2_0_INIT_CONTENTS_FILE "nios_processor_onchip_memory2_0"
 #define ONCHIP_MEMORY2_0_INIT_MEM_CONTENT 1
