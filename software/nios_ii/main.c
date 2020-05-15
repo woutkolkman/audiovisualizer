@@ -1,17 +1,20 @@
 // base addressen, te vinden in nios_processor.qsys
-#define ADC 				(volatile int *) 0x00042040
-#define BEL_FFT_PROJECT				 (int *) 0x01005000
-#define TIMER_0				(volatile int *) 0x00042020
-#define ADC_ADDR 			ADC							/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
+//#define ADC 				(volatile int *) 0x00042040
+//#define BEL_FFT_PROJECT				 (int *) 0x01005000
+//#define TIMER_0				(volatile int *) 0x00042020
+#define ADC 				ADC_0_BASE
+#define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE
+#define TIMER_0				TIMER_0_BASE
+#define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
 // includes
-#include <stdio.h> // kijken of je deze kan vervangen, is veel geheugen nodig
-//#include <stdlib.h> // voor delay(), mag later weg
-#include "includes.h" // ucosii
-#include "altera_up_avalon_adc.h" // voor adc?
+#include <stdio.h> 								// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
+//#include <stdlib.h> 							// voor delay(), mag later weg
+#include "includes.h" 							// ucosii
+#include "altera_up_avalon_adc.h" 				// voor adc?
 //#include "altera_up_avalon_parallel_port.h"
 #include "system.h"
-#include "kiss_fft.h"
+#include "kiss_fft.h" 							// API voor FFT
 
 // stacks
 #define	TASK_STACKSIZE	2048
@@ -36,7 +39,7 @@ int Bel_FFT_Init(void);
 // =========================================================================================
 //
 #define MAXFACTORS 32 // e.g. an fft of length 128 has 4 factors as far as kissfft is concerned 4*4*4*2
-#define FFT_LEN 256 // vervangen door de bus (?) waarde van onze configuratie
+#define FFT_LEN 256 // vervangen door de bus (?) waarde van onze configuratie TODO
 #define FFT_BASE BEL_FFT_PROJECT
 
 struct ControlReg { // Control register

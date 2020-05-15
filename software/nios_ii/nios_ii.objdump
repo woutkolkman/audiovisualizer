@@ -35,43 +35,43 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   8 .debug_aranges 000010d0  00000000  00000000  0001bc68  2**3
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_info   0002efc4  00000000  00000000  0001cd38  2**0
+  9 .debug_info   0002efc5  00000000  00000000  0001cd38  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 0000b32d  00000000  00000000  0004bcfc  2**0
+ 10 .debug_abbrev 0000b33c  00000000  00000000  0004bcfd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   0000e2b4  00000000  00000000  00057029  2**0
+ 11 .debug_line   0000e2b4  00000000  00000000  00057039  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_frame  00003354  00000000  00000000  000652e0  2**2
+ 12 .debug_frame  00003354  00000000  00000000  000652f0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00004cbb  00000000  00000000  00068634  2**0
+ 13 .debug_str    00004cbb  00000000  00000000  00068644  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_loc    00017b69  00000000  00000000  0006d2ef  2**0
+ 14 .debug_loc    00017b69  00000000  00000000  0006d2ff  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_alt_sim_info 00000010  00000000  00000000  00084e58  2**2
+ 15 .debug_alt_sim_info 00000010  00000000  00000000  00084e68  2**2
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_ranges 00001948  00000000  00000000  00084e68  2**3
+ 16 .debug_ranges 00001948  00000000  00000000  00084e78  2**3
                   CONTENTS, READONLY, DEBUGGING
- 17 .thread_model 00000006  00000000  00000000  0008b2c6  2**0
+ 17 .thread_model 00000006  00000000  00000000  0008b2d6  2**0
                   CONTENTS, READONLY
- 18 .cpu          0000000c  00000000  00000000  0008b2cc  2**0
+ 18 .cpu          0000000c  00000000  00000000  0008b2dc  2**0
                   CONTENTS, READONLY
- 19 .qsys         00000001  00000000  00000000  0008b2d8  2**0
+ 19 .qsys         00000001  00000000  00000000  0008b2e8  2**0
                   CONTENTS, READONLY
- 20 .simulation_enabled 00000001  00000000  00000000  0008b2d9  2**0
+ 20 .simulation_enabled 00000001  00000000  00000000  0008b2e9  2**0
                   CONTENTS, READONLY
- 21 .stderr_dev   0000000b  00000000  00000000  0008b2da  2**0
+ 21 .stderr_dev   0000000b  00000000  00000000  0008b2ea  2**0
                   CONTENTS, READONLY
- 22 .stdin_dev    0000000b  00000000  00000000  0008b2e5  2**0
+ 22 .stdin_dev    0000000b  00000000  00000000  0008b2f5  2**0
                   CONTENTS, READONLY
- 23 .stdout_dev   0000000b  00000000  00000000  0008b2f0  2**0
+ 23 .stdout_dev   0000000b  00000000  00000000  0008b300  2**0
                   CONTENTS, READONLY
- 24 .sopc_system_name 0000000e  00000000  00000000  0008b2fb  2**0
+ 24 .sopc_system_name 0000000e  00000000  00000000  0008b30b  2**0
                   CONTENTS, READONLY
- 25 .quartus_project_dir 0000002a  00000000  00000000  0008b309  2**0
+ 25 .quartus_project_dir 0000002a  00000000  00000000  0008b319  2**0
                   CONTENTS, READONLY
- 26 .jdi          000045ae  00000000  00000000  0008b333  2**0
+ 26 .jdi          000045ae  00000000  00000000  0008b343  2**0
                   CONTENTS, READONLY
- 27 .sopcinfo     000444e6  00000000  00000000  0008f8e1  2**0
+ 27 .sopcinfo     000444e6  00000000  00000000  0008f8f1  2**0
                   CONTENTS, READONLY
 SYMBOL TABLE:
 00000000 l    d  .entry	00000000 .entry
@@ -1622,7 +1622,10 @@ void TaskFFT(void* pdata) {
      6d4:	df040304 	addi	fp,sp,4108
      6d8:	e13fff15 	stw	r4,-4(fp)
 	kiss_fft_cfg cfg;
-	kiss_fft_cpx fin[FFT_LEN] = {
+#if 0
+	kiss_fft_cpx fin[FFT_LEN];
+#else
+	kiss_fft_cpx fin[FFT_LEN] = { // test input
      6dc:	008000b4 	movhi	r2,2
      6e0:	10a11b04 	addi	r2,r2,-31636
      6e4:	e0fbff04 	addi	r3,fp,-4100
@@ -1838,7 +1841,7 @@ int Bel_FFT_Init(void) {
 	// FFT_BASE is the base address of the FFT co-processor. Set bit 31 to bypass the cache on the NIOSII.
 
 	volatile struct bel_fft * belFftPtr = (struct bel_fft *) (FFT_BASE + 0x80000000);
-     8f0:	00804034 	movhi	r2,256
+     8f0:	00a04034 	movhi	r2,33024
      8f4:	10940004 	addi	r2,r2,20480
      8f8:	e0bbff15 	stw	r2,-4100(fp)
 
