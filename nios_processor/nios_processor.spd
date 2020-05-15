@@ -25,21 +25,21 @@
    type="SYSTEM_VERILOG"
    library="rsp_mux" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux_002.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux_001.sv"
    type="SYSTEM_VERILOG"
-   library="rsp_demux_002" />
+   library="rsp_demux_001" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux.sv"
    type="SYSTEM_VERILOG"
    library="rsp_demux" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux_002.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux_001.sv"
    type="SYSTEM_VERILOG"
-   library="cmd_mux_002" />
+   library="cmd_mux_001" />
  <file
    path="simulation/submodules/altera_merlin_arbitrator.sv"
    type="SYSTEM_VERILOG"
-   library="cmd_mux_002" />
+   library="cmd_mux_001" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux.sv"
    type="SYSTEM_VERILOG"
@@ -57,9 +57,9 @@
    type="SYSTEM_VERILOG"
    library="cmd_demux" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_router_004.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_router_003.sv"
    type="SYSTEM_VERILOG"
-   library="router_004" />
+   library="router_003" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_router_002.sv"
    type="SYSTEM_VERILOG"
@@ -75,15 +75,15 @@
  <file
    path="simulation/submodules/altera_avalon_sc_fifo.v"
    type="VERILOG"
-   library="adc_0_adc_slave_agent_rsp_fifo" />
+   library="audio_avalon_audio_slave_agent_rsp_fifo" />
  <file
    path="simulation/submodules/altera_merlin_slave_agent.sv"
    type="SYSTEM_VERILOG"
-   library="adc_0_adc_slave_agent" />
+   library="audio_avalon_audio_slave_agent" />
  <file
    path="simulation/submodules/altera_merlin_burst_uncompressor.sv"
    type="SYSTEM_VERILOG"
-   library="adc_0_adc_slave_agent" />
+   library="audio_avalon_audio_slave_agent" />
  <file
    path="simulation/submodules/altera_merlin_master_agent.sv"
    type="SYSTEM_VERILOG"
@@ -280,6 +280,10 @@
    path="simulation/submodules/bel_fft_project_twiddle_rom0.mif"
    type="MIF"
    library="bel_fft_project_0" />
+ <file
+   path="simulation/submodules/nios_processor_LEDs.v"
+   type="VERILOG"
+   library="LEDs" />
  <file path="simulation/nios_processor.vhd" type="VHDL" />
  <file path="simulation/nios_processor_rst_controller.vhd" type="VHDL" />
  <file path="simulation/nios_processor_rst_controller_001.vhd" type="VHDL" />

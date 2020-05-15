@@ -142,8 +142,8 @@ ACDS_VERSION := 16.1
 ELF := nios_ii.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS += main.c
 C_SRCS += kiss_fft.c
+C_SRCS += main.c
 CXX_SRCS :=
 ASM_SRCS :=
 

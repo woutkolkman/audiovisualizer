@@ -48,7 +48,6 @@ extern "C" {
  -- a multi-dimensional FFT
  -- a command-line utility to perform ffts
  -- a command-line utility to perform fast-convolution filtering
-
  Then see kfc.h kiss_fftr.h kiss_fftnd.h fftutil.c kiss_fastfir.c
   in the tools/ directory.
 */

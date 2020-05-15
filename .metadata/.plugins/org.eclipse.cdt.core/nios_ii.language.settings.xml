@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
-	<configuration id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.954278668" name="Nios II">
+	<configuration id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.108431162" name="Nios II">
 		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 			<provider id="altera.tool.Nios2GCCBuiltinSpecsDetector">
 				<language id="org.eclipse.cdt.core.gcc">
@@ -1633,6 +1633,23 @@
 						<entry kind="macro" name="__hal__" value=""/>
 						<entry kind="macro" name="__ucosii__" value=""/>
 					</resource>
+					<resource project-relative-path="kiss_fft.c">
+						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp/HAL/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp/drivers/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="macro" name="ALT_NO_INSTRUCTION_EMULATION" value=""/>
+						<entry kind="macro" name="__hal__" value=""/>
+						<entry kind="macro" name="__ucosii__" value=""/>
+					</resource>
 					<resource project-relative-path="HAL/src/alt_alarm_start.c">
 						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
 							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
@@ -2721,23 +2738,6 @@
 						<entry kind="macro" name="__hal__" value=""/>
 						<entry kind="macro" name="__ucosii__" value=""/>
 					</resource>
-					<resource project-relative-path="Source/croutine.c">
-						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
-							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-						</entry>
-						<entry kind="includePath" name="/nios_ii_bsp/HAL/inc">
-							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-						</entry>
-						<entry kind="includePath" name="/nios_ii_bsp">
-							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-						</entry>
-						<entry kind="includePath" name="/nios_ii_bsp/drivers/inc">
-							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
-						</entry>
-						<entry kind="macro" name="ALT_NO_INSTRUCTION_EMULATION" value=""/>
-						<entry kind="macro" name="__hal__" value=""/>
-						<entry kind="macro" name="__ucosii__" value=""/>
-					</resource>
 					<resource project-relative-path="UCOSII/src/os_core.c">
 						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
 							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
@@ -2858,6 +2858,23 @@
 						<entry kind="macro" name="__ucosii__" value=""/>
 					</resource>
 					<resource project-relative-path="HAL/src/alt_find_dev.c">
+						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp/HAL/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/nios_ii_bsp/drivers/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="macro" name="ALT_NO_INSTRUCTION_EMULATION" value=""/>
+						<entry kind="macro" name="__hal__" value=""/>
+						<entry kind="macro" name="__ucosii__" value=""/>
+					</resource>
+					<resource project-relative-path="main.c">
 						<entry kind="includePath" name="/nios_ii_bsp/UCOSII/inc">
 							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
 						</entry>

@@ -109,4 +109,3 @@ struct bel_fft  {
 
 
 #endif
-

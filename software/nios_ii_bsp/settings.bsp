@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 14, 2020 2:55:31 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1589460931455</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>D:\intelFPGA_lite\projects\audiovisualizer\software\nios_ii_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>14-mei-2020 16:40:49</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1589467249115</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>C:\Users\simon\Documents\Git\audiovisualizer\software\nios_ii_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\nios_processor.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
@@ -1745,28 +1745,34 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>bel_fft_project_0</slaveDescriptor>
+                <addressRange>0x00040000 - 0x00040FFF</addressRange>
+                <addressSpan>4096</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
-                <addressRange>0x00042020 - 0x0004203F</addressRange>
+                <addressRange>0x00042040 - 0x0004205F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>adc_0</slaveDescriptor>
-                <addressRange>0x00042040 - 0x0004205F</addressRange>
+                <addressRange>0x00042060 - 0x0004207F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01002068 - 0x0100206F</addressRange>
-                <addressSpan>8</addressSpan>
-                <attributes>printable</attributes>
+                <slaveDescriptor>LEDs</slaveDescriptor>
+                <addressRange>0x00042080 - 0x0004208F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>bel_fft_project_0</slaveDescriptor>
-                <addressRange>0x01005000 - 0x01005FFF</addressRange>
-                <addressSpan>4096</addressSpan>
-                <attributes/>
+                <slaveDescriptor>jtag_uart_0</slaveDescriptor>
+                <addressRange>0x00042098 - 0x0004209F</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes>printable</attributes>
         </MemoryMap>
         <LinkerSection>
                 <sectionName>.text</sectionName>
