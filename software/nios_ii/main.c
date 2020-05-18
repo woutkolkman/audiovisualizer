@@ -7,6 +7,10 @@
 #define TIMER_0				TIMER_0_BASE
 #define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
+// switches
+#define PRINT_FFT 	// print de output van het FFT-component
+#define PRINT_FREQ 	// print de ouput van de frequency separator
+
 // includes
 #include <stdio.h> 								// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
 //#include <stdlib.h> 							// voor delay(), mag later weg
@@ -22,11 +26,13 @@
 OS_STK	TaskStartStack[TASK_STACKSIZE];
 OS_STK	TaskADCToFFTStack[TASK_STACKSIZE];
 OS_STK	TaskFFTStack[TASK_STACKSIZE];
+OS_STK	TaskFrequencySeparatorStack[TASK_STACKSIZE];
 
 // tasks
 void TaskStart(void *pdata);
 void TaskADCToFFT(void *pdata);
 void TaskFFT(void *pdata);
+void TaskFrequencySeparator(void *pdata);
 
 // function prototypes
 int Bel_FFT_Init(void);
@@ -105,8 +111,7 @@ int main(void) {
 }
 
 void TaskStart(void *pdata) {
-	printf("g");
-//	Bel_FFT_Init();
+//	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
 
 //    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
     OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6); // create new task
@@ -206,12 +211,12 @@ void TaskFFT(void* pdata) {
 
 	kiss_fft (cfg, fin, fout); // startup
 
-	/*
-	 *  Print out the FFT result.
-	 */
+#ifdef PRINT_FFT
+	// Print out the FFT result.
 	for (i = 0; i < FFT_LEN; i++) {
 		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imaginary (met pythagoras?)
 	}
+#endif
 
 	while (1) {
 
