@@ -1,52 +1,57 @@
+// includes
+#include <stdio.h> 									// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
+//#include <stdlib.h> 								// voor delay(), mag later weg
+#include "includes.h" 								// ucosii
+#include "altera_up_avalon_adc.h" 					// voor adc?
+#include "system.h"
+#include "kiss_fft.h" 								// API voor FFT
+//#include "altera_up_avalon_parallel_port.h"
+
 // base addressen, te vinden in nios_processor.qsys
-//#define ADC 				(volatile int *) 0x00042040
-//#define BEL_FFT_PROJECT				 (int *) 0x01005000
-//#define TIMER_0				(volatile int *) 0x00042020
-#define ADC 				ADC_0_BASE
-#define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE
-#define TIMER_0				TIMER_0_BASE
-#define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
+#define ADC 				ADC_0_BASE				// uit system.h
+#define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE	// uit system.h
+#define TIMER_0				TIMER_0_BASE			// uit system.h
+#define ADC_ADDR 			ADC						/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
 // switches
-#define PRINT_FFT 	// print de output van het FFT-component
-#define PRINT_FREQ 	// print de ouput van de frequency separator
+//#define PRINT_FFT 									// print de output van het FFT-component
+#define PRINT_FREQ 									// print de ouput van de frequency separator
 
-// includes
-#include <stdio.h> 								// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
-//#include <stdlib.h> 							// voor delay(), mag later weg
-#include "includes.h" 							// ucosii
-#include "altera_up_avalon_adc.h" 				// voor adc?
-//#include "altera_up_avalon_parallel_port.h"
-#include "system.h"
-#include "kiss_fft.h" 							// API voor FFT
-
-// stacks
+// defines
 #define	TASK_STACKSIZE	2048
+#define AANTAL_BINS_OUTPUT_FREQSEP 8
 
 OS_STK	TaskStartStack[TASK_STACKSIZE];
 OS_STK	TaskADCToFFTStack[TASK_STACKSIZE];
 OS_STK	TaskFFTStack[TASK_STACKSIZE];
 OS_STK	TaskFrequencySeparatorStack[TASK_STACKSIZE];
 
-// tasks
 void TaskStart(void *pdata);
 void TaskADCToFFT(void *pdata);
 void TaskFFT(void *pdata);
 void TaskFrequencySeparator(void *pdata);
 
+OS_FLAG_GRP *flags;
+OS_EVENT *sem_fftoutput;
+
+#define FLAG_FFTOUTPUT 0x01
+// #define FLAG_2 0x02
+// #define FLAG_3 0x04
+// #define FLAG_4 0x08
+// #define FLAG_5 0x10
+// #define FLAG_6 0x20
+// #define FLAG_7 0x40
+
 // function prototypes
 int Bel_FFT_Init(void);
 
-// variables
-// ...
-
 // FFT dingen
-//
 // =========================================================================================
-//
-#define MAXFACTORS 32 // e.g. an fft of length 128 has 4 factors as far as kissfft is concerned 4*4*4*2
-#define FFT_LEN 256 // vervangen door de bus (?) waarde van onze configuratie TODO
+#define MAXFACTORS 32 				// e.g. an fft of length 128 has 4 factors as far as kissfft is concerned 4*4*4*2
+#define FFT_LEN 256 				// vervangen door de bus (?) waarde van onze configuratie (gedaan, default (?))
 #define FFT_BASE BEL_FFT_PROJECT
+
+volatile kiss_fft_cpx fout[FFT_LEN]; // output array
 
 struct ControlReg { // Control register
 	// Starts the FFT
@@ -99,12 +104,16 @@ struct bel_fft { // Register structure, must be mapped to base address
 	// FFT factor registers
 	struct FactorsReg Factors[MAXFACTORS];
 };
-//
 // =========================================================================================
-//
 
-int main(void) {
+int main(void){
+	INT8U err;
+
 	OSInit(); // initialize ucos-ii
+
+	sem_fftoutput = OSSemCreate(1);
+	flags = OSFlagCreate(0x00, &err);
+
 	OSTaskCreate(TaskStart, (void *) 0, &TaskStartStack[TASK_STACKSIZE - 1], 5); // create new task
 	OSStart(); // start multitasking
 	return 0; // never executed
@@ -113,20 +122,55 @@ int main(void) {
 void TaskStart(void *pdata) {
 //	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
 
-//    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
-    OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6); // create new task
+//    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
+    OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
+    OSTaskCreate(TaskFrequencySeparator, (void *) 0, &TaskFrequencySeparatorStack[TASK_STACKSIZE - 1], 7);
 
     while (1) {
         OSTimeDly(100);
     }
 }
 
+void TaskADCToFFT(void* pdata) {
+	volatile int * adc = (int*)(ADC_ADDR);
+//	volatile int * led = (int*)(LED_ADDR);
+	unsigned int data;
+	int count;
+	int channel;
+	data = 0;
+	count = 0;
+	channel = 0;
+
+	while (1) {
+		OSTimeDlyHMSM(0,0,0,100);
+#if 1
+		*(adc) = 0; //Start the ADC read
+		count += 1;
+		data = *(adc+channel); //Get the value of the selected channel
+		data = data/16; //Ignore the lowest 4 bits (origineel 12 bits)
+//		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
+		printf("%d ", data);
+		if (count==12){
+			count = 0;
+			channel = !channel;
+			printf("\n");
+		}
+#endif
+	}
+}
+
 void TaskFFT(void* pdata) {
+	INT8U err;
+
 	kiss_fft_cfg cfg;
 #if 0
+	// normale initialisatie voor met ADC
 	kiss_fft_cpx fin[FFT_LEN];
+	// nog semafoor aanmaken?
 #else
-	kiss_fft_cpx fin[FFT_LEN] = { // test input
+	// test/simulatie input, structs van 32 bits real & 32 bits imaginary waarden
+	// 64 regels * 4 per regel = 256 input lengte
+	kiss_fft_cpx fin[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x00002BD1, 0x00000000}, {0x000040E8, 0x00000000}, {0x000035CE, 0x00000000},
 	{0x000013D4, 0x00000000}, {0xFFFFF18D, 0x00000000}, {0xFFFFE590, 0x00000000}, {0xFFFFF92F, 0x00000000},
 	{0x000022F9, 0x00000000}, {0x00004C3D, 0x00000000}, {0x00005E4A, 0x00000000}, {0x00004FB5, 0x00000000},
@@ -192,13 +236,10 @@ void TaskFFT(void* pdata) {
 	{0xFFFFDD07, 0x00000000}, {0x000006D1, 0x00000000}, {0x00001A70, 0x00000000}, {0x00000E73, 0x00000000},
 	{0xFFFFEC2C, 0x00000000}, {0xFFFFCA32, 0x00000000}, {0xFFFFBF18, 0x00000000}, {0xFFFFD42F, 0x00000000}};
 #endif
-	volatile kiss_fft_cpx fout[FFT_LEN];
-	int i;
 
-	/*
-	 * Initialize the destination memory area to see that the FFT has actually calculated something.
-	 */
-	for (i = 0; i < FFT_LEN; i++) {
+	// Initialize the destination memory area to see that the FFT has actually calculated something.
+	for (int i=0; i<FFT_LEN; i++) {
+		// fout[] is nu een globale variabele
 	    fout[i].i = 0xDEADDEAD;
 	    fout[i].r = 0xDEADDEAD;
 	}
@@ -209,46 +250,57 @@ void TaskFFT(void* pdata) {
 	    return;
 	}
 
+	OSSemPend(sem_fftoutput, 0, &err);
 	kiss_fft (cfg, fin, fout); // startup
+	// klaar met output genereren
+	OSSemPost(sem_fftoutput);
 
-#ifdef PRINT_FFT
-	// Print out the FFT result.
-	for (i = 0; i < FFT_LEN; i++) {
-		printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imaginary (met pythagoras?)
-	}
-#endif
+	// geef aan dat output klaar is
+	err = OSFlagPost(flags, FLAG_FFTOUTPUT, OS_FLAG_SET, &err);
 
 	while (1) {
+		// onderzoek of je de FFTCore telkens aanroept of maar 1x activeert?
 
+		OSTimeDlyHMSM(0,0,0,100); // vervangen door fft starten, output genereren en flag posten
 	}
 }
 
-void TaskADCToFFT(void* pdata) {
-	volatile int * adc = (int*)(ADC_ADDR);
-//	volatile int * led = (int*)(LED_ADDR);
-	unsigned int data;
-	int count;
-	int channel;
-	data = 0;
-	count = 0;
-	channel = 0;
+void TaskFrequencySeparator(void* pdata) {
+	INT8U err;
+	OS_FLAGS value;
+	int freqOutput[AANTAL_BINS_OUTPUT_FREQSEP];
+	const int aantal_x = FFT_LEN / AANTAL_BINS_OUTPUT_FREQSEP; // aantal waarden van "fout" per bin in "freqOutput"
 
 	while (1) {
-//		printf("y"); // debug
-		OSTimeDlyHMSM(0,0,0,100);
-#if 1
-		*(adc) = 0; //Start the ADC read
-		count += 1;
-		data = *(adc+channel); //Get the value of the selected channel
-		data = data/16; //Ignore the lowest 4 bits (origineel 12 bits)
-//		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
-		printf("%d ", data);
-		if (count==12){
-			count = 0;
-			channel = !channel;
-			printf("\n");
+		// wacht op FFT output
+		value = OSFlagPend(flags, FLAG_FFTOUTPUT, OS_FLAG_WAIT_SET_ALL + OS_FLAG_CONSUME, 0, &err);
+
+		OSSemPend(sem_fftoutput, 0, &err);
+		// opvragen output
+#ifdef PRINT_FFT
+		// Print out the FFT result.
+		for (int i=0; i<FFT_LEN; i++) {
+			printf ("%X - %X\n", (int) fout[i].r, (int) fout[i].i); // uitlezen real - imaginary (met pythagoras?)
 		}
 #endif
+
+		// output verwerken
+		for (int i=0; i<AANTAL_BINS_OUTPUT_FREQSEP; i++) { // per bin output frequency separator
+			// bepaal de gemiddelde waarde
+			for (int i=0; i<aantal_x; i++) {
+				//...
+
+				// aantal bins van fft aanpassen? omdat het gemiddelde van 32 bins te laag wordt? dan is frequency separator ook niet meer nodig?
+				// anders hoogste getal nemen uit deze bins en deze als output gebruiken?
+			}
+		}
+#ifdef PRINT_FFT
+		// print de output van de frequency separator
+#endif
+		OSSemPost(sem_fftoutput);
+
+		// output naar vhdl component frame generator sturen
+		//...
 	}
 }
 
@@ -287,66 +339,3 @@ int Bel_FFT_Init(void) {
 #endif
 	return 0;
 }
-
-
-// originele code, gebruikt voor snippets, mag weggehaald worden
-/*
-#include <stdio.h>
-#include "includes.h"
-
-// Definition of Task Stacks
-#define   TASK_STACKSIZE       2048
-OS_STK    task1_stk[TASK_STACKSIZE];
-OS_STK    task2_stk[TASK_STACKSIZE];
-
-// Definition of Task Priorities
-
-#define TASK1_PRIORITY      1
-#define TASK2_PRIORITY      2
-
-// Prints "Hello World" and sleeps for three seconds
-void task1(void* pdata)
-{
-  while (1)
-  { 
-    printf("Hello from task1\n");
-    OSTimeDlyHMSM(0, 0, 3, 0);
-  }
-}
-// Prints "Hello World" and sleeps for three seconds
-void task2(void* pdata)
-{
-  while (1)
-  { 
-    printf("Hello from task2\n");
-    OSTimeDlyHMSM(0, 0, 3, 0);
-  }
-}
-// The main function creates two task and starts multi-tasking
-int main(void)
-{
-  
-  OSTaskCreateExt(task1,
-                  NULL,
-                  (void *)&task1_stk[TASK_STACKSIZE-1],
-                  TASK1_PRIORITY,
-                  TASK1_PRIORITY,
-                  task1_stk,
-                  TASK_STACKSIZE,
-                  NULL,
-                  0);
-              
-               
-  OSTaskCreateExt(task2,
-                  NULL,
-                  (void *)&task2_stk[TASK_STACKSIZE-1],
-                  TASK2_PRIORITY,
-                  TASK2_PRIORITY,
-                  task2_stk,
-                  TASK_STACKSIZE,
-                  NULL,
-                  0);
-  OSStart();
-  return 0;
-}
-*/
