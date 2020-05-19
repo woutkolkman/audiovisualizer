@@ -1,6 +1,6 @@
 // includes
 #include <stdio.h> 									// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
-//#include <stdlib.h> 								// voor delay(), mag later weg
+#include <math.h>
 #include "includes.h" 								// ucosii
 #include "altera_up_avalon_adc.h" 					// voor adc?
 #include "system.h"
@@ -8,6 +8,8 @@
 //#include "altera_up_avalon_parallel_port.h"
 
 // base addressen, te vinden in nios_processor.qsys
+#define FREQSEP_1			(int *) 0x00042090 /*vervang door FREQSEP_1_BASE*/		// uit system.h
+#define FREQSEP_2			(int *) 0x00042080 /*vervang door FREQSEP_2_BASE*/		// uit system.h
 #define ADC 				ADC_0_BASE				// uit system.h
 #define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE	// uit system.h
 #define TIMER_0				TIMER_0_BASE			// uit system.h
@@ -15,11 +17,14 @@
 
 // switches
 //#define PRINT_FFT 									// print de output van het FFT-component
-#define PRINT_FREQ 									// print de ouput van de frequency separator
+//#define PRINT_FREQ 									// print de ouput van de frequency separator
+#define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
+#define SCALE_MAX_RESETTEN							// de output constant op schaal brengen t.o.v. max per frame
 
 // defines
 #define	TASK_STACKSIZE	2048
-#define AANTAL_BINS_OUTPUT_FREQSEP 8
+#define AANTAL_OUTPUT_FREQSEP 8
+#define FREQSEP_OUTPUT_SCALE 32						// maximale waarde per signaal, gaat samen met aantal bits per signaal en de pio
 
 OS_STK	TaskStartStack[TASK_STACKSIZE];
 OS_STK	TaskADCToFFTStack[TASK_STACKSIZE];
@@ -44,6 +49,7 @@ OS_EVENT *sem_fftoutput;
 
 // function prototypes
 int Bel_FFT_Init(void);
+long map(long x, long in_min, long in_max, long out_min, long out_max);
 
 // FFT dingen
 // =========================================================================================
@@ -268,8 +274,8 @@ void TaskFFT(void* pdata) {
 void TaskFrequencySeparator(void* pdata) {
 	INT8U err;
 	OS_FLAGS value;
-	int freqOutput[AANTAL_BINS_OUTPUT_FREQSEP];
-	const int aantal_x = FFT_LEN / AANTAL_BINS_OUTPUT_FREQSEP; // aantal waarden van "fout" per bin in "freqOutput"
+	int freqOutput[AANTAL_OUTPUT_FREQSEP], scale_max = 1;
+	const int aantal_x = FFT_LEN / AANTAL_OUTPUT_FREQSEP; // aantal waarden van "fout" per bin in "freqOutput"
 
 	while (1) {
 		// wacht op FFT output
@@ -285,22 +291,73 @@ void TaskFrequencySeparator(void* pdata) {
 #endif
 
 		// output verwerken
-		for (int i=0; i<AANTAL_BINS_OUTPUT_FREQSEP; i++) { // per bin output frequency separator
-			// bepaal de gemiddelde waarde
-			for (int i=0; i<aantal_x; i++) {
-				//...
+		/* De magnitude wordt berekend voor elke bin van FFT, de hoogste magnitude
+		 * in een groep bins wordt gebruikt als output
+		 * De grootte van de groep wordt bepaald door het aantal gegenereerde balken
+		 * door de frame generator
+		 */
+		uint8_t offset;
+		int hoogst, temp;
+		for (int i=0; i<AANTAL_OUTPUT_FREQSEP; i++) { // per bin output frequency separator
+			// bepaal de hoogste waarden
+			offset = aantal_x*i;
+			hoogst = 0;
+#ifndef SCALE_MAX_RESETTEN
+			// variabele voor het automatisch op schaal brengen van alle
+			// signalen in verhouding tot het de grootste waarde van die signalen
+			scale_max = 0;
+#endif
+			for (int j=offset; j<(offset+aantal_x); j++) {
+				// magnitude berekenen met sqrt(real^2 + imaginary^2)
+				// phase berekenen met atan2(imaginary, real)
+				temp = pow(((int) fout[j].r), 2) + pow(((int) fout[j].i), 2);
+				if (0 < temp) { // geen wortel trekken met =< 0
+					temp = sqrt(temp);
 
-				// aantal bins van fft aanpassen? omdat het gemiddelde van 32 bins te laag wordt? dan is frequency separator ook niet meer nodig?
-				// anders hoogste getal nemen uit deze bins en deze als output gebruiken?
+					// kijk of de magnitude van de huidige bin hoger is
+					if (temp > hoogst) {
+						hoogst = temp;
+					}
+				}
+				// TODO aantal bins van fft (output) aanpassen zodat er minder berekeningen nodig zijn?
+			}
+			// sla de hoogste magnitude van deze groep bins op
+			freqOutput[i] = hoogst;
+			if (scale_max < hoogst) {
+				scale_max = hoogst;
 			}
 		}
-#ifdef PRINT_FFT
-		// print de output van de frequency separator
-#endif
 		OSSemPost(sem_fftoutput);
 
-		// output naar vhdl component frame generator sturen
-		//...
+		/* Een signaal hoeft maximaal de waarde 32 te bevatten door de
+		 * hoogte van de matrix, dit is 6 bits.
+		 * Een pio kan maximaal 32 bits bevattten.
+		 * 6 bits per signaal * 8 signalen = 48 bits.
+		 * Die 48 bits worden verdeeld over 2 pio blokken, 24 bits per blok.
+		 */
+		// output op schaal brengen
+		for (int i=0; i<AANTAL_OUTPUT_FREQSEP; i++) {
+#ifdef PRINT_FREQ
+			printf("Signaal %X: %X\n", i, freqOutput[i]); 	// print ruwe output
+#endif
+//			printf("%X, scale_max: %X\n", freqOutput[i], scale_max);
+			freqOutput[i] = map(freqOutput[i], 0, scale_max, 0, FREQSEP_OUTPUT_SCALE);
+#ifdef PRINT_FREQ_SCALED
+			printf("S %X: %X\n", i, freqOutput[i]); 		// print de output op schaal
+#endif
+		}
+
+		// signalen samenvoegen en output naar vhdl component frame generator sturen
+		int deel1 = 0;
+		int deel2 = 0;
+		for (int i=0; i<4; i++) {
+			// 4 signalen worden achter elkaar gezet als 1 variabele per pio (2 pio's = 2 variabelen)
+			deel1 |= (freqOutput[i] << (6*i));
+			deel2 |= (freqOutput[i+4] << (6*i));
+		}
+		*FREQSEP_1 = deel1;
+		*FREQSEP_2 = deel2;
+		// nog ervoor zorgen dat de output correct wordt gemapt van 0 t/m 32 (max)
 	}
 }
 
@@ -338,4 +395,8 @@ int Bel_FFT_Init(void) {
 		for (int d=1; d<=32767; d++) {}
 #endif
 	return 0;
+}
+
+long map(long x, long in_min, long in_max, long out_min, long out_max) {
+	return (((x - in_min) * (out_max - out_min)) / ((in_max - in_min) + out_min));
 }

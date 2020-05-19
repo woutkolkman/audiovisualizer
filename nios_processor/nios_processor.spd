@@ -205,6 +205,10 @@
    type="VERILOG"
    library="jtag_uart_0" />
  <file
+   path="simulation/submodules/nios_processor_freqsep_1.v"
+   type="VERILOG"
+   library="freqsep_1" />
+ <file
    path="simulation/submodules/bel_butterfly4.v"
    type="VERILOG"
    library="bel_fft_project_0" />
