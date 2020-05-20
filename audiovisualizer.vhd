@@ -47,6 +47,8 @@ architecture behaviour of audiovisualizer is
 		signal reset : std_logic;
 		signal tempData : std_logic_vector(DATA_WIDTH-1 downto 0);
 		signal tempAddr : std_logic_vector(ADDR_WIDTH-1 downto 0);
+		
+		signal tijdelijk : std_logic;
 	
 	begin
 		reset <= not KEY(0);
@@ -60,12 +62,12 @@ architecture behaviour of audiovisualizer is
 		ADDR => tempAddr
 		);
 		
-		justexample : frame_generator port map (
-			clock => CLOCK_50,
-			reset => reset,
-			data_matrix => tempData,
-			Address_matrix => tempAddr
-		);
+--		justexample : frame_generator port map (
+--			clock => CLOCK_50,
+--			reset => reset,
+--			data_matrix => tempData,
+--			Address_matrix => tempAddr
+--		);
 		
 		NiosII : nios_processor PORT MAP(
 			clk_clk => CLOCK_50,
