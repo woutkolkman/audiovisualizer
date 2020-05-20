@@ -17,7 +17,7 @@
 // switches
 //#define PRINT_FFT 									// print de output van het FFT-component
 //#define PRINT_FREQ_RAW 								// print de ouput van de frequency separator
-#define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
+//#define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
 #define SCALE_MAX_RESETTEN							// de output constant op schaal brengen t.o.v. max per frame
 
 // defines
