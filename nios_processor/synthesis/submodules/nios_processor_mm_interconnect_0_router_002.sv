@@ -44,7 +44,7 @@
 
 module nios_processor_mm_interconnect_0_router_002_default_decode
   #(
-     parameter DEFAULT_CHANNEL = 0,
+     parameter DEFAULT_CHANNEL = 3,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
                DEFAULT_DESTID = 4 
@@ -134,16 +134,27 @@ module nios_processor_mm_interconnect_0_router_002
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
+<<<<<<< HEAD
     localparam PAD0 = log2ceil(64'h8000 - 64'h0); 
     localparam PAD1 = log2ceil(64'ha000 - 64'h9800); 
     localparam PAD2 = log2ceil(64'ha040 - 64'ha020); 
     localparam PAD3 = log2ceil(64'ha070 - 64'ha068); 
+=======
+    localparam PAD0 = log2ceil(64'h40000 - 64'h0); 
+    localparam PAD1 = log2ceil(64'h42040 - 64'h42020); 
+    localparam PAD2 = log2ceil(64'h1002000 - 64'h1001800); 
+    localparam PAD3 = log2ceil(64'h1002070 - 64'h1002068); 
+>>>>>>> freqsepa
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
+<<<<<<< HEAD
     localparam ADDR_RANGE = 64'ha070;
+=======
+    localparam ADDR_RANGE = 64'h1002070;
+>>>>>>> freqsepa
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -191,6 +202,7 @@ module nios_processor_mm_interconnect_0_router_002
         // Sets the channel and destination ID based on the address
         // --------------------------------------------------
 
+<<<<<<< HEAD
     // ( 0x0 .. 0x8000 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 16'h0   ) begin
             src_channel = 6'b0001;
@@ -211,6 +223,30 @@ module nios_processor_mm_interconnect_0_router_002
 
     // ( 0xa068 .. 0xa070 )
     if ( {address[RG:PAD3],{PAD3{1'b0}}} == 16'ha068   ) begin
+            src_channel = 6'b0010;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
+=======
+    // ( 0x0 .. 0x40000 )
+    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 25'h0   ) begin
+            src_channel = 6'b1000;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
+    end
+
+    // ( 0x42020 .. 0x42040 )
+    if ( {address[RG:PAD1],{PAD1{1'b0}}} == 25'h42020   ) begin
+            src_channel = 6'b0001;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 5;
+    end
+
+    // ( 0x1001800 .. 0x1002000 )
+    if ( {address[RG:PAD2],{PAD2{1'b0}}} == 25'h1001800   ) begin
+            src_channel = 6'b0100;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 3;
+>>>>>>> freqsepa
+    end
+
+    // ( 0x1002068 .. 0x1002070 )
+    if ( {address[RG:PAD3],{PAD3{1'b0}}} == 25'h1002068   ) begin
             src_channel = 6'b0010;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
     end

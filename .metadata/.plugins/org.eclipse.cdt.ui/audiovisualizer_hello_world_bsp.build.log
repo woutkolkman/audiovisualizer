@@ -1,0 +1,6 @@
+16:33:50 **** Clean-only build of configuration Nios II for project audiovisualizer_hello_world_bsp ****
+make clean 
+[BSP clean complete]
+
+16:33:51 Build Finished (took 670ms)
+

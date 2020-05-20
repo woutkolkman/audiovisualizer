@@ -47,7 +47,7 @@ module nios_processor_mm_interconnect_0_router_default_decode
      parameter DEFAULT_CHANNEL = 0,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 4 
+               DEFAULT_DESTID = 5 
    )
   (output [94 - 92 : 0] default_destination_id,
    output [6-1 : 0] default_wr_channel,
@@ -134,13 +134,13 @@ module nios_processor_mm_interconnect_0_router
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
-    localparam PAD0 = log2ceil(64'h8000 - 64'h0); 
+    localparam PAD0 = log2ceil(64'h42040 - 64'h42020); 
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
-    localparam ADDR_RANGE = 64'h8000;
+    localparam ADDR_RANGE = 64'h42040;
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -184,9 +184,15 @@ module nios_processor_mm_interconnect_0_router
         // --------------------------------------------------
            
          
+<<<<<<< HEAD
           // ( 0 .. 8000 )
           src_channel = 6'b1;
           src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
+=======
+          // ( 42020 .. 42040 )
+          src_channel = 6'b1;
+          src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 5;
+>>>>>>> freqsepa
 	     
         
 

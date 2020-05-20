@@ -1,0 +1,18 @@
+16:11:06 **** Incremental Build of configuration Nios II for project the_project ****
+make all 
+Info: Building ../the_project_bsp/
+C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../the_project_bsp/
+[BSP build complete]
+Info: Compiling hello_world.c to obj/default/hello_world.o
+nios2-elf-gcc -xc -MP -MMD -c -I../the_project_bsp//HAL/inc -I../the_project_bsp/ -I../the_project_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_SINGLE_THREADED    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/hello_world.o hello_world.c
+Info: Linking the_project.elf
+nios2-elf-g++  -T'../the_project_bsp//linker.x' -msys-crt0='../the_project_bsp//obj/HAL/src/crt0.o' -msys-lib=hal_bsp -L../the_project_bsp/   -Wl,-Map=the_project.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o the_project.elf obj/default/hello_world.o -lm -msys-lib=m
+nios2-elf-insert the_project.elf --thread_model hal --cpu_name nios2_gen2_0 --qsys true --simulation_enabled false --stderr_dev jtag_uart_0 --stdin_dev jtag_uart_0 --stdout_dev jtag_uart_0 --sopc_system_name nios_processor --quartus_project_dir "C:/Users/simon/Documents/Git/audiovisualizer" --jdi ../..//output_files/audiovisualizer.jdi --sopcinfo C:/Users/simon/Documents/Git/audiovisualizer/software/the_project_bsp/../../nios_processor.sopcinfo
+Info: (the_project.elf) 70 KBytes program size (code + initialized data).
+Info:                   15 KBytes free for stack + heap.
+Info: Creating the_project.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source the_project.elf >the_project.objdump
+[the_project build complete]
+
+16:11:09 Build Finished (took 3s.74ms)
+

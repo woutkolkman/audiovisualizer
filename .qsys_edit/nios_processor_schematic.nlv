@@ -1,21 +1,27 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst nios_processor.nios2_gen2_0 -pg 1 -lvl 3 -y 280
+preplace inst nios_processor.nios2_gen2_0 -pg 1 -lvl 3 -y 410
 preplace inst nios_processor.nios2_gen2_0.reset_bridge -pg 1
-preplace inst nios_processor.onchip_memory2_0 -pg 1 -lvl 3 -y 130
+preplace inst nios_processor.onchip_memory2_0 -pg 1 -lvl 3 -y 240
 preplace inst nios_processor.nios2_gen2_0.clock_bridge -pg 1
-preplace inst nios_processor.bel_fft_project_0 -pg 1 -lvl 2 -y 290
-preplace inst nios_processor.adc_0 -pg 1 -lvl 3 -y 30
+preplace inst nios_processor.bel_fft_project_0 -pg 1 -lvl 2 -y 300
+preplace inst nios_processor.adc_0 -pg 1 -lvl 3 -y 40
 preplace inst nios_processor -pg 1 -lvl 1 -y 40 -regy -20
 preplace inst nios_processor.nios2_gen2_0.cpu -pg 1
-preplace inst nios_processor.clk_0 -pg 1 -lvl 1 -y 330
-preplace inst nios_processor.jtag_uart_0 -pg 1 -lvl 3 -y 430
-preplace netloc INTERCONNECT<net_container>nios_processor</net_container>(MASTER)nios2_gen2_0.data_master,(MASTER)nios2_gen2_0.instruction_master,(SLAVE)bel_fft_project_0.control_slave,(SLAVE)adc_0.adc_slave,(SLAVE)onchip_memory2_0.s1,(MASTER)bel_fft_project_0.avalon_master,(SLAVE)jtag_uart_0.avalon_jtag_slave,(SLAVE)nios2_gen2_0.debug_mem_slave) 1 1 3 410 400 680 220 1120
-preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)adc_0.external_interface,(SLAVE)nios_processor.adc_0_external_interface) 1 0 3 NJ 80 NJ 80 NJ
-preplace netloc FAN_OUT<net_container>nios_processor</net_container>(MASTER)clk_0.clk,(SLAVE)bel_fft_project_0.clock_sink,(SLAVE)jtag_uart_0.clk,(SLAVE)nios2_gen2_0.clk,(SLAVE)adc_0.clk,(SLAVE)onchip_memory2_0.clk1) 1 1 2 390 420 700
+preplace inst nios_processor.clk_0 -pg 1 -lvl 1 -y 340
+preplace inst nios_processor.jtag_uart_0 -pg 1 -lvl 3 -y 550
+preplace inst nios_processor.timer_0 -pg 1 -lvl 4 -y 320
+preplace inst nios_processor.freqsep_1 -pg 1 -lvl 4 -y 40
+preplace inst nios_processor.freqsep_2 -pg 1 -lvl 4 -y 140
+preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)nios_processor.adc_0_external_interface,(SLAVE)adc_0.external_interface) 1 0 3 NJ 90 NJ 90 NJ
+preplace netloc FAN_OUT<net_container>nios_processor</net_container>(SLAVE)freqsep_2.clk,(SLAVE)onchip_memory2_0.clk1,(SLAVE)adc_0.clk,(SLAVE)nios2_gen2_0.clk,(SLAVE)bel_fft_project_0.clock_sink,(SLAVE)onchip_memory2_0.clk2,(SLAVE)freqsep_1.clk,(SLAVE)timer_0.clk,(SLAVE)jtag_uart_0.clk,(MASTER)clk_0.clk) 1 1 3 370 290 700 150 1140
+preplace netloc INTERCONNECT<net_container>nios_processor</net_container>(SLAVE)nios2_gen2_0.debug_mem_slave,(SLAVE)onchip_memory2_0.s1,(SLAVE)freqsep_1.s1,(SLAVE)jtag_uart_0.avalon_jtag_slave,(SLAVE)freqsep_2.s1,(SLAVE)adc_0.adc_slave,(MASTER)nios2_gen2_0.data_master,(SLAVE)bel_fft_project_0.control_slave,(MASTER)nios2_gen2_0.instruction_master,(SLAVE)timer_0.s1) 1 1 3 410 410 740 210 1160
+preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)freqsep_1.external_connection,(SLAVE)nios_processor.freqsep_1) 1 0 4 NJ 40 NJ 40 NJ 30 NJ
+preplace netloc INTERCONNECT<net_container>nios_processor</net_container>(SLAVE)jtag_uart_0.reset,(SLAVE)nios2_gen2_0.reset,(SLAVE)bel_fft_project_0.reset_sink,(SLAVE)onchip_memory2_0.reset2,(MASTER)clk_0.clk_reset,(SLAVE)timer_0.reset,(SLAVE)onchip_memory2_0.reset1,(SLAVE)freqsep_1.reset,(MASTER)nios2_gen2_0.debug_reset_request,(SLAVE)freqsep_2.reset,(SLAVE)adc_0.reset) 1 1 3 370 430 720 190 1120
+preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)nios_processor.freqsep_2,(SLAVE)freqsep_2.external_connection) 1 0 4 NJ 170 NJ 170 NJ 170 NJ
+preplace netloc POINT_TO_POINT<net_container>nios_processor</net_container>(MASTER)bel_fft_project_0.avalon_master,(SLAVE)onchip_memory2_0.s2) 1 2 1 660
 preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)nios_processor.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>nios_processor</net_container>(SLAVE)jtag_uart_0.irq,(MASTER)nios2_gen2_0.irq,(SLAVE)bel_fft_project_0.interrupt_sender) 1 1 3 430 440 660 240 1100
 preplace netloc EXPORT<net_container>nios_processor</net_container>(SLAVE)nios_processor.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
-preplace netloc INTERCONNECT<net_container>nios_processor</net_container>(SLAVE)nios2_gen2_0.reset,(MASTER)nios2_gen2_0.debug_reset_request,(SLAVE)bel_fft_project_0.reset_sink,(SLAVE)jtag_uart_0.reset,(SLAVE)adc_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)onchip_memory2_0.reset1) 1 1 3 370 460 720 420 1080
-levelinfo -pg 1 0 160 1160
-levelinfo -hier nios_processor 170 200 460 840 1140
+preplace netloc FAN_OUT<net_container>nios_processor</net_container>(MASTER)nios2_gen2_0.irq,(SLAVE)jtag_uart_0.irq,(SLAVE)bel_fft_project_0.interrupt_sender,(SLAVE)timer_0.irq) 1 1 3 390 270 680 230 1100
+levelinfo -pg 1 0 160 1350
+levelinfo -hier nios_processor 170 200 460 860 1190 1340
