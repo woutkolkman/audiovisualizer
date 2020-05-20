@@ -3,13 +3,12 @@
 #include <math.h>
 #include "includes.h" 								// ucosii
 #include "altera_up_avalon_adc.h" 					// voor adc?
-#include "system.h"
 #include "kiss_fft.h" 								// API voor FFT
 //#include "altera_up_avalon_parallel_port.h"
 
 // base addressen, te vinden in nios_processor.qsys
-#define FREQSEP_1			(int *) 0x00042090 /*vervang door FREQSEP_1_BASE*/		// uit system.h
-#define FREQSEP_2			(int *) 0x00042080 /*vervang door FREQSEP_2_BASE*/		// uit system.h
+#define FREQSEP_1			(int *) FREQSEP_1_BASE 	// uit system.h
+#define FREQSEP_2			(int *) FREQSEP_2_BASE 	// uit system.h
 #define ADC 				ADC_0_BASE				// uit system.h
 #define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE	// uit system.h
 #define TIMER_0				TIMER_0_BASE			// uit system.h
@@ -17,7 +16,7 @@
 
 // switches
 //#define PRINT_FFT 									// print de output van het FFT-component
-//#define PRINT_FREQ 									// print de ouput van de frequency separator
+//#define PRINT_FREQ_RAW 								// print de ouput van de frequency separator
 #define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
 #define SCALE_MAX_RESETTEN							// de output constant op schaal brengen t.o.v. max per frame
 
@@ -337,13 +336,12 @@ void TaskFrequencySeparator(void* pdata) {
 		 */
 		// output op schaal brengen
 		for (int i=0; i<AANTAL_OUTPUT_FREQSEP; i++) {
-#ifdef PRINT_FREQ
-			printf("Signaal %X: %X\n", i, freqOutput[i]); 	// print ruwe output
+#ifdef PRINT_FREQ_RAW
+			printf("Signaal %i: %i\n", i, freqOutput[i]); 	// print ruwe output
 #endif
-//			printf("%X, scale_max: %X\n", freqOutput[i], scale_max);
-			freqOutput[i] = map(freqOutput[i], 0, scale_max, 0, FREQSEP_OUTPUT_SCALE);
+			freqOutput[i] = map((long) freqOutput[i], (long) 0, (long) scale_max, (long) 0, (long) FREQSEP_OUTPUT_SCALE);
 #ifdef PRINT_FREQ_SCALED
-			printf("S %X: %X\n", i, freqOutput[i]); 		// print de output op schaal
+			printf("S %i: %i\n", i, freqOutput[i]); 		// print de output op schaal
 #endif
 		}
 
@@ -357,8 +355,11 @@ void TaskFrequencySeparator(void* pdata) {
 		}
 		*FREQSEP_1 = deel1;
 		*FREQSEP_2 = deel2;
-		// nog ervoor zorgen dat de output correct wordt gemapt van 0 t/m 32 (max)
 	}
+}
+
+long map(long x, long in_min, long in_max, long out_min, long out_max) {
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 int Bel_FFT_Init(void) {
@@ -395,8 +396,4 @@ int Bel_FFT_Init(void) {
 		for (int d=1; d<=32767; d++) {}
 #endif
 	return 0;
-}
-
-long map(long x, long in_min, long in_max, long out_min, long out_max) {
-	return (((x - in_min) * (out_max - out_min)) / ((in_max - in_min) + out_min));
 }
