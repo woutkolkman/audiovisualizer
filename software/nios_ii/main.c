@@ -19,8 +19,8 @@
 //#define PRINT_FFT 									// print de output van het FFT-component
 //#define PRINT_FREQ_RAW 								// print de ouput van de frequency separator
 #define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
-#define SCALE_MAX_RESETTEN							// de output constant op schaal brengen t.o.v. max per frame
-#define SWITCH_INPUT_ARRAYS							// switch om de zoveel seconden naar een andere fft simulatie input array
+//#define SCALE_MAX_RESETTEN							// de output constant op schaal brengen t.o.v. max per frame
+#define SWITCH_INPUT_ARRAYS							// switch per keer naar een andere fft simulatie input array
 #define FFT_DELAY			 990					// ms, geldt ook bij TEST_FFT (mag niet groter dan 999?)
 
 // defines
@@ -169,8 +169,9 @@ void TaskADCToFFT(void* pdata) {
 
 void TaskFFT(void* pdata) {
 	INT8U err;
-
 	kiss_fft_cfg cfg;
+	int8_t huidige_array = 0;
+
 #ifndef TEST_FFT
 	// normale initialisatie voor met ADC
 	kiss_fft_cpx fin[FFT_LEN];
@@ -178,6 +179,7 @@ void TaskFFT(void* pdata) {
 #else
 	// test/simulatie input, structs van 32 bits real & 32 bits imaginary waarden
 	// 64 regels * 4 per regel = 256 input lengte
+	/* 24 - 32 - 0 - 0 - 0 - 0 - 0 - 32 */
 	kiss_fft_cpx fin[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x00002BD1, 0x00000000}, {0x000040E8, 0x00000000}, {0x000035CE, 0x00000000},
 	{0x000013D4, 0x00000000}, {0xFFFFF18D, 0x00000000}, {0xFFFFE590, 0x00000000}, {0xFFFFF92F, 0x00000000},
@@ -244,6 +246,7 @@ void TaskFFT(void* pdata) {
 	{0xFFFFDD07, 0x00000000}, {0x000006D1, 0x00000000}, {0x00001A70, 0x00000000}, {0x00000E73, 0x00000000},
 	{0xFFFFEC2C, 0x00000000}, {0xFFFFCA32, 0x00000000}, {0xFFFFBF18, 0x00000000}, {0xFFFFD42F, 0x00000000}};
 	
+	/* 32 - 32 - 32 - 32 - 32 - 32 - 32 - 32 */
 	kiss_fft_cpx fin1[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x000029B5, 0x00000000}, {0x00004751, 0x00000000}, {0x000050F4, 0x00000000}, 
 	{0x000045AA, 0x00000000}, {0x00002BA0, 0x00000000}, {0x00000DBE, 0x00000000}, {0x0FFFF79D, 0x00000000}, 
@@ -310,6 +313,7 @@ void TaskFFT(void* pdata) {
 	{0x00000EC6, 0x00000000}, {0x00000863, 0x00000000}, {0x0FFFF242, 0x00000000}, {0x0FFFD460, 0x00000000}, 
 	{0x0FFFBA56, 0x00000000}, {0x0FFFAF0C, 0x00000000}, {0x0FFFB8AF, 0x00000000}, {0x0FFFD64B, 0x00000000}};
 	
+	/* 32 - 0 - 0 - 0 - 0 - 0 - 0 - 32 */
 	kiss_fft_cpx fin2[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x000028EA, 0x00000000}, {0x000049B7, 0x00000000}, {0x00005BFE, 0x00000000}, 
 	{0x00005C62, 0x00000000}, {0x00004B3B, 0x00000000}, {0x00002C74, 0x00000000}, {0x000006A0, 0x00000000}, 
@@ -389,28 +393,31 @@ void TaskFFT(void* pdata) {
 		printf ("Error: Cannot allocate memory for FFT control structure.\n");
 	    return;
 	}
-	
-	// TODO code hieronder in de while loop zetten als dit zo werkt?
-	
-	OSSemPend(sem_fftoutput, 0, &err);
-#ifdef SWITCH_INPUT_ARRAYS
-	kiss_fft (cfg, fin, fout);
-	
-	// TODO variabelen en if statements toevoegen voor de andere arrays, kijk of er andere output komt
-	
-#else
-	kiss_fft (cfg, fin, fout); // startup
-#endif
-	// klaar met output genereren
-	OSSemPost(sem_fftoutput);
-
-	// geef aan dat output klaar is
-	err = OSFlagPost(flags, FLAG_FFTOUTPUT, OS_FLAG_SET, &err);
 
 	while (1) {
-		// TODO onderzoek of je de FFTCore telkens aanroept of maar 1x activeert?
+		OSSemPend(sem_fftoutput, 0, &err);
+#ifdef SWITCH_INPUT_ARRAYS
+		if (0 == huidige_array) {
+			kiss_fft (cfg, fin, fout);
+		}
+		else if (1 == huidige_array) {
+			kiss_fft (cfg, fin1, fout);
+		}
+		else if (2 == huidige_array) {
+			kiss_fft (cfg, fin2, fout);
+			huidige_array = -1;
+		}
+		huidige_array++;
+#else
+		kiss_fft (cfg, fin, fout); // startup
+#endif
+		// klaar met output genereren
+		OSSemPost(sem_fftoutput);
 
-		OSTimeDlyHMSM(0,0,0,FFT_DELAY); // vervangen door fft starten, output genereren en flag posten
+		// geef aan dat output klaar is
+		err = OSFlagPost(flags, FLAG_FFTOUTPUT, OS_FLAG_SET, &err);
+
+		OSTimeDlyHMSM(0,0,0,FFT_DELAY); // weghalen voor optimale snelheid?
 	}
 }
 
