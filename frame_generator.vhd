@@ -1,7 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
---use ieee.std_logic_unsigned.all;
 use work.rgbmatrix.all;
  
 -- vhdl component om de frequency bands (8) op de LED-matrix visueel weer te geven
@@ -10,44 +9,33 @@ entity frame_generator is
         reset          : in std_logic;
         address_matrix : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
         data_matrix    : out std_logic_vector(DATA_WIDTH - 1 downto 0));
+			
 end entity frame_generator;
 
 architecture rtl of frame_generator is
 
-	component matrix_clkdivider is
-		generic (
-			in_freq : natural;			
-			out_freq : natural			
-		);
-		
-		port (
-			clk_in : in std_logic;
-			reset : in std_logic;
-			clk_out : out std_logic
-		);
-	end component;
+component matrix_clkdivider is
+	generic(in_freq : natural;			
+			  out_freq : natural);
+	port(clk_in : in std_logic;
+		  reset : in std_logic;
+		  clk_out : out std_logic);
+end component matrix_clkdivider;
+	
 	signal address, next_address : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-<<<<<<< HEAD
 	signal intaddr : integer range 0 to 1023;
 	signal count : natural;
 	signal targetaddr : std_logic_vector(ADDR_WIDTH - 1 downto 0);
 	signal countflag : integer range 0 to 63;
 	signal flag : std_logic;
-=======
-	signal intaddr : integer range 0 to 1023;	
->>>>>>> 36ef12eb490a0a1ec35ae410f765fc47725025bd
-	
+
 begin
 
 	address_matrix <= address;
 	intaddr <= to_integer(unsigned(address));
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 36ef12eb490a0a1ec35ae410f765fc47725025bd
 	process(clock, reset)
-    begin
+   begin
 			if (reset = '1') then
 				 address <= (others => '0');
 			elsif (rising_edge(clock)) then
