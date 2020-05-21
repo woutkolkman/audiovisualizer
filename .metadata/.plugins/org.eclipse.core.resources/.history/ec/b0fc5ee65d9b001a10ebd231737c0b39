@@ -649,8 +649,8 @@ void TaskFrequencySeparator(void* pdata) {
 		int deel2 = 0;
 		for (int i=0; i<4; i++) {
 			// 4 signalen worden achter elkaar gezet als 1 variabele per pio (2 pio's = 2 variabelen)
-			deel1 |= (freqOutput[(3-i)] << (6*i));
-			deel2 |= (freqOutput[(3-i)+4] << (6*i));
+			deel1 |= (freqOutput[i] << (6*i));
+			deel2 |= (freqOutput[i+4] << (6*i));
 		}
 		*FREQSEP_1 = deel1;
 		*FREQSEP_2 = deel2;

@@ -204,3 +204,117 @@ Info: Building ../nios_ii_bsp/
 C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../nios_ii_bsp/
 [BSP build complete]
 [nios_ii build complete]
+14:23:41 **** Build of configuration Nios II for project nios_ii ****
+make all 
+Info: Building ../nios_ii_bsp/
+C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../nios_ii_bsp/
+[BSP build complete]
+Info: Compiling main.c to obj/default/main.o
+nios2-elf-gcc -xc -MP -MMD -c -I../nios_ii_bsp//UCOSII/inc -I../nios_ii_bsp//HAL/inc -I../nios_ii_bsp/ -I../nios_ii_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -D__ucosii__    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/main.o main.c
+main.c: In function 'TaskFFT':
+main.c:539:24: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin, fout);
+                        ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:545:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin2, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:548:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin3, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:551:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin4, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:251:15: warning: unused variable 'fin1' [-Wunused-variable]
+  kiss_fft_cpx fin1[FFT_LEN] = {
+               ^
+main.c: In function 'TaskFrequencySeparator':
+main.c:570:11: warning: variable 'value' set but not used [-Wunused-but-set-variable]
+  OS_FLAGS value;
+           ^
+Info: Linking nios_ii.elf
+nios2-elf-g++  -T'../nios_ii_bsp//linker.x' -msys-crt0='../nios_ii_bsp//obj/HAL/src/crt0.o' -msys-lib=ucosii_bsp -L../nios_ii_bsp/   -Wl,-Map=nios_ii.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o nios_ii.elf obj/default/kiss_fft.o obj/default/main.o -lm -msys-lib=m
+nios2-elf-insert nios_ii.elf --thread_model ucosii --cpu_name nios2_gen2_0 --qsys true --simulation_enabled false --stderr_dev jtag_uart_0 --stdin_dev jtag_uart_0 --stdout_dev jtag_uart_0 --sopc_system_name nios_processor --quartus_project_dir "C:/Users/simon/Documents/Git/audiovisualizer" --jdi ../..//output_files/audiovisualizer.jdi --sopcinfo C:/Users/simon/Documents/Git/audiovisualizer/software/nios_ii_bsp/../../nios_processor.sopcinfo
+Info: (nios_ii.elf) 170 KBytes program size (code + initialized data).
+Info:               17 KBytes free for stack + heap.
+Info: Creating nios_ii.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source nios_ii.elf >nios_ii.objdump
+[nios_ii build complete]
+14:23:48 **** Build of configuration Nios II for project nios_ii_bsp ****
+make all 
+[BSP build complete]
+14:24:14 **** Incremental Build of configuration Nios II for project nios_ii ****
+make all 
+Info: Building ../nios_ii_bsp/
+C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../nios_ii_bsp/
+[BSP build complete]
+[nios_ii build complete]
+14:28:30 **** Build of configuration Nios II for project nios_ii ****
+make all 
+Info: Building ../nios_ii_bsp/
+C:/intelFPGA_lite/16.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../nios_ii_bsp/
+[BSP build complete]
+Info: Compiling main.c to obj/default/main.o
+nios2-elf-gcc -xc -MP -MMD -c -I../nios_ii_bsp//UCOSII/inc -I../nios_ii_bsp//HAL/inc -I../nios_ii_bsp/ -I../nios_ii_bsp//drivers/inc  -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -D__ucosii__    -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o obj/default/main.o main.c
+main.c: In function 'TaskFFT':
+main.c:539:24: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin, fout);
+                        ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:545:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin2, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:548:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin3, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:551:25: warning: passing argument 3 of 'kiss_fft' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    kiss_fft (cfg, fin4, fout);
+                         ^
+In file included from main.c:6:0:
+kiss_fft.h:123:6: note: expected 'kiss_fft_cpx * {aka struct <anonymous> *}' but argument is of type 'volatile kiss_fft_cpx * {aka volatile struct <anonymous> *}'
+ void kiss_fft(kiss_fft_cfg cfg, kiss_fft_cpx *fin,kiss_fft_cpx *fout);
+      ^
+main.c:251:15: warning: unused variable 'fin1' [-Wunused-variable]
+  kiss_fft_cpx fin1[FFT_LEN] = {
+               ^
+main.c: In function 'TaskFrequencySeparator':
+main.c:570:11: warning: variable 'value' set but not used [-Wunused-but-set-variable]
+  OS_FLAGS value;
+           ^
+Info: Linking nios_ii.elf
+nios2-elf-g++  -T'../nios_ii_bsp//linker.x' -msys-crt0='../nios_ii_bsp//obj/HAL/src/crt0.o' -msys-lib=ucosii_bsp -L../nios_ii_bsp/   -Wl,-Map=nios_ii.map   -O0 -g -Wall   -mno-hw-div -mno-hw-mul -mno-hw-mulx -mgpopt=global  -o nios_ii.elf obj/default/kiss_fft.o obj/default/main.o -lm -msys-lib=m
+nios2-elf-insert nios_ii.elf --thread_model ucosii --cpu_name nios2_gen2_0 --qsys true --simulation_enabled false --stderr_dev jtag_uart_0 --stdin_dev jtag_uart_0 --stdout_dev jtag_uart_0 --sopc_system_name nios_processor --quartus_project_dir "C:/Users/simon/Documents/Git/audiovisualizer" --jdi ../..//output_files/audiovisualizer.jdi --sopcinfo C:/Users/simon/Documents/Git/audiovisualizer/software/nios_ii_bsp/../../nios_processor.sopcinfo
+Info: (nios_ii.elf) 170 KBytes program size (code + initialized data).
+Info:               17 KBytes free for stack + heap.
+Info: Creating nios_ii.objdump
+nios2-elf-objdump --disassemble --syms --all-header --source nios_ii.elf >nios_ii.objdump
+[nios_ii build complete]
+14:28:38 **** Build of configuration Nios II for project nios_ii_bsp ****
+make all 
+[BSP build complete]
