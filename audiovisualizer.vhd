@@ -43,6 +43,13 @@ architecture behaviour of audiovisualizer is
 		);
 	end component;
 	
+	component frame_generator_dynamic is 
+		port(clock, reset   	  : in  std_logic;
+		     addr_matrix          : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+		     data_matrix    	  : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+	  	     freq_sep1, freq_sep2 : in  std_logic_vector(23 downto 0));
+	end component frame_generator_dynamic;
+	
 	component nios_processor is
 		port (
 			adc_0_external_interface_sclk : out std_logic;        --voor ADC
@@ -94,6 +101,12 @@ begin
 		ADDR => tempAddr
 	);
 		
+	dynamic_frame : frame_generator_dynamic port map (clock => CLOCK_50, reset => reset, addr_matrix => tempAddr, data_matrix => tempData,
+							  freq_sep1(23 downto 18) => "010000", freq_sep1(17 downto 12) => "000111", 
+				  			  freq_sep1(11 downto 6) => "010101",  freq_sep1(5 downto 0) => "001010",
+							  freq_sep2(23 downto 18) => "000101", freq_sep2(17 downto 12) => "001110",
+							  freq_sep2(11 downto 6) => "001001", freq_sep2(5 downto 0) => "001101");
+							  -- voorbeeld inputs om werking te laten zien
 --	justexample : frame_generator port map (
 --		clock => CLOCK_50,
 --		reset => reset,
