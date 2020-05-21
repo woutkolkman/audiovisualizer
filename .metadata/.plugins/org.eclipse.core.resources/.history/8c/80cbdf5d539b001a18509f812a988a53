@@ -16,7 +16,7 @@
 
 // switches
 #define TEST_FFT									// gebruik test array(s) bij FFT i.p.v. ADC
-#define FFT_DELAY			 999					// ms tussen elke start van de FFT metingen, geldt ook bij TEST_FFT (mag niet groter dan 999?)
+#define FFT_DELAY			 500					// ms tussen elke start van de FFT metingen, geldt ook bij TEST_FFT (mag niet groter dan 999?)
 //#define PRINT_FFT 									// print de output van het FFT-component
 //#define PRINT_FREQ_RAW 								// print de ouput van de frequency separator
 #define PRINT_FREQ_SCALED							// print de ouput van de frequency separator nadat het op schaal is gebracht
