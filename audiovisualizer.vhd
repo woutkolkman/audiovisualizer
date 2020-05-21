@@ -58,9 +58,10 @@ architecture behaviour of audiovisualizer is
 		);
 		
 		dynamic : frame_generator_dynamic port map (clock => CLOCK_50, reset => reset, addr_matrix => tempAddr, data_matrix => tempData,
-																  freq_sep1(23 downto 18) => "010100", freq_sep1(17 downto 12) => "011111", 
-																  freq_sep1(11 downto 6) => "010000", 
-																  freq_sep2 => freq_sep_two);
+										freq_sep1(23 downto 18) => "010000", freq_sep1(17 downto 12) => "000111", 
+										freq_sep1(11 downto 6) => "010101",  freq_sep1(5 downto 0) => "001010",
+										freq_sep2(23 downto 18) => "000101", freq_sep2(17 downto 12) => "001110",
+										freq_sep2(11 downto 6) => "001001", freq_sep2(5 downto 0) => "001101");
 		
 --		justexample : frame_generator port map (
 --			clock => CLOCK_50,
