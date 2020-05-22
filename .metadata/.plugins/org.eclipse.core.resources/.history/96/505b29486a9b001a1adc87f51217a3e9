@@ -130,7 +130,7 @@ int main(void){
 void TaskStart(void *pdata) {
 //	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
 
-//  OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
+//    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
     OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
     OSTaskCreate(TaskFrequencySeparator, (void *) 0, &TaskFrequencySeparatorStack[TASK_STACKSIZE - 1], 7);
 

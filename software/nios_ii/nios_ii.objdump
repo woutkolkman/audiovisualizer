@@ -1351,7 +1351,7 @@ void TaskStart(void *pdata) {
      6a8:	e13fff15 	stw	r4,-4(fp)
 //	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
 
-//    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
+//  OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
     OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
      6ac:	01c00184 	movi	r7,6
      6b0:	018000b4 	movhi	r6,2
