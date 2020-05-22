@@ -1,7 +1,7 @@
 library ieee;
 USE ieee.std_logic_1164.ALL;
 use ieee.numeric_std.all;
-use work.rgbmatrix.all;		--config bestand: bevat standaardwaarden en definities voor kleuren voor de matrix.
+use work.rgbmatrix.all;		-- config bestand: bevat standaardwaarden en definities voor kleuren voor de matrix.
 
 entity audiovisualizer is
 	port(CLOCK_50	  : IN STD_LOGIC;
@@ -30,13 +30,6 @@ component matrix_driver_top is
 			  PINSOUT  : OUT STD_LOGIC_VECTOR(12 downto 0));
 end component;
 	
-component frame_generator is
-		port(clock 			  : in std_logic;
-		     reset 			  : in std_logic;
-		     data_matrix    : out std_logic_vector(DATA_WIDTH-1 downto 0);
-		     Address_matrix : out std_logic_vector(ADDR_WIDTH-1 downto 0));
-end component;
-	
 component frame_generator_dynamic is 
 		port(clock, reset   	     : in  std_logic;
 		     addr_matrix          : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
@@ -45,19 +38,19 @@ component frame_generator_dynamic is
 end component frame_generator_dynamic;
 	
 component nios_processor is
-		port(adc_0_external_interface_sclk : out std_logic;        --voor ADC
-			  adc_0_external_interface_cs_n : out std_logic;        --voor ADC
-			  adc_0_external_interface_dout : in  std_logic := '0'; --voor ADC
-			  adc_0_external_interface_din  : out std_logic;        --voor ADC
-			  clk_clk                       : in  std_logic := '0'; --clk
-			  reset_reset_n                 : in  std_logic := '0'; --reset
+		port(adc_0_external_interface_sclk : out std_logic;         -- voor ADC
+			  adc_0_external_interface_cs_n : out std_logic;        -- voor ADC
+			  adc_0_external_interface_dout : in  std_logic := '0'; -- voor ADC
+			  adc_0_external_interface_din  : out std_logic;        -- voor ADC
+			  clk_clk                       : in  std_logic := '0'; -- clk
+			  reset_reset_n                 : in  std_logic := '0'; -- reset
 			  freqsep_1_export              : out std_logic_vector(23 downto 0);
 			  freqsep_2_export              : out std_logic_vector(23 downto 0));
 end component;
 	
 	-- signals nios_processor
-	signal chip_selection : std_logic; 								-- chip selection signal 
-	signal reset_pin 		 : std_logic; 								-- reset signal
+	signal chip_selection : std_logic; 								 
+	signal reset_pin 		 : std_logic; 								
 	signal fs_1, fs_2 	 : std_logic_vector(23 downto 0);	-- signals voor verbinden frequency separator met frame generator
 	
 	component ad_converter_i2c is
@@ -73,8 +66,6 @@ end component;
 	signal reset : std_logic;
 	signal tempData : std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal tempAddr : std_logic_vector(ADDR_WIDTH-1 downto 0);
-		
-	signal tijdelijk : std_logic;
 	
 	-- signals i2c component
 	signal send_flag      : std_logic;
@@ -98,13 +89,6 @@ begin
 							  freq_sep2(23 downto 18) => fs_2(23 downto 18), freq_sep2(17 downto 12) => fs_2(17 downto 12),
 							  freq_sep2(11 downto 6) => fs_2(11 downto 6), freq_sep2(5 downto 0) => fs_2(5 downto 0));
 							  
-							  
---	justexample : frame_generator port map (
---		clock => CLOCK_50,
---		reset => reset,
---		data_matrix => tempData,
---		Address_matrix => tempAddr
---	);
 	
 	nios_ii : nios_processor port map (clk_clk => CLOCK_50, 
 												  reset_reset_n => reset_pin, 
@@ -121,20 +105,20 @@ begin
 	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
 														 clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
 		
-	process(CLOCK_50, reset_pin) -- proces voor starten communicatie FPGA audio-chip (i2c) 
+	process(CLOCK_50, reset_pin) 
 	begin	
-		if (rising_edge(CLOCK_50)) then 							-- (passed)
+		if (rising_edge(CLOCK_50)) then 							
 			case reset_pin is
 				when '1' => send_flag <= '0';
 				when others => null;
 			end case;
 		end if;
-		if (rising_edge(CLOCK_50)) and is_busy = '0' then 	-- (passed)
-			if (SW(17) = '1') then 									-- enable ADC (audio aan) (passed)
+		if (rising_edge(CLOCK_50)) and is_busy = '0' then 	
+			if (SW(17) = '1') then 							-- enable ADC (audio aan) (passed)
 				framed_data(15 downto 9) <= "0000110"; 		-- volgens data sheet
 				framed_data(8 downto 0) <= "000000111";
 				send_flag <= '1';
-			elsif (SW(16) = '1') then 								-- reset process (audio uit) (passed)
+			elsif (SW(16) = '1') then 						-- reset process (audio uit) (passed)
 				framed_data(15 downto 9) <= "0001111"; 		-- volgens data sheet
 				framed_data(8 downto 0) <= "000000000";
 				send_flag <= '1';
