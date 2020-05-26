@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Thu May 14 15:59:56 CEST 2020
+ * Generated: Fri May 22 15:43:57 CEST 2020
  */
 
 /*

@@ -5,8 +5,9 @@ module nios_processor (
 	audio_BCLK,
 	audio_DACDAT,
 	audio_DACLRCK,
+	audio_video_SDAT,
+	audio_video_SCLK,
 	clk_clk,
-	leds_export,
 	reset_reset_n);	
 
 	input		audio_ADCDAT;
@@ -14,7 +15,8 @@ module nios_processor (
 	input		audio_BCLK;
 	output		audio_DACDAT;
 	input		audio_DACLRCK;
+	inout		audio_video_SDAT;
+	output		audio_video_SCLK;
 	input		clk_clk;
-	output	[7:0]	leds_export;
 	input		reset_reset_n;
 endmodule

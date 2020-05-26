@@ -1,0 +1,69 @@
+// base addressen, te vinden in nios_processor.qsys
+#define ADC_ADDR			(volatile int *) 0x00042020
+#define TIMER_0				(volatile int *) 0x00042040
+#define AUDIO				(volatile int *) 0x00042070
+#define AUDIO_VID_ADDR		(volatile int *) 0x00042060
+
+// includes
+#include <stdio.h>
+#include "includes.h"
+#include "altera_up_avalon_adc.h"
+#include "system.h"
+
+// stacks
+#define	TASK_STACKSIZE	2048
+
+OS_STK	TaskStartStack[TASK_STACKSIZE];
+OS_STK	TaskADCStack[TASK_STACKSIZE];
+OS_STK  TaskAudioStack[TASK_STACKSIZE];
+
+// tasks
+void TaskStart(void *pdata);
+void TaskADC(void *pdata);
+void TaskAudio(void *pdata);
+
+int main(void) {
+
+	OSInit(); // initialize ucos-ii
+	OSTaskCreate(TaskStart, (void *) 0, &TaskStartStack[TASK_STACKSIZE - 1], 5); // create new task
+	OSStart(); // start multitasking
+	return 0; // never executed
+}
+
+void TaskStart(void *pdata) {
+
+	OSTaskCreate(TaskADC, (void *) 0, &TaskADCStack[TASK_STACKSIZE - 1], 6); // create new task
+
+
+    while (1) {
+
+        OSTimeDly(100);
+    }
+}
+
+void TaskAudio(void *pdata) {
+
+	while (1) {
+
+	}
+}
+
+void TaskADC(void* pdata) {
+
+
+    while (1) {
+
+    	alt_up_adc_dev* adc;
+    	adc = alt_up_adc_open_dev("/dev/adc_0");
+
+    	if (adc == NULL) {
+    		printf("Could not find ADC.\n");
+    	} else {
+    		alt_up_adc_auto_enable(adc);
+    		printf("%d \n", alt_up_adc_read(adc, 0));
+    		printf("%d \n", alt_up_adc_read(adc, 1));
+    		OSTimeDlyHMSM(0, 0, 1, 0);
+    	}
+
+    }
+}

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Thu May 14 16:40:50 CEST 2020
+ * Generated: Tue May 26 14:09:17 CEST 2020
  */
 
 /*
@@ -135,38 +135,11 @@
 
 #define __ALTERA_AVALON_JTAG_UART
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
-#define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_GEN2
-#define __ALTERA_UP_AVALON_ADC
+#define __ALTERA_UP_AVALON_AUDIO
+#define __ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG
 #define __BEL_FFT_PROJECT
-
-
-/*
- * LEDs configuration
- *
- */
-
-#define ALT_MODULE_CLASS_LEDs altera_avalon_pio
-#define LEDS_BASE 0x42080
-#define LEDS_BIT_CLEARING_EDGE_REGISTER 0
-#define LEDS_BIT_MODIFYING_OUTPUT_REGISTER 0
-#define LEDS_CAPTURE 0
-#define LEDS_DATA_WIDTH 8
-#define LEDS_DO_TEST_BENCH_WIRING 0
-#define LEDS_DRIVEN_SIM_VALUE 0
-#define LEDS_EDGE_TYPE "NONE"
-#define LEDS_FREQ 50000000
-#define LEDS_HAS_IN 0
-#define LEDS_HAS_OUT 1
-#define LEDS_HAS_TRI 0
-#define LEDS_IRQ -1
-#define LEDS_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define LEDS_IRQ_TYPE "NONE"
-#define LEDS_NAME "/dev/LEDs"
-#define LEDS_RESET_VALUE 0
-#define LEDS_SPAN 16
-#define LEDS_TYPE "altera_avalon_pio"
 
 
 /*
@@ -175,8 +148,8 @@
  */
 
 #define ALT_DEVICE_FAMILY "Cyclone IV E"
-#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 #define ALT_IRQ_BASE NULL
+#define ALT_LEGACY_INTERRUPT_API_PRESENT
 #define ALT_LOG_PORT "/dev/null"
 #define ALT_LOG_PORT_BASE 0x0
 #define ALT_LOG_PORT_DEV null
@@ -185,19 +158,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x42098
+#define ALT_STDERR_BASE 0x42088
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x42098
+#define ALT_STDIN_BASE 0x42088
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x42098
+#define ALT_STDOUT_BASE 0x42088
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -206,17 +179,31 @@
 
 
 /*
- * adc_0 configuration
+ * audio_0 configuration
  *
  */
 
-#define ADC_0_BASE 0x42060
-#define ADC_0_IRQ -1
-#define ADC_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define ADC_0_NAME "/dev/adc_0"
-#define ADC_0_SPAN 32
-#define ADC_0_TYPE "altera_up_avalon_adc"
-#define ALT_MODULE_CLASS_adc_0 altera_up_avalon_adc
+#define ALT_MODULE_CLASS_audio_0 altera_up_avalon_audio
+#define AUDIO_0_BASE 0x42070
+#define AUDIO_0_IRQ 11
+#define AUDIO_0_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define AUDIO_0_NAME "/dev/audio_0"
+#define AUDIO_0_SPAN 16
+#define AUDIO_0_TYPE "altera_up_avalon_audio"
+
+
+/*
+ * audio_and_video_config_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_audio_and_video_config_0 altera_up_avalon_audio_and_video_config
+#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x42060
+#define AUDIO_AND_VIDEO_CONFIG_0_IRQ -1
+#define AUDIO_AND_VIDEO_CONFIG_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define AUDIO_AND_VIDEO_CONFIG_0_NAME "/dev/audio_and_video_config_0"
+#define AUDIO_AND_VIDEO_CONFIG_0_SPAN 16
+#define AUDIO_AND_VIDEO_CONFIG_0_TYPE "altera_up_avalon_audio_and_video_config"
 
 
 /*
@@ -250,7 +237,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x42098
+#define JTAG_UART_0_BASE 0x42088
 #define JTAG_UART_0_IRQ 8
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"

@@ -163,6 +163,11 @@ module nios_processor_mm_interconnect_1_router_004
 
 
 
+    // -------------------------------------------------------
+    // Write and read transaction signals
+    // -------------------------------------------------------
+    wire read_transaction;
+    assign read_transaction  = sink_data[PKT_TRANS_READ];
 
 
     nios_processor_mm_interconnect_1_router_004_default_decode the_default_decode(
@@ -185,7 +190,11 @@ module nios_processor_mm_interconnect_1_router_004
 
 
         if (destid == 0 ) begin
-            src_channel = 7'b1;
+            src_channel = 7'b01;
+        end
+
+        if (destid == 1  && read_transaction) begin
+            src_channel = 7'b10;
         end
 
 
