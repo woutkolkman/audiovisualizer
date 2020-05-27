@@ -2,10 +2,13 @@
 //#define ADC 				(volatile int *) 0x00042040
 //#define BEL_FFT_PROJECT				 (int *) 0x01005000
 //#define TIMER_0				(volatile int *) 0x00042020
-#define ADC 				ADC_0_BASE
+//#define ADC 				ADC_0_BASE
 #define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE
+#define ADC_RECHTS			(volatile int *) ADC_RECHTS_PIO_BASE
+#define ADC_LINKS			(volatile int *) ADC_LINKS_PIO_BASE
+#define ADC_DATA			(int *) ADC_DATA_PIO_BASE
 #define TIMER_0				TIMER_0_BASE
-#define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
+//#define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
 // includes
 #include <stdio.h> 								// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
@@ -105,14 +108,13 @@ int main(void) {
 }
 
 void TaskStart(void *pdata) {
-	printf("g");
 //	Bel_FFT_Init();
 
-//    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
-    OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6); // create new task
+    OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 6); // create new task
+//    OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6); // create new task
 
     while (1) {
-        OSTimeDly(100);
+        OSTimeDly(1000);
     }
 }
 
@@ -219,19 +221,24 @@ void TaskFFT(void* pdata) {
 }
 
 void TaskADCToFFT(void* pdata) {
-	volatile int * adc = (int*)(ADC_ADDR);
-//	volatile int * led = (int*)(LED_ADDR);
-	unsigned int data;
-	int count;
-	int channel;
-	data = 0;
-	count = 0;
-	channel = 0;
+//	volatile int * adc = (int*)(ADC_ADDR);
+//	unsigned int data;
+//	int count;
+//	int channel;
+//	data = 0;
+//	count = 0;
+//	channel = 0;
 
 	while (1) {
 //		printf("y"); // debug
 		OSTimeDlyHMSM(0,0,0,100);
-#if 1
+		*ADC_DATA = 0x09;
+//		*ADC_DATA |= 0x01;
+		printf("ADC_DATA: %x\n", *ADC_DATA);
+//		*ADC_DATA = 0x09;
+		printf("%i - ", *ADC_RECHTS);
+		printf("%i\n", *ADC_LINKS);
+#if 0
 		*(adc) = 0; //Start the ADC read
 		count += 1;
 		data = *(adc+channel); //Get the value of the selected channel

@@ -1,16 +1,16 @@
 
 module nios_processor (
-	adc_0_external_interface_sclk,
-	adc_0_external_interface_cs_n,
-	adc_0_external_interface_dout,
-	adc_0_external_interface_din,
+	adc_links_pio_export,
+	adc_rechts_pio_export,
 	clk_clk,
-	reset_reset_n);	
+	reset_reset_n,
+	adc_data_pio_in_port,
+	adc_data_pio_out_port);	
 
-	output		adc_0_external_interface_sclk;
-	output		adc_0_external_interface_cs_n;
-	input		adc_0_external_interface_dout;
-	output		adc_0_external_interface_din;
+	input	[31:0]	adc_links_pio_export;
+	input	[31:0]	adc_rechts_pio_export;
 	input		clk_clk;
 	input		reset_reset_n;
+	input	[5:0]	adc_data_pio_in_port;
+	output	[5:0]	adc_data_pio_out_port;
 endmodule

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Thu May 14 14:37:53 CEST 2020
+ * Generated: Wed May 27 15:23:56 CEST 2020
  */
 
 /*
@@ -62,13 +62,13 @@
 
 #define ALT_CPU_ARCHITECTURE "altera_nios2_gen2"
 #define ALT_CPU_BIG_ENDIAN 0
-#define ALT_CPU_BREAK_ADDR 0x01001820
+#define ALT_CPU_BREAK_ADDR 0x00041820
 #define ALT_CPU_CPU_ARCH_NIOS2_R1
 #define ALT_CPU_CPU_FREQ 50000000u
 #define ALT_CPU_CPU_ID_SIZE 1
 #define ALT_CPU_CPU_ID_VALUE 0x00000000
 #define ALT_CPU_CPU_IMPLEMENTATION "tiny"
-#define ALT_CPU_DATA_ADDR_WIDTH 0x19
+#define ALT_CPU_DATA_ADDR_WIDTH 0x13
 #define ALT_CPU_DCACHE_LINE_SIZE 0
 #define ALT_CPU_DCACHE_LINE_SIZE_LOG2 0
 #define ALT_CPU_DCACHE_SIZE 0
@@ -87,7 +87,7 @@
 #define ALT_CPU_ICACHE_LINE_SIZE 0
 #define ALT_CPU_ICACHE_LINE_SIZE_LOG2 0
 #define ALT_CPU_ICACHE_SIZE 0
-#define ALT_CPU_INST_ADDR_WIDTH 0x19
+#define ALT_CPU_INST_ADDR_WIDTH 0x13
 #define ALT_CPU_NAME "nios2_gen2_0"
 #define ALT_CPU_OCI_VERSION 1
 #define ALT_CPU_RESET_ADDR 0x00000000
@@ -99,13 +99,13 @@
  */
 
 #define NIOS2_BIG_ENDIAN 0
-#define NIOS2_BREAK_ADDR 0x01001820
+#define NIOS2_BREAK_ADDR 0x00041820
 #define NIOS2_CPU_ARCH_NIOS2_R1
 #define NIOS2_CPU_FREQ 50000000u
 #define NIOS2_CPU_ID_SIZE 1
 #define NIOS2_CPU_ID_VALUE 0x00000000
 #define NIOS2_CPU_IMPLEMENTATION "tiny"
-#define NIOS2_DATA_ADDR_WIDTH 0x19
+#define NIOS2_DATA_ADDR_WIDTH 0x13
 #define NIOS2_DCACHE_LINE_SIZE 0
 #define NIOS2_DCACHE_LINE_SIZE_LOG2 0
 #define NIOS2_DCACHE_SIZE 0
@@ -123,7 +123,7 @@
 #define NIOS2_ICACHE_LINE_SIZE 0
 #define NIOS2_ICACHE_LINE_SIZE_LOG2 0
 #define NIOS2_ICACHE_SIZE 0
-#define NIOS2_INST_ADDR_WIDTH 0x19
+#define NIOS2_INST_ADDR_WIDTH 0x13
 #define NIOS2_OCI_VERSION 1
 #define NIOS2_RESET_ADDR 0x00000000
 
@@ -135,9 +135,9 @@
 
 #define __ALTERA_AVALON_JTAG_UART
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
+#define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_GEN2
-#define __ALTERA_UP_AVALON_ADC
 #define __BEL_FFT_PROJECT
 
 
@@ -157,19 +157,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x1002068
+#define ALT_STDERR_BASE 0x42078
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x1002068
+#define ALT_STDIN_BASE 0x42078
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x1002068
+#define ALT_STDOUT_BASE 0x42078
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -178,17 +178,84 @@
 
 
 /*
- * adc_0 configuration
+ * adc_data_pio configuration
  *
  */
 
-#define ADC_0_BASE 0x42040
-#define ADC_0_IRQ -1
-#define ADC_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define ADC_0_NAME "/dev/adc_0"
-#define ADC_0_SPAN 32
-#define ADC_0_TYPE "altera_up_avalon_adc"
-#define ALT_MODULE_CLASS_adc_0 altera_up_avalon_adc
+#define ADC_DATA_PIO_BASE 0x42040
+#define ADC_DATA_PIO_BIT_CLEARING_EDGE_REGISTER 0
+#define ADC_DATA_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define ADC_DATA_PIO_CAPTURE 0
+#define ADC_DATA_PIO_DATA_WIDTH 6
+#define ADC_DATA_PIO_DO_TEST_BENCH_WIRING 0
+#define ADC_DATA_PIO_DRIVEN_SIM_VALUE 0
+#define ADC_DATA_PIO_EDGE_TYPE "NONE"
+#define ADC_DATA_PIO_FREQ 50000000
+#define ADC_DATA_PIO_HAS_IN 1
+#define ADC_DATA_PIO_HAS_OUT 1
+#define ADC_DATA_PIO_HAS_TRI 0
+#define ADC_DATA_PIO_IRQ -1
+#define ADC_DATA_PIO_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define ADC_DATA_PIO_IRQ_TYPE "NONE"
+#define ADC_DATA_PIO_NAME "/dev/adc_data_pio"
+#define ADC_DATA_PIO_RESET_VALUE 0
+#define ADC_DATA_PIO_SPAN 16
+#define ADC_DATA_PIO_TYPE "altera_avalon_pio"
+#define ALT_MODULE_CLASS_adc_data_pio altera_avalon_pio
+
+
+/*
+ * adc_links_pio configuration
+ *
+ */
+
+#define ADC_LINKS_PIO_BASE 0x42060
+#define ADC_LINKS_PIO_BIT_CLEARING_EDGE_REGISTER 0
+#define ADC_LINKS_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define ADC_LINKS_PIO_CAPTURE 0
+#define ADC_LINKS_PIO_DATA_WIDTH 32
+#define ADC_LINKS_PIO_DO_TEST_BENCH_WIRING 0
+#define ADC_LINKS_PIO_DRIVEN_SIM_VALUE 0
+#define ADC_LINKS_PIO_EDGE_TYPE "NONE"
+#define ADC_LINKS_PIO_FREQ 50000000
+#define ADC_LINKS_PIO_HAS_IN 1
+#define ADC_LINKS_PIO_HAS_OUT 0
+#define ADC_LINKS_PIO_HAS_TRI 0
+#define ADC_LINKS_PIO_IRQ -1
+#define ADC_LINKS_PIO_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define ADC_LINKS_PIO_IRQ_TYPE "NONE"
+#define ADC_LINKS_PIO_NAME "/dev/adc_links_pio"
+#define ADC_LINKS_PIO_RESET_VALUE 0
+#define ADC_LINKS_PIO_SPAN 16
+#define ADC_LINKS_PIO_TYPE "altera_avalon_pio"
+#define ALT_MODULE_CLASS_adc_links_pio altera_avalon_pio
+
+
+/*
+ * adc_rechts_pio configuration
+ *
+ */
+
+#define ADC_RECHTS_PIO_BASE 0x42050
+#define ADC_RECHTS_PIO_BIT_CLEARING_EDGE_REGISTER 0
+#define ADC_RECHTS_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define ADC_RECHTS_PIO_CAPTURE 0
+#define ADC_RECHTS_PIO_DATA_WIDTH 32
+#define ADC_RECHTS_PIO_DO_TEST_BENCH_WIRING 0
+#define ADC_RECHTS_PIO_DRIVEN_SIM_VALUE 0
+#define ADC_RECHTS_PIO_EDGE_TYPE "NONE"
+#define ADC_RECHTS_PIO_FREQ 50000000
+#define ADC_RECHTS_PIO_HAS_IN 1
+#define ADC_RECHTS_PIO_HAS_OUT 0
+#define ADC_RECHTS_PIO_HAS_TRI 0
+#define ADC_RECHTS_PIO_IRQ -1
+#define ADC_RECHTS_PIO_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define ADC_RECHTS_PIO_IRQ_TYPE "NONE"
+#define ADC_RECHTS_PIO_NAME "/dev/adc_rechts_pio"
+#define ADC_RECHTS_PIO_RESET_VALUE 0
+#define ADC_RECHTS_PIO_SPAN 16
+#define ADC_RECHTS_PIO_TYPE "altera_avalon_pio"
+#define ALT_MODULE_CLASS_adc_rechts_pio altera_avalon_pio
 
 
 /*
@@ -197,7 +264,7 @@
  */
 
 #define ALT_MODULE_CLASS_bel_fft_project_0 bel_fft_project
-#define BEL_FFT_PROJECT_0_BASE 0x1005000
+#define BEL_FFT_PROJECT_0_BASE 0x40000
 #define BEL_FFT_PROJECT_0_IRQ 9
 #define BEL_FFT_PROJECT_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define BEL_FFT_PROJECT_0_NAME "/dev/bel_fft_project_0"
@@ -222,7 +289,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x1002068
+#define JTAG_UART_0_BASE 0x42078
 #define JTAG_UART_0_IRQ 8
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"

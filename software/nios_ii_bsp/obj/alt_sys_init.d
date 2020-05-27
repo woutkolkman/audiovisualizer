@@ -10,8 +10,7 @@ obj/alt_sys_init.o: alt_sys_init.c system.h linker.h \
  UCOSII/inc/priv/alt_flag_ucosii.h \
  drivers/inc/altera_avalon_jtag_uart_fd.h HAL/inc/sys/alt_dev.h \
  HAL/inc/sys/alt_llist.h HAL/inc/priv/alt_dev_llist.h \
- drivers/inc/altera_avalon_timer.h drivers/inc/altera_up_avalon_adc.h \
- drivers/inc/altera_up_avalon_adc_regs.h HAL/inc/io.h HAL/inc/alt_types.h
+ drivers/inc/altera_avalon_timer.h
 
 system.h:
 
@@ -68,11 +67,3 @@ HAL/inc/sys/alt_llist.h:
 HAL/inc/priv/alt_dev_llist.h:
 
 drivers/inc/altera_avalon_timer.h:
-
-drivers/inc/altera_up_avalon_adc.h:
-
-drivers/inc/altera_up_avalon_adc_regs.h:
-
-HAL/inc/io.h:
-
-HAL/inc/alt_types.h:
