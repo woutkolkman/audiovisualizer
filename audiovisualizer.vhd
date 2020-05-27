@@ -38,11 +38,11 @@ component frame_generator_dynamic is
 end component frame_generator_dynamic;
 	
 component nios_processor is
-		port(adc_0_external_interface_sclk : out std_logic;         -- voor ADC
-			  adc_0_external_interface_cs_n : out std_logic;        -- voor ADC
-			  adc_0_external_interface_dout : in  std_logic := '0'; -- voor ADC
-			  adc_0_external_interface_din  : out std_logic;        -- voor ADC
-			  clk_clk                       : in  std_logic := '0'; -- clk
+--		port(adc_0_external_interface_sclk : out std_logic;        -- voor ADC
+--			  adc_0_external_interface_cs_n : out std_logic;        -- voor ADC
+--			  adc_0_external_interface_dout : in  std_logic := '0'; -- voor ADC
+--			  adc_0_external_interface_din  : out std_logic;        -- voor ADC
+	   port(clk_clk                       : in  std_logic := '0'; -- clk
 			  reset_reset_n                 : in  std_logic := '0'; -- reset
 			  freqsep_1_export              : out std_logic_vector(23 downto 0);
 			  freqsep_2_export              : out std_logic_vector(23 downto 0));
@@ -92,39 +92,39 @@ begin
 	
 	nios_ii : nios_processor port map (clk_clk => CLOCK_50, 
 												  reset_reset_n => reset_pin, 
-												  adc_0_external_interface_sclk => AUD_BCLK,
-												  adc_0_external_interface_cs_n => chip_selection, 
-												  adc_0_external_interface_dout => AUD_DACDAT, 
-												  adc_0_external_interface_din => AUD_ADCDAT,
+--												  adc_0_external_interface_sclk => AUD_BCLK,
+--												  adc_0_external_interface_cs_n => chip_selection, 
+--												  adc_0_external_interface_dout => AUD_DACDAT, 
+--												  adc_0_external_interface_din => AUD_ADCDAT,
 												  freqsep_1_export => fs_1,
 											     freqsep_2_export => fs_2);
 	
 	reset_pin <= KEY(0); 
 	chip_selection <= '0'; 
 	
-	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
-														 clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
-		
-	process(CLOCK_50, reset_pin) 
-	begin	
-		if (rising_edge(CLOCK_50)) then 							
-			case reset_pin is
-				when '1' => send_flag <= '0';
-				when others => null;
-			end case;
-		end if;
-		if (rising_edge(CLOCK_50)) and is_busy = '0' then 	
-			if (SW(17) = '1') then 							-- enable ADC (audio aan) (passed)
-				framed_data(15 downto 9) <= "0000110"; 		-- volgens data sheet
-				framed_data(8 downto 0) <= "000000111";
-				send_flag <= '1';
-			elsif (SW(16) = '1') then 						-- reset process (audio uit) (passed)
-				framed_data(15 downto 9) <= "0001111"; 		-- volgens data sheet
-				framed_data(8 downto 0) <= "000000000";
-				send_flag <= '1';
-			else 
-				null;
-			end if;
-		end if;
-	end process;
+--	audio_chip : ad_converter_i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
+--														 clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
+--		
+--	process(CLOCK_50, reset_pin) 
+--	begin	
+--		if (rising_edge(CLOCK_50)) then 							
+--			case reset_pin is
+--				when '1' => send_flag <= '0';
+--				when others => null;
+--			end case;
+--		end if;
+--		if (rising_edge(CLOCK_50)) and is_busy = '0' then 	
+--			if (SW(17) = '1') then 							-- enable ADC (audio aan) (passed)
+--				framed_data(15 downto 9) <= "0000110"; 		-- volgens data sheet
+--				framed_data(8 downto 0) <= "000000111";
+--				send_flag <= '1';
+--			elsif (SW(16) = '1') then 						-- reset process (audio uit) (passed)
+--				framed_data(15 downto 9) <= "0001111"; 		-- volgens data sheet
+--				framed_data(8 downto 0) <= "000000000";
+--				send_flag <= '1';
+--			else 
+--				null;
+--			end if;
+--		end if;
+--	end process;
 end architecture;

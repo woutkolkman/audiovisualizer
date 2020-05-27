@@ -8,41 +8,14 @@ use IEEE.numeric_std.all;
 
 entity nios_processor is
 	port (
-		adc_0_external_interface_sclk : out std_logic;                            -- adc_0_external_interface.sclk
-		adc_0_external_interface_cs_n : out std_logic;                            --                         .cs_n
-		adc_0_external_interface_dout : in  std_logic                     := '0'; --                         .dout
-		adc_0_external_interface_din  : out std_logic;                            --                         .din
-		clk_clk                       : in  std_logic                     := '0'; --                      clk.clk
-		freqsep_1_export              : out std_logic_vector(23 downto 0);        --                freqsep_1.export
-		freqsep_2_export              : out std_logic_vector(23 downto 0);        --                freqsep_2.export
-		reset_reset_n                 : in  std_logic                     := '0'  --                    reset.reset_n
+		clk_clk          : in  std_logic                     := '0'; --       clk.clk
+		freqsep_1_export : out std_logic_vector(23 downto 0);        -- freqsep_1.export
+		freqsep_2_export : out std_logic_vector(23 downto 0);        -- freqsep_2.export
+		reset_reset_n    : in  std_logic                     := '0'  --     reset.reset_n
 	);
 end entity nios_processor;
 
 architecture rtl of nios_processor is
-	component nios_processor_adc_0 is
-		generic (
-			board     : string  := "DE1-SoC";
-			board_rev : string  := "Autodetect";
-			tsclk     : integer := 0;
-			numch     : integer := 0
-		);
-		port (
-			clock       : in  std_logic                     := 'X';             -- clk
-			reset       : in  std_logic                     := 'X';             -- reset
-			write       : in  std_logic                     := 'X';             -- write
-			readdata    : out std_logic_vector(31 downto 0);                    -- readdata
-			writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			address     : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- address
-			waitrequest : out std_logic;                                        -- waitrequest
-			read        : in  std_logic                     := 'X';             -- read
-			adc_sclk    : out std_logic;                                        -- export
-			adc_cs_n    : out std_logic;                                        -- export
-			adc_dout    : in  std_logic                     := 'X';             -- export
-			adc_din     : out std_logic                                         -- export
-		);
-	end component nios_processor_adc_0;
-
 	component bel_fft_project is
 		port (
 			s_address       : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- address
@@ -188,7 +161,7 @@ architecture rtl of nios_processor is
 	component nios_processor_mm_interconnect_1 is
 		port (
 			clk_0_clk_clk                                  : in  std_logic                     := 'X';             -- clk
-			adc_0_reset_reset_bridge_in_reset_reset        : in  std_logic                     := 'X';             -- reset
+			jtag_uart_0_reset_reset_bridge_in_reset_reset  : in  std_logic                     := 'X';             -- reset
 			nios2_gen2_0_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
 			nios2_gen2_0_data_master_address               : in  std_logic_vector(18 downto 0) := (others => 'X'); -- address
 			nios2_gen2_0_data_master_waitrequest           : out std_logic;                                        -- waitrequest
@@ -202,12 +175,6 @@ architecture rtl of nios_processor is
 			nios2_gen2_0_instruction_master_waitrequest    : out std_logic;                                        -- waitrequest
 			nios2_gen2_0_instruction_master_read           : in  std_logic                     := 'X';             -- read
 			nios2_gen2_0_instruction_master_readdata       : out std_logic_vector(31 downto 0);                    -- readdata
-			adc_0_adc_slave_address                        : out std_logic_vector(2 downto 0);                     -- address
-			adc_0_adc_slave_write                          : out std_logic;                                        -- write
-			adc_0_adc_slave_read                           : out std_logic;                                        -- read
-			adc_0_adc_slave_readdata                       : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			adc_0_adc_slave_writedata                      : out std_logic_vector(31 downto 0);                    -- writedata
-			adc_0_adc_slave_waitrequest                    : in  std_logic                     := 'X';             -- waitrequest
 			bel_fft_project_0_control_slave_address        : out std_logic_vector(9 downto 0);                     -- address
 			bel_fft_project_0_control_slave_write          : out std_logic;                                        -- write
 			bel_fft_project_0_control_slave_read           : out std_logic;                                        -- read
@@ -425,12 +392,6 @@ architecture rtl of nios_processor is
 	signal nios2_gen2_0_instruction_master_waitrequest                     : std_logic;                     -- mm_interconnect_1:nios2_gen2_0_instruction_master_waitrequest -> nios2_gen2_0:i_waitrequest
 	signal nios2_gen2_0_instruction_master_address                         : std_logic_vector(18 downto 0); -- nios2_gen2_0:i_address -> mm_interconnect_1:nios2_gen2_0_instruction_master_address
 	signal nios2_gen2_0_instruction_master_read                            : std_logic;                     -- nios2_gen2_0:i_read -> mm_interconnect_1:nios2_gen2_0_instruction_master_read
-	signal mm_interconnect_1_adc_0_adc_slave_readdata                      : std_logic_vector(31 downto 0); -- adc_0:readdata -> mm_interconnect_1:adc_0_adc_slave_readdata
-	signal mm_interconnect_1_adc_0_adc_slave_waitrequest                   : std_logic;                     -- adc_0:waitrequest -> mm_interconnect_1:adc_0_adc_slave_waitrequest
-	signal mm_interconnect_1_adc_0_adc_slave_address                       : std_logic_vector(2 downto 0);  -- mm_interconnect_1:adc_0_adc_slave_address -> adc_0:address
-	signal mm_interconnect_1_adc_0_adc_slave_read                          : std_logic;                     -- mm_interconnect_1:adc_0_adc_slave_read -> adc_0:read
-	signal mm_interconnect_1_adc_0_adc_slave_write                         : std_logic;                     -- mm_interconnect_1:adc_0_adc_slave_write -> adc_0:write
-	signal mm_interconnect_1_adc_0_adc_slave_writedata                     : std_logic_vector(31 downto 0); -- mm_interconnect_1:adc_0_adc_slave_writedata -> adc_0:writedata
 	signal mm_interconnect_1_jtag_uart_0_avalon_jtag_slave_chipselect      : std_logic;                     -- mm_interconnect_1:jtag_uart_0_avalon_jtag_slave_chipselect -> jtag_uart_0:av_chipselect
 	signal mm_interconnect_1_jtag_uart_0_avalon_jtag_slave_readdata        : std_logic_vector(31 downto 0); -- jtag_uart_0:av_readdata -> mm_interconnect_1:jtag_uart_0_avalon_jtag_slave_readdata
 	signal mm_interconnect_1_jtag_uart_0_avalon_jtag_slave_waitrequest     : std_logic;                     -- jtag_uart_0:av_waitrequest -> mm_interconnect_1:jtag_uart_0_avalon_jtag_slave_waitrequest
@@ -480,7 +441,7 @@ architecture rtl of nios_processor is
 	signal irq_mapper_receiver1_irq                                        : std_logic;                     -- jtag_uart_0:av_irq -> irq_mapper:receiver1_irq
 	signal irq_mapper_receiver2_irq                                        : std_logic;                     -- timer_0:irq -> irq_mapper:receiver2_irq
 	signal nios2_gen2_0_irq_irq                                            : std_logic_vector(31 downto 0); -- irq_mapper:sender_irq -> nios2_gen2_0:irq
-	signal rst_controller_reset_out_reset                                  : std_logic;                     -- rst_controller:reset_out -> [adc_0:reset, bel_fft_project_0:rst_i, mm_interconnect_0:bel_fft_project_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:adc_0_reset_reset_bridge_in_reset_reset, onchip_memory2_0:reset2, rst_controller_reset_out_reset:in, rst_translator:in_reset]
+	signal rst_controller_reset_out_reset                                  : std_logic;                     -- rst_controller:reset_out -> [bel_fft_project_0:rst_i, mm_interconnect_0:bel_fft_project_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:jtag_uart_0_reset_reset_bridge_in_reset_reset, onchip_memory2_0:reset2, rst_controller_reset_out_reset:in, rst_translator:in_reset]
 	signal rst_controller_reset_out_reset_req                              : std_logic;                     -- rst_controller:reset_req -> [onchip_memory2_0:reset_req2, rst_translator:reset_req_in]
 	signal rst_controller_001_reset_out_reset                              : std_logic;                     -- rst_controller_001:reset_out -> [irq_mapper:reset, mm_interconnect_1:nios2_gen2_0_reset_reset_bridge_in_reset_reset, onchip_memory2_0:reset, rst_controller_001_reset_out_reset:in, rst_translator_001:in_reset]
 	signal rst_controller_001_reset_out_reset_req                          : std_logic;                     -- rst_controller_001:reset_req -> [nios2_gen2_0:reset_req, onchip_memory2_0:reset_req, rst_translator_001:reset_req_in]
@@ -495,28 +456,6 @@ architecture rtl of nios_processor is
 	signal rst_controller_001_reset_out_reset_ports_inv                    : std_logic;                     -- rst_controller_001_reset_out_reset:inv -> [freqsep_1:reset_n, freqsep_2:reset_n, nios2_gen2_0:reset_n]
 
 begin
-
-	adc_0 : component nios_processor_adc_0
-		generic map (
-			board     => "DE1-SoC",
-			board_rev => "Autodetect",
-			tsclk     => 3,
-			numch     => 0
-		)
-		port map (
-			clock       => clk_clk,                                       --                clk.clk
-			reset       => rst_controller_reset_out_reset,                --              reset.reset
-			write       => mm_interconnect_1_adc_0_adc_slave_write,       --          adc_slave.write
-			readdata    => mm_interconnect_1_adc_0_adc_slave_readdata,    --                   .readdata
-			writedata   => mm_interconnect_1_adc_0_adc_slave_writedata,   --                   .writedata
-			address     => mm_interconnect_1_adc_0_adc_slave_address,     --                   .address
-			waitrequest => mm_interconnect_1_adc_0_adc_slave_waitrequest, --                   .waitrequest
-			read        => mm_interconnect_1_adc_0_adc_slave_read,        --                   .read
-			adc_sclk    => adc_0_external_interface_sclk,                 -- external_interface.export
-			adc_cs_n    => adc_0_external_interface_cs_n,                 --                   .export
-			adc_dout    => adc_0_external_interface_dout,                 --                   .export
-			adc_din     => adc_0_external_interface_din                   --                   .export
-		);
 
 	bel_fft_project_0 : component bel_fft_project
 		port map (
@@ -668,7 +607,7 @@ begin
 	mm_interconnect_1 : component nios_processor_mm_interconnect_1
 		port map (
 			clk_0_clk_clk                                  => clk_clk,                                                         --                                clk_0_clk.clk
-			adc_0_reset_reset_bridge_in_reset_reset        => rst_controller_reset_out_reset,                                  --        adc_0_reset_reset_bridge_in_reset.reset
+			jtag_uart_0_reset_reset_bridge_in_reset_reset  => rst_controller_reset_out_reset,                                  --  jtag_uart_0_reset_reset_bridge_in_reset.reset
 			nios2_gen2_0_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                              -- nios2_gen2_0_reset_reset_bridge_in_reset.reset
 			nios2_gen2_0_data_master_address               => nios2_gen2_0_data_master_address,                                --                 nios2_gen2_0_data_master.address
 			nios2_gen2_0_data_master_waitrequest           => nios2_gen2_0_data_master_waitrequest,                            --                                         .waitrequest
@@ -682,12 +621,6 @@ begin
 			nios2_gen2_0_instruction_master_waitrequest    => nios2_gen2_0_instruction_master_waitrequest,                     --                                         .waitrequest
 			nios2_gen2_0_instruction_master_read           => nios2_gen2_0_instruction_master_read,                            --                                         .read
 			nios2_gen2_0_instruction_master_readdata       => nios2_gen2_0_instruction_master_readdata,                        --                                         .readdata
-			adc_0_adc_slave_address                        => mm_interconnect_1_adc_0_adc_slave_address,                       --                          adc_0_adc_slave.address
-			adc_0_adc_slave_write                          => mm_interconnect_1_adc_0_adc_slave_write,                         --                                         .write
-			adc_0_adc_slave_read                           => mm_interconnect_1_adc_0_adc_slave_read,                          --                                         .read
-			adc_0_adc_slave_readdata                       => mm_interconnect_1_adc_0_adc_slave_readdata,                      --                                         .readdata
-			adc_0_adc_slave_writedata                      => mm_interconnect_1_adc_0_adc_slave_writedata,                     --                                         .writedata
-			adc_0_adc_slave_waitrequest                    => mm_interconnect_1_adc_0_adc_slave_waitrequest,                   --                                         .waitrequest
 			bel_fft_project_0_control_slave_address        => mm_interconnect_1_bel_fft_project_0_control_slave_address,       --          bel_fft_project_0_control_slave.address
 			bel_fft_project_0_control_slave_write          => mm_interconnect_1_bel_fft_project_0_control_slave_write,         --                                         .write
 			bel_fft_project_0_control_slave_read           => mm_interconnect_1_bel_fft_project_0_control_slave_read,          --                                         .read
