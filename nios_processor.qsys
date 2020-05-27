@@ -29,7 +29,7 @@
    {
       datum _sortIndex
       {
-         value = "7";
+         value = "8";
          type = "int";
       }
    }
@@ -53,7 +53,7 @@
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "9";
          type = "int";
       }
    }
@@ -101,7 +101,7 @@
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "7";
          type = "int";
       }
    }
@@ -273,7 +273,7 @@
   <parameter name="line_in_bypass" value="true" />
   <parameter name="mic_attenuation" value="-6dB" />
   <parameter name="mic_bypass" value="false" />
-  <parameter name="sampling_rate" value="48 kHz" />
+  <parameter name="sampling_rate" value="32 kHz" />
   <parameter name="video_format" value="NTSC" />
  </module>
  <module
@@ -302,7 +302,7 @@
    name="clock_bridge_0"
    kind="altera_clock_bridge"
    version="16.1"
-   enabled="1">
+   enabled="0">
   <parameter name="DERIVED_CLOCK_RATE" value="50000000" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="20000000" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
