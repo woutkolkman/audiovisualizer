@@ -853,7 +853,7 @@
 														</entry>
 													</placeholder-map>
 												</leaf>
-												<leaf id="2" nodeId="1375985011087">
+												<leaf id="4" nodeId="1375985011087">
 													<placeholders>
 														<placeholder>dock.single.Hierarchy</placeholder>
 													</placeholders>
@@ -880,8 +880,8 @@
 											<node nodeId="1372710005725" orientation="VERTICAL" divider="0.7092274678111588">
 												<node nodeId="1372710005727" orientation="HORIZONTAL" divider="0.6183193900785428">
 													<node nodeId="1372710005733" orientation="VERTICAL" divider="0.75">
-														<node nodeId="1589289130592" orientation="HORIZONTAL" divider="0.7636062008133604">
-															<leaf id="0" nodeId="1372710005735">
+														<node nodeId="1589289130592" orientation="HORIZONTAL" divider="0.5644546119623144">
+															<leaf id="2" nodeId="1372710005735">
 																<placeholders>
 																	<placeholder>dock.single.Connections</placeholder>
 																	<placeholder>dock.single.Assignments</placeholder>
@@ -918,7 +918,7 @@
 																	</entry>
 																</placeholder-map>
 															</leaf>
-															<leaf id="-1" nodeId="1589289130590">
+															<leaf id="0" nodeId="1589289130590">
 																<placeholders>
 																	<placeholder>dock.single.Parameters</placeholder>
 																</placeholders>
@@ -995,6 +995,26 @@
 								</layout>
 							</adjacent>
 							<children ignore="false">
+								<child>
+									<layout factory="predefined" placeholder="dock.single.Parameters">
+										<replacement id="dockablesingle Parameters"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>Parameters</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.IP\ Catalog">
+										<replacement id="dockablesingle IP Catalog"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>IP Catalog</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
 								<child>
 									<layout factory="delegate_StackDockStationFactory">
 										<selected>0</selected>
@@ -1104,10 +1124,10 @@
 									</children>
 								</child>
 								<child>
-									<layout factory="predefined" placeholder="dock.single.IP\ Catalog">
-										<replacement id="dockablesingle IP Catalog"/>
+									<layout factory="predefined" placeholder="dock.single.Messages">
+										<replacement id="dockablesingle Messages"/>
 										<delegate id="delegate_ccontrol backup factory id">
-											<id>IP Catalog</id>
+											<id>Messages</id>
 											<area/>
 										</delegate>
 									</layout>
@@ -1171,16 +1191,6 @@
 											<children ignore="false"/>
 										</child>
 									</children>
-								</child>
-								<child>
-									<layout factory="predefined" placeholder="dock.single.Messages">
-										<replacement id="dockablesingle Messages"/>
-										<delegate id="delegate_ccontrol backup factory id">
-											<id>Messages</id>
-											<area/>
-										</delegate>
-									</layout>
-									<children ignore="false"/>
 								</child>
 							</children>
 						</root>
@@ -1258,31 +1268,6 @@
 									<replacement id="dockablesingle Assignments"/>
 									<delegate id="delegate_ccontrol backup factory id">
 										<id>Assignments</id>
-										<area/>
-									</delegate>
-								</layout>
-								<children ignore="false"/>
-							</layout>
-						</child>
-						<child key="single Parameters" root="ccontrol center" location="true">
-							<location>
-								<property factory="SplitDockPlaceholderProperty">
-									<placeholder>dock.single.Parameters</placeholder>
-									<backup-path>
-										<node location="RIGHT" size="0.7783103654883163" id="1372710005721"/>
-										<node location="TOP" size="0.7092274678111588" id="1372710005725"/>
-										<node location="LEFT" size="0.6183193900785428" id="1372710005727"/>
-										<node location="TOP" size="0.75" id="1372710005733"/>
-										<node location="RIGHT" size="0.2363937991866396" id="1589289130592"/>
-										<leaf id="1589289130590"/>
-									</backup-path>
-								</property>
-							</location>
-							<layout>
-								<layout factory="predefined" placeholder="dock.single.Parameters">
-									<replacement id="dockablesingle Parameters"/>
-									<delegate id="delegate_ccontrol backup factory id">
-										<id>Parameters</id>
 										<area/>
 									</delegate>
 								</layout>
@@ -1562,7 +1547,7 @@
 								</property>
 							</properties>
 						</entry>
-						<entry id="single Parameters">
+						<entry id="single Parameters" current="dock.mode.normal">
 							<history>
 								<mode>dock.mode.minimized</mode>
 								<mode>dock.mode.normal</mode>
@@ -1980,8 +1965,8 @@
 						</entry>
 						<entry id="single IP Catalog" current="dock.mode.normal">
 							<history>
-								<mode>dock.mode.maximized</mode>
 								<mode>dock.mode.minimized</mode>
+								<mode>dock.mode.maximized</mode>
 								<mode>dock.mode.normal</mode>
 							</history>
 							<properties>
@@ -1990,10 +1975,6 @@
 									<root>ccontrol center</root>
 									<location>
 										<property factory="SplitDockFullScreenPropertyFactory"/>
-										<property factory="StackDockPropertyFactory">
-											<index>0</index>
-											<placeholder>dock.single.IP\ Catalog</placeholder>
-										</property>
 									</location>
 								</property>
 								<property id="dock.mode.minimized">
@@ -2019,14 +2000,10 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.IP\ Catalog</placeholder>
 											<backup-path>
-												<node location="LEFT" size="0.22181146025878004" id="1372710005721"/>
+												<node location="LEFT" size="0.22168963451168364" id="1372710005721"/>
 												<node location="TOP" size="0.504054054054054" id="1375985011088"/>
 												<leaf id="1375985003630"/>
 											</backup-path>
-										</property>
-										<property factory="StackDockPropertyFactory">
-											<index>0</index>
-											<placeholder>dock.single.IP\ Catalog</placeholder>
 										</property>
 									</location>
 								</property>
