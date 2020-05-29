@@ -63,6 +63,8 @@ architecture rtl of audiovisualizer is
 			  );
 	end component;
 	
+	signal avconf_reset : std_logic;
+	
 	component Audio_Controller is
 		port(
 			  read_audio_in 				: in std_logic;
@@ -88,6 +90,7 @@ architecture rtl of audiovisualizer is
 
 	signal left_channel, right_channel : std_logic_vector(31 downto 0);
 	signal AC_signal_array : std_logic_vector(6 downto 0);
+	signal audio_controller_reset : std_logic;
 	
 begin
 		
@@ -104,17 +107,19 @@ begin
 --														 clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data);
 	
 	codec : avconf port map(
-									reset 	=> NOT KEY(0),
+									reset 	=> avconf_reset,
 									CLOCK_50 => CLOCK_50,
 									I2C_SCLK => I2C_SCLK,
 									I2C_SDAT => I2C_SDAT
 									);
 	
+	avconf_reset <= NOT KEY(0);
+	
 	audio_ctrl : Audio_Controller port map(
 														read_audio_in 					=> adc_data_out(0),
 														clear_audio_in_memory 		=> adc_data_out(1),
 														left_channel_audio_out 		=> dmy_vect, --not connected
-														reset 							=> NOT KEY(0),
+														reset 							=> audio_controller_reset,
 														clear_audio_out_memory 		=> adc_data_out(2),
 														right_channel_audio_out 	=> dmy_vect, --not connected
 														write_audio_out 				=> adc_data_out(3),
@@ -130,15 +135,20 @@ begin
 														AUD_DACDAT 		=> AC_signal_array(5),
 														AUD_DACLRCK 	=> AC_signal_array(6)
 														);
+	
+	audio_controller_reset <= NOT KEY(0);
 	adc_links		 	 <= left_channel;
 	adc_rechts		 	 <= right_channel;
 	AC_signal_array(0) <= AUD_ADCDAT;
 	AC_signal_array(1) <= CLOCK_50;
 	AUD_XCK				 <= AC_signal_array(2);
-	AC_signal_array(3) <= AUD_BCLK;
-	AC_signal_array(4) <= AUD_ADCLRCK;
+--	AC_signal_array(3) <= AUD_BCLK;
+	AUD_BCLK				 <= AC_signal_array(3);
+--	AC_signal_array(4) <= AUD_ADCLRCK;
+	AUD_ADCLRCK			 <= AC_signal_array(4);
 	AUD_DACDAT			 <= AC_signal_array(5);
-	AC_signal_array(6) <= AUD_DACLRCK;
+--	AC_signal_array(6) <= AUD_DACLRCK;
+	AUD_DACLRCK			 <= AC_signal_array(6);
 	
 	process(CLOCK_50, reset_pin) -- proces voor starten communicatie FPGA audio-chip (i2c) 
 	begin	

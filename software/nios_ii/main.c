@@ -6,7 +6,7 @@
 #define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE
 #define ADC_RECHTS			(volatile int *) ADC_RECHTS_PIO_BASE
 #define ADC_LINKS			(volatile int *) ADC_LINKS_PIO_BASE
-#define ADC_DATA			(int *) ADC_DATA_PIO_BASE
+#define ADC_DATA			(volatile int *) ADC_DATA_PIO_BASE
 #define TIMER_0				TIMER_0_BASE
 //#define ADC_ADDR 			ADC				/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
 
@@ -231,13 +231,23 @@ void TaskADCToFFT(void* pdata) {
 
 	while (1) {
 //		printf("y"); // debug
+		if (*ADC_DATA & 0x10) {
+			printf("audio in available\n");
+		}
 		OSTimeDlyHMSM(0,0,0,100);
-		*ADC_DATA = 0x09;
-//		*ADC_DATA |= 0x01;
+#if 0
+		*ADC_DATA |= 0x02;
+		OSTimeDlyHMSM(0,0,0,5);
+#endif
+//		*ADC_DATA |= 0x09;
+		*ADC_DATA |= 0x01;
+//		*ADC_DATA = 0x08;
+		OSTimeDlyHMSM(0,0,0,5);
 		printf("ADC_DATA: %x\n", *ADC_DATA);
+//		OSTimeDlyHMSM(0,0,0,10);
 //		*ADC_DATA = 0x09;
-		printf("%i - ", *ADC_RECHTS);
-		printf("%i\n", *ADC_LINKS);
+		printf("%x - ", *ADC_RECHTS);
+		printf("%x\n", *ADC_LINKS);
 #if 0
 		*(adc) = 0; //Start the ADC read
 		count += 1;
