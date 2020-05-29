@@ -271,6 +271,13 @@ altera_nios2_gen2_ucosii_driver_ASM_LIB_SRCS := \
 	$(altera_nios2_gen2_ucosii_driver_SRCS_ROOT)/src/crt0.S \
 	$(altera_nios2_gen2_ucosii_driver_SRCS_ROOT)/src/os_cpu_a.S
 
+# avalon_adc_driver sources root 
+avalon_adc_driver_SRCS_ROOT := drivers
+
+# avalon_adc_driver sources 
+avalon_adc_driver_C_LIB_SRCS := \
+	$(avalon_adc_driver_SRCS_ROOT)/src/altera_up_avalon_adc.c
+
 # hal sources root 
 hal_SRCS_ROOT := HAL
 
@@ -353,6 +360,7 @@ COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \
 	$(altera_nios2_gen2_ucosii_driver_C_LIB_SRCS) \
+	$(avalon_adc_driver_C_LIB_SRCS) \
 	$(hal_C_LIB_SRCS) \
 	$(ucosii_C_LIB_SRCS)
 

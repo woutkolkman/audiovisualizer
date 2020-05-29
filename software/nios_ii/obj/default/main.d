@@ -14,7 +14,8 @@ obj/default/main.o: main.c ../nios_ii_bsp//HAL/inc/includes.h \
  ../nios_ii_bsp//HAL/inc/sys/alt_warning.h \
  ../nios_ii_bsp//drivers/inc/altera_up_avalon_adc_regs.h \
  ../nios_ii_bsp//HAL/inc/io.h ../nios_ii_bsp//HAL/inc/alt_types.h \
- kiss_fft.h
+ ../nios_ii_bsp//drivers/inc/altera_up_avalon_parallel_port.h \
+ ../nios_ii_bsp//drivers/inc/altera_up_avalon_parallel_port_regs.h
 
 ../nios_ii_bsp//HAL/inc/includes.h:
 
@@ -58,4 +59,6 @@ obj/default/main.o: main.c ../nios_ii_bsp//HAL/inc/includes.h \
 
 ../nios_ii_bsp//HAL/inc/alt_types.h:
 
-kiss_fft.h:
+../nios_ii_bsp//drivers/inc/altera_up_avalon_parallel_port.h:
+
+../nios_ii_bsp//drivers/inc/altera_up_avalon_parallel_port_regs.h:

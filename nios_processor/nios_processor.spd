@@ -75,15 +75,15 @@
  <file
    path="simulation/submodules/altera_avalon_sc_fifo.v"
    type="VERILOG"
-   library="jtag_uart_0_avalon_jtag_slave_agent_rsp_fifo" />
+   library="adc_0_adc_slave_agent_rsp_fifo" />
  <file
    path="simulation/submodules/altera_merlin_slave_agent.sv"
    type="SYSTEM_VERILOG"
-   library="jtag_uart_0_avalon_jtag_slave_agent" />
+   library="adc_0_adc_slave_agent" />
  <file
    path="simulation/submodules/altera_merlin_burst_uncompressor.sv"
    type="SYSTEM_VERILOG"
-   library="jtag_uart_0_avalon_jtag_slave_agent" />
+   library="adc_0_adc_slave_agent" />
  <file
    path="simulation/submodules/altera_merlin_master_agent.sv"
    type="SYSTEM_VERILOG"

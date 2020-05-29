@@ -41,7 +41,7 @@ void TaskStart(void *pdata) {
 
 void TaskADC(void* pdata) {
 
-	//	volatile int * adc = (int*)(ADC_ADDR);
+	//	volatile int * adc = (int*) (ADC_ADDR);
 	//	unsigned int data;
 	//	int count;
 	//	int channel;
@@ -51,28 +51,23 @@ void TaskADC(void* pdata) {
 
 	while (1) {
 
-		OSTimeDlyHMSM(0,0,0,100);
+		OSTimeDlyHMSM(0, 0, 1, 0);
 
-		*ADC_DATA = 0x09;
-//		*ADC_DATA |= 0x01;
-		printf("ADC_DATA: %x \n", *ADC_DATA);
-
-//		*ADC_DATA = 0x09;
-		printf("%i - ", *ADC_RECHTS);
-		printf("%i\n", *ADC_LINKS);
-#if 0
-		*(adc) = 0;
-		count += 1;
-		data = *(adc + channel);
-		data = data / 16;
-//		*(led) = data;
-		printf("%d ", data);
-
-		if (count == 12) {
-			count = 0;
-			channel = !channel;
-			printf("\n");
+		if (*ADC_DATA & 0x20) {
+		   printf("Audio in available.\n");
+		   printf("ADC_DATA: %d \n", *ADC_DATA);
+		} else {
+		   printf("Audio is not available.\n");
 		}
-#endif
+
+		if (*ADC_RECHTS <= 0) {
+			printf("Geen data PIO rechts.\n");
+		}
+		if (*ADC_LINKS <= 0) {
+			printf("Geen data PIO links.\n");
+		} else {
+			printf("%d - ", *ADC_RECHTS);
+			printf("%d \n", *ADC_LINKS);
+		}
 	}
 }

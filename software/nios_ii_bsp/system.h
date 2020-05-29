@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Wed May 27 15:23:56 CEST 2020
+ * Generated: Thu May 28 16:03:17 CEST 2020
  */
 
 /*
@@ -138,6 +138,7 @@
 #define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_GEN2
+#define __ALTERA_UP_AVALON_ADC
 #define __BEL_FFT_PROJECT
 
 
@@ -157,19 +158,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x42078
+#define ALT_STDERR_BASE 0x420b8
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x42078
+#define ALT_STDIN_BASE 0x420b8
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x42078
+#define ALT_STDOUT_BASE 0x420b8
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -178,11 +179,25 @@
 
 
 /*
+ * adc_0 configuration
+ *
+ */
+
+#define ADC_0_BASE 0x42060
+#define ADC_0_IRQ -1
+#define ADC_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define ADC_0_NAME "/dev/adc_0"
+#define ADC_0_SPAN 32
+#define ADC_0_TYPE "altera_up_avalon_adc"
+#define ALT_MODULE_CLASS_adc_0 altera_up_avalon_adc
+
+
+/*
  * adc_data_pio configuration
  *
  */
 
-#define ADC_DATA_PIO_BASE 0x42040
+#define ADC_DATA_PIO_BASE 0x42080
 #define ADC_DATA_PIO_BIT_CLEARING_EDGE_REGISTER 0
 #define ADC_DATA_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define ADC_DATA_PIO_CAPTURE 0
@@ -209,7 +224,7 @@
  *
  */
 
-#define ADC_LINKS_PIO_BASE 0x42060
+#define ADC_LINKS_PIO_BASE 0x420a0
 #define ADC_LINKS_PIO_BIT_CLEARING_EDGE_REGISTER 0
 #define ADC_LINKS_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define ADC_LINKS_PIO_CAPTURE 0
@@ -236,7 +251,7 @@
  *
  */
 
-#define ADC_RECHTS_PIO_BASE 0x42050
+#define ADC_RECHTS_PIO_BASE 0x42090
 #define ADC_RECHTS_PIO_BIT_CLEARING_EDGE_REGISTER 0
 #define ADC_RECHTS_PIO_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define ADC_RECHTS_PIO_CAPTURE 0
@@ -289,7 +304,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x42078
+#define JTAG_UART_0_BASE 0x420b8
 #define JTAG_UART_0_IRQ 8
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -337,7 +352,7 @@
 
 #define ALT_MODULE_CLASS_timer_0 altera_avalon_timer
 #define TIMER_0_ALWAYS_RUN 0
-#define TIMER_0_BASE 0x42020
+#define TIMER_0_BASE 0x42040
 #define TIMER_0_COUNTER_SIZE 32
 #define TIMER_0_FIXED_PERIOD 0
 #define TIMER_0_FREQ 50000000
