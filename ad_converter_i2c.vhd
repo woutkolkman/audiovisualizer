@@ -7,12 +7,12 @@ use ieee.numeric_std.all;
 
 entity ad_converter_i2c is
 	port(SCL_line   : out   std_logic;
-		  SDA_line   : inout std_logic; -- inout: deze port is bi-directioneel; je kunt zowel lezen als schrijven
-		  flag       : in    std_logic;
-		  busy       : out   std_logic;
-		  clock_50   : in    std_logic; -- i2c met zijn eigen clock van 50 MHz
-		  address    : in    std_logic_vector(7 downto 0);   -- het adres bedraagt 8 bits 
-		  data_frame : in    std_logic_vector(15 downto 0)); -- data frame bestaat uit 16 bits 
+		 SDA_line   : inout std_logic; 
+		 flag       : in    std_logic;
+		 busy       : out   std_logic;
+		 clock_50   : in    std_logic; 
+		 address    : in    std_logic_vector(7 downto 0);   
+		 data_frame : in    std_logic_vector(15 downto 0)); 
 end entity ad_converter_i2c;
 
 architecture rtl of ad_converter_i2c is
@@ -23,7 +23,7 @@ architecture rtl of ad_converter_i2c is
 	signal clock_counter    : integer range 0 to 300 := 0;
 	signal ack_enable       : std_logic := '0';
 	signal get_ack          : std_logic := '0';
-	signal index 		      : integer range 0 to 15 := 0; -- start index is 0 
+	signal index 		    : integer range 0 to 15 := 0; -- start index is 0 
 	
 	-- state types declaratie 
 	type state_type is (detect_ack_1, detect_ack_2, detect_ack_3, send_first_byte, send_second_byte, send_address, start_condition, stop_condition, stand_by);
@@ -31,7 +31,7 @@ architecture rtl of ad_converter_i2c is
 	signal state : state_type := stand_by; -- stand_by is de default state 
 	
 begin 
-	process(clock_50) -- voor de i2c communicatie en data transmissie zijn er twee clocks gegenereerd
+	process(clock_50) -- voor de i2c communicatie en data transmissie zijn er twee clocks gegenereerd (CLOCK_50, I2C_SCLK)
 	begin
 		if (rising_edge(clock_50)) then 
 		   if (clock_counter < 250) then -- genereer clock (50 MHz) voor i2c data transmissies
