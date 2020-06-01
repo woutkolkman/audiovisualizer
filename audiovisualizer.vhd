@@ -6,6 +6,7 @@ use work.rgbmatrix.all;
 entity audiovisualizer is
 	port(CLOCK_50	  : in    std_logic;
 		  KEY			  : in    std_logic_vector(0 downto 0);
+	  -- SW			  : in    std_logic_vector(17 downto 15); (ongebruikte inputs)
 		  LEDG 		  : out   std_logic_vector(0 downto 0);
 		  GPIO 		  : out   std_logic_vector(12 downto 0);
 		  AUD_ADCLRCK : in	 std_logic; 
@@ -18,6 +19,21 @@ entity audiovisualizer is
 end entity;
 
 architecture behaviour of audiovisualizer is
+
+--	component i2c is (ongebruikt component)
+--		port(SCL_line   : out   std_logic;
+--			  SDA_line   : inout std_logic; 
+--		     flag       : in    std_logic;
+--		     busy       : out   std_logic;
+--		     clock_50   : in    std_logic; 
+--		     address    : in    std_logic_vector(7 downto 0);   
+--		     data_frame : in    std_logic_vector(15 downto 0)); 
+--	end component i2c;
+--	
+--	-- signals i2c component (ongebruikte signalen)
+--	signal send_flag      : std_logic;
+--	signal is_busy        : std_logic;
+--	signal framed_data    : std_logic_vector(15 downto 0);
 
 	component matrix_driver_top is
 		port(CLOCK	  : in  std_logic;
@@ -69,13 +85,38 @@ begin
 																	  freq_sep1(23 downto 18) => fs_1(23 downto 18), freq_sep1(17 downto 12) => fs_1(17 downto 12), 
 																	  freq_sep1(11 downto 6) => fs_1(11 downto 6),  freq_sep1(5 downto 0) => fs_1(5 downto 0),
 																	  freq_sep2(23 downto 18) => fs_2(23 downto 18), freq_sep2(17 downto 12) => fs_2(17 downto 12),
-																	  freq_sep2(11 downto 6) => fs_2(11 downto 6), freq_sep2(5 downto 0) => fs_2(5 downto 0)
-																	  );
+																	  freq_sep2(11 downto 6) => fs_2(11 downto 6), freq_sep2(5 downto 0) => fs_2(5 downto 0));
 	
 	nios_ii : nios_processor port map (clk_clk => CLOCK_50, reset_reset_n => KEY(0), 
 												  audio_ADCDAT => AUD_DACDAT, audio_DACDAT => AUD_ADCDAT, 
 												  audio_ADCLRCK => AUD_ADCLRCK, audio_DACLRCK =>AUD_DACLRCK, audio_BCLK => AUD_BCLK,
-												  freqsep_1_export => fs_1, i2c_SDAT => I2C_SDAT, i2c_SCLK => I2C_SCLK,
-											     freqsep_2_export => fs_2);
-
+												  freqsep_1_export => fs_1, freqsep_2_export => fs_2,
+												  i2c_SDAT => I2C_SDAT, i2c_SCLK => I2C_SCLK);
+	
+--	audio_chip : i2c port map (SCL_line => I2C_SCLK, SDA_line => I2C_SDAT, flag => send_flag, busy => is_busy,
+--	  									clock_50 => CLOCK_50, address => "00110100", data_frame => framed_data); (ongebruikt component)
+	
+--	process(CLOCK_50, SW(15)) (ongebruikt proces)
+--	begin	
+--		if (rising_edge(CLOCK_50)) then 
+--			if (SW(15) = '1') then 
+--				send_flag <= '0';
+--			end if;
+--		end if;
+--		
+--		-- [15:9] --> control address bits
+--		-- [8:0]  --> control data bits
+--		
+--		if (rising_edge(CLOCK_50)) and is_busy = '0' then
+--			if (SW(17) = '1') then 
+--				framed_data(15 downto 9) <= "0000110";  
+--				framed_data(8 downto 0) <= "000000111"; 		 			 
+--				send_flag <= '1';
+--			elsif (SW(16) = '1') then 
+--				framed_data(15 downto 9) <= "0001111"; 
+--				framed_data(8 downto 0) <= "000000000";						 
+--				send_flag <= '1';
+--			end if;
+--		end if;
+--	end process;
 end architecture;
