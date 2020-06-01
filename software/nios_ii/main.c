@@ -52,14 +52,12 @@ OS_EVENT *sem_fftoutput;
 // #define FLAG_7 0x40
 
 // function prototypes
-int Bel_FFT_Init(void);
 long map(long x, long in_min, long in_max, long out_min, long out_max);
 
 // FFT dingen
 // =========================================================================================
 #define MAXFACTORS 32 				// e.g. an fft of length 128 has 4 factors as far as kissfft is concerned 4*4*4*2
 #define FFT_LEN 256 				// vervangen door de bus (?) waarde van onze configuratie (gedaan, default (?))
-#define FFT_BASE BEL_FFT_PROJECT
 
 volatile kiss_fft_cpx fout[FFT_LEN]; // output array
 
@@ -117,7 +115,7 @@ struct bel_fft { // Register structure, must be mapped to base address
 // =========================================================================================
 
 int main(void){
-	alt_printf("hey je processor gaat aan\n");
+	alt_printf("processor initialized\n");
 	INT8U err;
 
 	OSInit(); // initialize ucos-ii
@@ -131,8 +129,6 @@ int main(void){
 }
 
 void TaskStart(void *pdata) {
-//	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
-
 //	OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 4);
 	OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
 	OSTaskCreate(TaskFrequencySeparator, (void *) 0, &TaskFrequencySeparatorStack[TASK_STACKSIZE - 1], 7);
@@ -285,7 +281,7 @@ void TaskFFT(void* pdata) {
 	{0xFFFFDD07, 0x00000000}, {0x000006D1, 0x00000000}, {0x00001A70, 0x00000000}, {0x00000E73, 0x00000000},
 	{0xFFFFEC2C, 0x00000000}, {0xFFFFCA32, 0x00000000}, {0xFFFFBF18, 0x00000000}, {0xFFFFD42F, 0x00000000}};
 	
-	// deze array wordt niet gebruikt door vreemde output, mag eventueel weg
+	// deze array wordt alleen gebruikt voor testen (alle frequenties maximaal aan)
 	/* 32 - 32 - 32 - 32 - 32 - 32 - 32 - 32 */
 	kiss_fft_cpx fin1[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x000029B5, 0x00000000}, {0x00004751, 0x00000000}, {0x000050F4, 0x00000000}, 
@@ -698,40 +694,4 @@ void TaskFrequencySeparator(void* pdata) {
 
 long map(long x, long in_min, long in_max, long out_min, long out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-int Bel_FFT_Init(void) {
-	// FFT_BASE is the base address of the FFT co-processor. Set bit 31 to bypass the cache on the NIOSII.
-
-	volatile struct bel_fft * belFftPtr = (struct bel_fft *) (FFT_BASE + 0x80000000);
-
-	int fin[FFT_LEN * 2] = {
-		0x00000000, 0x00000000, 0x00002BD1, 0x00000000,
-		0x000040E8, 0x00000000, 0x000035CE, 0x00000000 // ...
-	};
-
-	int fout[FFT_LEN * 2];
-
-	belFftPtr->Finadr = fin;
-
-	belFftPtr->Foutadr = fout;
-
-	belFftPtr->Factors[0].M = 64;	// geen idee
-	belFftPtr->Factors[0].P = 4;	// geen idee
-	belFftPtr->Factors[1].M = 16;	// geen idee
-	belFftPtr->Factors[1].P = 4;	// geen idee
-	belFftPtr->Factors[2].M = 4;	// geen idee
-	belFftPtr->Factors[2].P = 4;	// geen idee
-	belFftPtr->Factors[3].M = 1;	// geen idee
-	belFftPtr->Factors[3].P = 4;	// geen idee
-
-	belFftPtr->Control.Start = 1;
-
-#if 0
-	while (! cfg->belFftPtr->Status.Int) {} // wacht totdat FFT is gestart?
-#else
-	for (int c=1; c<=32767; c++) // korte delay
-		for (int d=1; d<=32767; d++) {}
-#endif
-	return 0;
 }
