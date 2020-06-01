@@ -1,15 +1,17 @@
 // includes
 #include <stdio.h> 									// voor printf, kijken of je deze kan vervangen, is veel geheugen nodig
+#include <stdint.h>
 #include <math.h>
 #include "includes.h" 								// ucosii
 #include "altera_up_avalon_adc.h" 					// voor adc?
 #include "kiss_fft.h" 								// API voor FFT
 //#include "altera_up_avalon_parallel_port.h"
+#include "altera_up_avalon_audio.h"
 
 // base addressen, te vinden in nios_processor.qsys
 #define FREQSEP_1			(int *) FREQSEP_1_BASE 	// uit system.h
 #define FREQSEP_2			(int *) FREQSEP_2_BASE 	// uit system.h
-#define ADC 				ADC_0_BASE				// uit system.h
+//#define ADC 				ADC_0_BASE				// uit system.h
 #define BEL_FFT_PROJECT		BEL_FFT_PROJECT_0_BASE	// uit system.h
 #define TIMER_0				TIMER_0_BASE			// uit system.h
 #define ADC_ADDR 			ADC						/* Replace these addresses with the base addresses of the ADC and LEDs in your Platform Designer project */
@@ -115,6 +117,7 @@ struct bel_fft { // Register structure, must be mapped to base address
 // =========================================================================================
 
 int main(void){
+	alt_printf("hey je processor gaat aan\n");
 	INT8U err;
 
 	OSInit(); // initialize ucos-ii
@@ -130,9 +133,9 @@ int main(void){
 void TaskStart(void *pdata) {
 //	Bel_FFT_Init(); // wordt gedaan in TaskFFT (?)
 
-//  OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 5);
-    OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
-    OSTaskCreate(TaskFrequencySeparator, (void *) 0, &TaskFrequencySeparatorStack[TASK_STACKSIZE - 1], 7);
+//	OSTaskCreate(TaskADCToFFT, (void *) 0, &TaskADCToFFTStack[TASK_STACKSIZE - 1], 4);
+	OSTaskCreate(TaskFFT, (void *) 0, &TaskFFTStack[TASK_STACKSIZE - 1], 6);
+	OSTaskCreate(TaskFrequencySeparator, (void *) 0, &TaskFrequencySeparatorStack[TASK_STACKSIZE - 1], 7);
 
     while (1) {
         OSTimeDly(100);
@@ -140,30 +143,65 @@ void TaskStart(void *pdata) {
 }
 
 void TaskADCToFFT(void* pdata) {
-	volatile int * adc = (int*)(ADC_ADDR);
+	alt_up_audio_dev * audio;
+	audio = alt_up_audio_open_dev(AUDIO_NAME);
+	if (audio == NULL) {
+		printf("audio not opened\n");
+		return;
+	} else {
+		printf("audio opened\n");
+	}
+	alt_up_audio_reset_audio_core(audio);
+	unsigned int buf_l, buf_r;
+
+	const int *audio_pointer, *left_buffer, *right_buffer, *fifospace_pointer;
+	audio_pointer = (int *) AUDIO_BASE;
+	fifospace_pointer = audio_pointer + 1;
+	left_buffer = audio_pointer + 2;
+	right_buffer = audio_pointer + 3;
+
+//	int data;
+//	volatile int * adc = (int*)(ADC_ADDR);
 //	volatile int * led = (int*)(LED_ADDR);
-	unsigned int data;
-	int count;
-	int channel;
-	data = 0;
-	count = 0;
-	channel = 0;
+//	unsigned int data;
+//	data = 0;
+//	count = 0;
+//	channel = 0;
 
 	while (1) {
 		OSTimeDlyHMSM(0,0,0,100);
-#if 1
-		*(adc) = 0; //Start the ADC read
-		count += 1;
-		data = *(adc+channel); //Get the value of the selected channel
-		data = data/16; //Ignore the lowest 4 bits (origineel 12 bits)
-//		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
-		printf("%d ", data);
-		if (count==12){
-			count = 0;
-			channel = !channel;
-			printf("\n");
+		int fifospace;
+		fifospace = alt_up_audio_read_fifo_avail(audio, ALT_UP_AUDIO_LEFT);
+
+		if (*fifospace_pointer & 0x000000FF) {
+			printf("fifospace data available\n");
+			buf_l = *left_buffer;
+			buf_r = *right_buffer;
 		}
-#endif
+
+		if (fifospace > 0) {
+			printf("data available\n");
+//			alt_up_audio_read_fifo(audio, &(buf_l), 1, ALT_UP_AUDIO_LEFT);
+			buf_l = alt_up_audio_read_fifo_head(audio, ALT_UP_AUDIO_LEFT);
+			printf("%i - ", buf_l);
+//			alt_up_audio_read_fifo(audio, &(buf_r), 1, ALT_UP_AUDIO_RIGHT);
+			buf_r = alt_up_audio_read_fifo_head(audio, ALT_UP_AUDIO_RIGHT);
+			printf("%i", buf_r);
+		} else {
+			printf("data unavailable: %i\n", fifospace);
+		}
+
+//		*(adc) = 0; //Start the ADC read
+//		count += 1;
+//		data = *(adc+channel); //Get the value of the selected channel
+//		data = data/16; //Ignore the lowest 4 bits (origineel 12 bits)
+//		*(led) = data; //Display the value on the LEDs // later: verstuur data naar fft
+//		printf("%d ", data);
+//		if (count==12){
+//			count = 0;
+//			channel = !channel;
+//			printf("\n");
+//		}
 	}
 }
 
@@ -247,6 +285,7 @@ void TaskFFT(void* pdata) {
 	{0xFFFFDD07, 0x00000000}, {0x000006D1, 0x00000000}, {0x00001A70, 0x00000000}, {0x00000E73, 0x00000000},
 	{0xFFFFEC2C, 0x00000000}, {0xFFFFCA32, 0x00000000}, {0xFFFFBF18, 0x00000000}, {0xFFFFD42F, 0x00000000}};
 	
+	// deze array wordt niet gebruikt door vreemde output, mag eventueel weg
 	/* 32 - 32 - 32 - 32 - 32 - 32 - 32 - 32 */
 	kiss_fft_cpx fin1[FFT_LEN] = {
 	{0x00000000, 0x00000000}, {0x000029B5, 0x00000000}, {0x00004751, 0x00000000}, {0x000050F4, 0x00000000}, 

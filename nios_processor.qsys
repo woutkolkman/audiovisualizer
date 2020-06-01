@@ -21,7 +21,7 @@
    {
       datum baseAddress
       {
-         value = "270464";
+         value = "270480";
          type = "String";
       }
    }
@@ -45,7 +45,7 @@
    {
       datum baseAddress
       {
-         value = "270448";
+         value = "270464";
          type = "String";
       }
    }
@@ -85,7 +85,7 @@
    {
       datum baseAddress
       {
-         value = "270432";
+         value = "270448";
          type = "String";
       }
    }
@@ -101,7 +101,7 @@
    {
       datum baseAddress
       {
-         value = "270416";
+         value = "270432";
          type = "String";
       }
    }
@@ -117,7 +117,7 @@
    {
       datum baseAddress
       {
-         value = "270488";
+         value = "270520";
          type = "String";
       }
    }
@@ -182,6 +182,22 @@
       {
          value = "1";
          type = "boolean";
+      }
+   }
+   element sysid_qsys_0
+   {
+      datum _sortIndex
+      {
+         value = "11";
+         type = "int";
+      }
+   }
+   element sysid_qsys_0.control_slave
+   {
+      datum baseAddress
+      {
+         value = "270512";
+         type = "String";
       }
    }
    element timer_0
@@ -267,7 +283,7 @@
    kind="altera_up_avalon_audio_and_video_config"
    version="16.1"
    enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="12288000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="audio_in" value="Line In to ADC" />
   <parameter name="bit_length" value="16" />
@@ -282,7 +298,7 @@
   <parameter name="mic_attenuation" value="-6dB" />
   <parameter name="mic_bypass" value="false" />
   <parameter name="sampling_rate" value="32 kHz" />
-  <parameter name="video_format" value="NTSC" />
+  <parameter name="video_format" value="PAL" />
  </module>
  <module
    name="bel_fft_project_0"
@@ -366,7 +382,7 @@
   <parameter name="dataAddrWidth" value="19" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x30D40' type='altera_avalon_onchip_memory2.s1' /><slave name='bel_fft_project_0.control_slave' start='0x40000' end='0x41000' type='bel_fft_project.control_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x41800' end='0x42000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='timer_0.s1' start='0x42020' end='0x42040' type='altera_avalon_timer.s1' /><slave name='freqsep_2.s1' start='0x42050' end='0x42060' type='altera_avalon_pio.s1' /><slave name='freqsep_1.s1' start='0x42060' end='0x42070' type='altera_avalon_pio.s1' /><slave name='audio_video_config.avalon_av_config_slave' start='0x42070' end='0x42080' type='altera_up_avalon_audio_and_video_config.avalon_av_config_slave' /><slave name='audio.avalon_audio_slave' start='0x42080' end='0x42090' type='altera_up_avalon_audio.avalon_audio_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x42098' end='0x420A0' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x30D40' type='altera_avalon_onchip_memory2.s1' /><slave name='bel_fft_project_0.control_slave' start='0x40000' end='0x41000' type='bel_fft_project.control_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x41800' end='0x42000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='timer_0.s1' start='0x42020' end='0x42040' type='altera_avalon_timer.s1' /><slave name='freqsep_2.s1' start='0x42060' end='0x42070' type='altera_avalon_pio.s1' /><slave name='freqsep_1.s1' start='0x42070' end='0x42080' type='altera_avalon_pio.s1' /><slave name='audio_video_config.avalon_av_config_slave' start='0x42080' end='0x42090' type='altera_up_avalon_audio_and_video_config.avalon_av_config_slave' /><slave name='audio.avalon_audio_slave' start='0x42090' end='0x420A0' type='altera_up_avalon_audio.avalon_audio_slave' /><slave name='sysid_qsys_0.control_slave' start='0x420B0' end='0x420B8' type='altera_avalon_sysid_qsys.control_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x420B8' end='0x420C0' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -405,14 +421,14 @@
   <parameter name="icache_tagramBlockType" value="Automatic" />
   <parameter name="impl" value="Tiny" />
   <parameter name="instAddrWidth" value="19" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x30D40' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x41800' end='0x42000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='timer_0.s1' start='0x42020' end='0x42040' type='altera_avalon_timer.s1' /><slave name='audio_video_config.avalon_av_config_slave' start='0x42070' end='0x42080' type='altera_up_avalon_audio_and_video_config.avalon_av_config_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x42098' end='0x420A0' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x30D40' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x41800' end='0x42000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='timer_0.s1' start='0x42020' end='0x42040' type='altera_avalon_timer.s1' /><slave name='audio_video_config.avalon_av_config_slave' start='0x42080' end='0x42090' type='altera_up_avalon_audio_and_video_config.avalon_av_config_slave' /><slave name='audio.avalon_audio_slave' start='0x42090' end='0x420A0' type='altera_up_avalon_audio.avalon_audio_slave' /><slave name='sysid_qsys_0.control_slave' start='0x420B0' end='0x420B8' type='altera_avalon_sysid_qsys.control_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x420B8' end='0x420C0' type='altera_avalon_jtag_uart.avalon_jtag_slave' /></address-map>]]></parameter>
   <parameter name="instructionMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="instructionMasterHighPerformanceMapParam" value="" />
   <parameter name="instruction_master_high_performance_paddr_base" value="0" />
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="1793" />
+  <parameter name="internalIrqMaskSystemInfo" value="1920" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -556,6 +572,13 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
+ <module
+   name="sysid_qsys_0"
+   kind="altera_avalon_sysid_qsys"
+   version="16.1"
+   enabled="1">
+  <parameter name="id" value="229490415" />
+ </module>
  <module name="timer_0" kind="altera_avalon_timer" version="16.1" enabled="1">
   <parameter name="alwaysRun" value="false" />
   <parameter name="counterSize" value="32" />
@@ -583,7 +606,7 @@
    start="nios2_gen2_0.data_master"
    end="audio.avalon_audio_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042080" />
+  <parameter name="baseAddress" value="0x00042090" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -592,7 +615,7 @@
    start="nios2_gen2_0.data_master"
    end="audio_video_config.avalon_av_config_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042070" />
+  <parameter name="baseAddress" value="0x00042080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -601,7 +624,7 @@
    start="nios2_gen2_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042098" />
+  <parameter name="baseAddress" value="0x000420b8" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -611,6 +634,15 @@
    end="bel_fft_project_0.control_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00040000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="16.1"
+   start="nios2_gen2_0.data_master"
+   end="sysid_qsys_0.control_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000420b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -646,7 +678,7 @@
    start="nios2_gen2_0.data_master"
    end="freqsep_1.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042060" />
+  <parameter name="baseAddress" value="0x00042070" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -655,7 +687,16 @@
    start="nios2_gen2_0.data_master"
    end="freqsep_2.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042050" />
+  <parameter name="baseAddress" value="0x00042060" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="16.1"
+   start="nios2_gen2_0.instruction_master"
+   end="audio.avalon_audio_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00042090" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -664,7 +705,7 @@
    start="nios2_gen2_0.instruction_master"
    end="audio_video_config.avalon_av_config_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042070" />
+  <parameter name="baseAddress" value="0x00042080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -673,7 +714,16 @@
    start="nios2_gen2_0.instruction_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00042098" />
+  <parameter name="baseAddress" value="0x000420b8" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="16.1"
+   start="nios2_gen2_0.instruction_master"
+   end="sysid_qsys_0.control_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000420b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -707,17 +757,18 @@
    kind="clock"
    version="16.1"
    start="audio_pll_0.audio_clk"
+   end="audio_video_config.clk" />
+ <connection
+   kind="clock"
+   version="16.1"
+   start="audio_pll_0.audio_clk"
    end="audio.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="jtag_uart_0.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="nios2_gen2_0.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="timer_0.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="freqsep_1.clk" />
  <connection kind="clock" version="16.1" start="clk_0.clk" end="freqsep_2.clk" />
- <connection
-   kind="clock"
-   version="16.1"
-   start="clk_0.clk"
-   end="audio_video_config.clk" />
+ <connection kind="clock" version="16.1" start="clk_0.clk" end="sysid_qsys_0.clk" />
  <connection
    kind="clock"
    version="16.1"
@@ -743,7 +794,7 @@
    version="16.1"
    start="nios2_gen2_0.irq"
    end="audio.interrupt">
-  <parameter name="irqNumber" value="0" />
+  <parameter name="irqNumber" value="7" />
  </connection>
  <connection
    kind="interrupt"
@@ -796,12 +847,11 @@
    version="16.1"
    start="clk_0.clk_reset"
    end="freqsep_2.reset" />
- <connection kind="reset" version="16.1" start="clk_0.clk_reset" end="audio.reset" />
  <connection
    kind="reset"
    version="16.1"
    start="clk_0.clk_reset"
-   end="audio_video_config.reset" />
+   end="sysid_qsys_0.reset" />
  <connection
    kind="reset"
    version="16.1"
@@ -837,6 +887,16 @@
    version="16.1"
    start="nios2_gen2_0.debug_reset_request"
    end="onchip_memory2_0.reset1" />
+ <connection
+   kind="reset"
+   version="16.1"
+   start="audio_pll_0.reset_source"
+   end="audio_video_config.reset" />
+ <connection
+   kind="reset"
+   version="16.1"
+   start="audio_pll_0.reset_source"
+   end="audio.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

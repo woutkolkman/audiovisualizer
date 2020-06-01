@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Wed May 20 15:14:08 CEST 2020
+ * Generated: Mon Jun 01 10:23:43 CEST 2020
  */
 
 /*
@@ -136,9 +136,11 @@
 #define __ALTERA_AVALON_JTAG_UART
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
 #define __ALTERA_AVALON_PIO
+#define __ALTERA_AVALON_SYSID_QSYS
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_GEN2
-#define __ALTERA_UP_AVALON_ADC
+#define __ALTERA_UP_AVALON_AUDIO
+#define __ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG
 #define __BEL_FFT_PROJECT
 
 
@@ -148,8 +150,8 @@
  */
 
 #define ALT_DEVICE_FAMILY "Cyclone IV E"
-#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 #define ALT_IRQ_BASE NULL
+#define ALT_LEGACY_INTERRUPT_API_PRESENT
 #define ALT_LOG_PORT "/dev/null"
 #define ALT_LOG_PORT_BASE 0x0
 #define ALT_LOG_PORT_DEV null
@@ -158,19 +160,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x420a8
+#define ALT_STDERR_BASE 0x420b8
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x420a8
+#define ALT_STDIN_BASE 0x420b8
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x420a8
+#define ALT_STDOUT_BASE 0x420b8
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -179,17 +181,31 @@
 
 
 /*
- * adc_0 configuration
+ * audio configuration
  *
  */
 
-#define ADC_0_BASE 0x42060
-#define ADC_0_IRQ -1
-#define ADC_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define ADC_0_NAME "/dev/adc_0"
-#define ADC_0_SPAN 32
-#define ADC_0_TYPE "altera_up_avalon_adc"
-#define ALT_MODULE_CLASS_adc_0 altera_up_avalon_adc
+#define ALT_MODULE_CLASS_audio altera_up_avalon_audio
+#define AUDIO_BASE 0x42090
+#define AUDIO_IRQ 7
+#define AUDIO_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define AUDIO_NAME "/dev/audio"
+#define AUDIO_SPAN 16
+#define AUDIO_TYPE "altera_up_avalon_audio"
+
+
+/*
+ * audio_video_config configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_audio_video_config altera_up_avalon_audio_and_video_config
+#define AUDIO_VIDEO_CONFIG_BASE 0x42080
+#define AUDIO_VIDEO_CONFIG_IRQ -1
+#define AUDIO_VIDEO_CONFIG_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define AUDIO_VIDEO_CONFIG_NAME "/dev/audio_video_config"
+#define AUDIO_VIDEO_CONFIG_SPAN 16
+#define AUDIO_VIDEO_CONFIG_TYPE "altera_up_avalon_audio_and_video_config"
 
 
 /*
@@ -212,7 +228,7 @@
  */
 
 #define ALT_MODULE_CLASS_freqsep_1 altera_avalon_pio
-#define FREQSEP_1_BASE 0x42090
+#define FREQSEP_1_BASE 0x42070
 #define FREQSEP_1_BIT_CLEARING_EDGE_REGISTER 0
 #define FREQSEP_1_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define FREQSEP_1_CAPTURE 0
@@ -239,7 +255,7 @@
  */
 
 #define ALT_MODULE_CLASS_freqsep_2 altera_avalon_pio
-#define FREQSEP_2_BASE 0x42080
+#define FREQSEP_2_BASE 0x42060
 #define FREQSEP_2_BIT_CLEARING_EDGE_REGISTER 0
 #define FREQSEP_2_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define FREQSEP_2_CAPTURE 0
@@ -277,7 +293,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x420a8
+#define JTAG_UART_0_BASE 0x420b8
 #define JTAG_UART_0_IRQ 8
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -319,13 +335,29 @@
 
 
 /*
+ * sysid_qsys_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_sysid_qsys_0 altera_avalon_sysid_qsys
+#define SYSID_QSYS_0_BASE 0x420b0
+#define SYSID_QSYS_0_ID 229490415
+#define SYSID_QSYS_0_IRQ -1
+#define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
+#define SYSID_QSYS_0_SPAN 8
+#define SYSID_QSYS_0_TIMESTAMP 1590999567
+#define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
+
+
+/*
  * timer_0 configuration
  *
  */
 
 #define ALT_MODULE_CLASS_timer_0 altera_avalon_timer
 #define TIMER_0_ALWAYS_RUN 0
-#define TIMER_0_BASE 0x42040
+#define TIMER_0_BASE 0x42020
 #define TIMER_0_COUNTER_SIZE 32
 #define TIMER_0_FIXED_PERIOD 0
 #define TIMER_0_FREQ 50000000

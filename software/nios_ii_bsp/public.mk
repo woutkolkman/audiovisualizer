@@ -146,6 +146,21 @@ SOPC_NAME := nios_processor
 # setting SOPC_SIMULATION_ENABLED is false
 ELF_PATCH_FLAG  += --simulation_enabled false
 
+# The SOPC System ID 
+# setting SOPC_SYSID is 229490415
+SOPC_SYSID_FLAG += --id=229490415
+ELF_PATCH_FLAG  += --id 229490415
+
+# The SOPC System ID Base Address 
+# setting SOPC_SYSID_BASE_ADDRESS is 0x420b0
+SOPC_SYSID_FLAG += --sidp=0x420b0
+ELF_PATCH_FLAG  += --sidp 0x420b0
+
+# The SOPC Timestamp 
+# setting SOPC_TIMESTAMP is 1590999567
+SOPC_SYSID_FLAG += --timestamp=1590999567
+ELF_PATCH_FLAG  += --timestamp 1590999567
+
 # Enable JTAG UART driver to recover when host is inactive causing buffer to 
 # full without returning error. Printf will not fail with this recovery. none 
 # setting altera_avalon_jtag_uart_driver.enable_jtag_uart_ignore_fifo_full_error is false

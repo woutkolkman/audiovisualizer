@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'nios_processor'
  * SOPC Builder design path: ../../nios_processor.sopcinfo
  *
- * Generated: Wed May 20 15:14:08 CEST 2020
+ * Generated: Fri May 29 17:21:32 CEST 2020
  */
 
 /*
@@ -60,8 +60,10 @@
 
 #include "altera_nios2_gen2_irq.h"
 #include "altera_avalon_jtag_uart.h"
+#include "altera_avalon_sysid_qsys.h"
 #include "altera_avalon_timer.h"
-#include "altera_up_avalon_adc.h"
+#include "altera_up_avalon_audio.h"
+#include "altera_up_avalon_audio_and_video_config.h"
 
 /*
  * Allocate the device storage
@@ -69,8 +71,10 @@
 
 ALTERA_NIOS2_GEN2_IRQ_INSTANCE ( NIOS2_GEN2_0, nios2_gen2_0);
 ALTERA_AVALON_JTAG_UART_INSTANCE ( JTAG_UART_0, jtag_uart_0);
+ALTERA_AVALON_SYSID_QSYS_INSTANCE ( SYSID_QSYS_0, sysid_qsys_0);
 ALTERA_AVALON_TIMER_INSTANCE ( TIMER_0, timer_0);
-ALTERA_UP_AVALON_ADC_INSTANCE ( ADC_0, adc_0);
+ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INSTANCE ( AUDIO_VIDEO_CONFIG, audio_video_config);
+ALTERA_UP_AVALON_AUDIO_INSTANCE ( AUDIO, audio);
 
 /*
  * Initialize the interrupt controller devices
@@ -95,5 +99,7 @@ void alt_sys_init( void )
 {
     ALTERA_AVALON_TIMER_INIT ( TIMER_0, timer_0);
     ALTERA_AVALON_JTAG_UART_INIT ( JTAG_UART_0, jtag_uart_0);
-    ALTERA_UP_AVALON_ADC_INIT ( ADC_0, adc_0);
+    ALTERA_AVALON_SYSID_QSYS_INIT ( SYSID_QSYS_0, sysid_qsys_0);
+    ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INIT ( AUDIO_VIDEO_CONFIG, audio_video_config);
+    ALTERA_UP_AVALON_AUDIO_INIT ( AUDIO, audio);
 }

@@ -49,21 +49,21 @@
    type="SYSTEM_VERILOG"
    library="rsp_demux_003" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux_001.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux_002.sv"
    type="SYSTEM_VERILOG"
-   library="rsp_demux_001" />
+   library="rsp_demux_002" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_rsp_demux.sv"
    type="SYSTEM_VERILOG"
    library="rsp_demux" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux_001.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux_003.sv"
    type="SYSTEM_VERILOG"
-   library="cmd_mux_001" />
+   library="cmd_mux_003" />
  <file
    path="simulation/submodules/altera_merlin_arbitrator.sv"
    type="SYSTEM_VERILOG"
-   library="cmd_mux_001" />
+   library="cmd_mux_003" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_cmd_mux.sv"
    type="SYSTEM_VERILOG"
@@ -81,9 +81,9 @@
    type="SYSTEM_VERILOG"
    library="cmd_demux" />
  <file
-   path="simulation/submodules/nios_processor_mm_interconnect_1_router_003.sv"
+   path="simulation/submodules/nios_processor_mm_interconnect_1_router_005.sv"
    type="SYSTEM_VERILOG"
-   library="router_003" />
+   library="router_005" />
  <file
    path="simulation/submodules/nios_processor_mm_interconnect_1_router_002.sv"
    type="SYSTEM_VERILOG"
@@ -224,6 +224,10 @@
    path="simulation/submodules/nios_processor_timer_0.v"
    type="VERILOG"
    library="timer_0" />
+ <file
+   path="simulation/submodules/nios_processor_sysid_qsys_0.v"
+   type="VERILOG"
+   library="sysid_qsys_0" />
  <file
    path="simulation/submodules/nios_processor_onchip_memory2_0.hex"
    type="HEX"

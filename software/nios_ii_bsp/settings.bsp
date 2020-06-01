@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 22, 2020 11:24:28 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1590139468854</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jun 1, 2020 10:23:40 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1590999820368</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\intelFPGA_lite\projects\audiovisualizer\software\nios_ii_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\nios_processor.sopcinfo</SopcDesignFile>
@@ -1752,31 +1752,43 @@
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
-                <addressRange>0x00042040 - 0x0004205F</addressRange>
+                <addressRange>0x00042020 - 0x0004203F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>adc_0</slaveDescriptor>
-                <addressRange>0x00042060 - 0x0004207F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>freqsep_2</slaveDescriptor>
-                <addressRange>0x00042080 - 0x0004208F</addressRange>
+                <addressRange>0x00042060 - 0x0004206F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>freqsep_1</slaveDescriptor>
+                <addressRange>0x00042070 - 0x0004207F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>audio_video_config</slaveDescriptor>
+                <addressRange>0x00042080 - 0x0004208F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>audio</slaveDescriptor>
                 <addressRange>0x00042090 - 0x0004209F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
+                <addressRange>0x000420B0 - 0x000420B7</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x000420A8 - 0x000420AF</addressRange>
+                <addressRange>0x000420B8 - 0x000420BF</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
